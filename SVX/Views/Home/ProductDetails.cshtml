@@ -1,0 +1,157 @@
+﻿
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Product Details
+    </h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item active">Product Details</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="box box-body b-1 text-center text-center">
+                                <img src="../../../images/product/product-6.png" id="product-image" class="img-fluid" alt="" />
+                            </div>
+                            <div class="pro-photos">
+                                <div class="photos-item item-active">
+                                    <img src="../../../images/product/product-6.png" alt="">
+                                </div>
+                                <div class="photos-item">
+                                    <img src="../../../images/product/product-7.png" alt="">
+                                </div>
+                                <div class="photos-item">
+                                    <img src="../../../images/product/product-8.png" alt="">
+                                </div>
+                                <div class="photos-item">
+                                    <img src="../../../images/product/product-9.png" alt="">
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="col-md-8 col-sm-6">
+                            <h2 class="box-title mt-0">Product Title</h2>
+                            <h1 class="pro-price mb-0 mt-20">
+                                &#36;270
+                                <span class="old-price">&#36;540</span>
+                                <span class="text-danger">50% off</span>
+                            </h1>
+                            <hr>
+                            <p>Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. but the majority have suffered alteration in some form, by injected humour</p>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h6>Color</h6>
+                                    <div class="input-group">
+                                        <ul class="icolors">
+                                            <li class="bg-red"></li>
+                                            <li class="bg-blue"></li>
+                                            <li class="bg-purple active"></li>
+                                        </ul>
+                                    </div>
+                                    <h6 class="mt-20">Available Size</h6>
+                                    <p class="mb-0">
+                                        <span class="badge badge-lg badge-default">S</span>
+                                        <span class="badge badge-lg badge-default">M</span>
+                                        <span class="badge badge-lg badge-default">L</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <button class="btn btn-danger mr-5"> Buy Now </button>
+                            <button class="btn btn-primary mr-5"><i class="ti-shopping-cart"></i> Add to Cart</button>
+                            <button class="btn btn-info"><i class="ti-plus"></i> Add to Compare</button>
+                            <h3 class="box-title mt-40">Key Highlights</h3>
+                            <ul class="list-icons">
+                                <li><i class="fa fa-check text-danger float-none"></i> Party Wear</li>
+                                <li><i class="fa fa-check text-danger float-none"></i> Nam libero tempore, cum soluta nobis est</li>
+                                <li><i class="fa fa-check text-danger float-none"></i> Omnis voluptas as placeat facere possimus omnis voluptas.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 class="box-title mt-40">General Info</h3>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td width="390">Brand</td>
+                                            <td> Brand Name </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Delivery Condition</td>
+                                            <td> Lorem Ipsum </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type</td>
+                                            <td> Party Wear </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Style</td>
+                                            <td> Modern </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Product Number</td>
+                                            <td> FG1548952 </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 class="page-header">Related Products</h2>
+    <div class="row fx-element-overlay">
+        <div class="col-md-12 col-lg-3">
+            <div class="box box-default">
+                <div class="fx-card-item">
+                    <div class="fx-card-avatar fx-overlay-1">
+                        <img src="../../../images/card/1.jpg" alt="user">
+                        <div class="fx-overlay scrl-dwn">
+                            <ul class="fx-info">
+                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../../../images/card/1.jpg"><i class="ion-search"></i></a></li>
+                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="ion-link"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="fx-card-content ribbon-wrapper-reverse">
+                        <div class="ribbon ribbon-bookmark ribbon-right bg-info">$30</div>
+                        <p class="box-text text-bold">Nombre del anuncio</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box -->
+    </div>
+
+</section>
+<!-- /.content -->
+
+
+<script type="text/javascript">
+    $(function () {
+        $('.icolors li').on("click", function () {
+            $('.icolors li').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $('.photos-item').on("click", function () {
+            var src = $(this).children().attr('src');
+            $('#product-image').attr('src', src);
+            $('.photos-item').removeClass('item-active');
+            $(this).addClass('item-active');
+        });
+    });
+</script>

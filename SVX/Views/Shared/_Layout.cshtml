@@ -353,6 +353,58 @@
                 </div>
             </nav>
         </header>
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar-->
+            <section class="sidebar">
+
+                <!-- sidebar menu-->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="user-profile treeview">
+                        <a href="index.html">
+                            <img src="../../../images/user5-128x128.jpg" alt="user">
+                            <span>Juliya Brus</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="javascript:void()"><i class="fa fa-user mr-5"></i>My Profile </a></li>
+                            <li><a href="javascript:void()"><i class="fa fa-money mr-5"></i>My Balance</a></li>
+                            <li><a href="javascript:void()"><i class="fa fa-envelope-open mr-5"></i>Inbox</a></li>
+                            <li><a href="javascript:void()"><i class="fa fa-cog mr-5"></i>Account Setting</a></li>
+                            <li><a href="javascript:void()"><i class="fa fa-power-off mr-5"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    <li class="header nav-small-cap">PERSONAL</li>
+
+                    <li class="treeview active">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span>e-Commerce</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="active"><a href="products.html"><i class="fa fa-circle-thin"></i>Products</a></li>
+                            <li><a href="orders.html"><i class="fa fa-circle-thin"></i>Product Orders</a></li>
+                            <li><a href="product-details.html"><i class="fa fa-circle-thin"></i>Product Details</a></li>
+                            <li><a href="product-edit.html"><i class="fa fa-circle-thin"></i>Product Edit</a></li>
+                            <li><a href="cart.html"><i class="fa fa-circle-thin"></i>Product Cart</a></li>
+                            <li><a href="checkout.html"><i class="fa fa-circle-thin"></i>Product Checkout</a></li>
+                        </ul>
+                    </li>
+
+
+
+
+
+                </ul>
+            </section>
+        </aside>
+
+        <!-- =============================================== End sidebar -->
         <div class="content-wrapper">
             @RenderBody()
 
@@ -556,6 +608,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/steper")
     @RenderSection("scripts", required: false)
 </body>
 </html>

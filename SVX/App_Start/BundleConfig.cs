@@ -10,20 +10,33 @@ namespace SVX
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                     "~/assets/vendor_components/jquery/dist/jquery.min.js",
-                           "~/assets/vendor_components/jquery/dist/jquery.min.js",
-                           "~/assets/vendor_components/popper/dist/popper.min.js",
-                         "~/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js",
-                          "~/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.min.js",
-                           "~/assets/vendor_components/fastclick/lib/fastclick.js",
-                           "~/Scripts/js/template.js",
-                           "~/Scripts/js/demo.js"));
+                    "~/assets/vendor_components/jquery/dist/jquery.min.js",
+                    "~/assets/vendor_components/popper/dist/popper.min.js",
+                    "~/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js",
+                    "~/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.min.js",
+                    "~/assets/vendor_components/fastclick/lib/fastclick.js",
+                    "~/assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js",
+                    "~/assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js",
+                    "~/assets/vendor_components/datatable/datatables.min.js",
+                    "~/Scripts/js/template.js",
+                    "~/Scripts/js/demo.js",
+                    "~/assets/vendor_components/sweetalert/sweetalert.min.js",
+                    "~/Scripts/js/pages/data-table.js"
 
+                   ));
+            bundles.Add(new ScriptBundle("~/bundles/steper").Include(
+                    "~/assets/vendor_components/jquery-steps-master/build/jquery.steps.js",
+                    "~/assets/vendor_components/jquery-validation-1.17.0/dist/jquery.validate.min.js",
+                    "~/Scripts/js/pages/steps.js"));
 
             bundles.Add(new StyleBundle("~/assets/").Include(
                       "~/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css",
+                      "~/assets/vendor_components/datatable/datatables.min.css",
                       "~/Content/css/bootstrap-extend.css",
                       "~/Content/css/master_style.css",
-                      "~/Content/css/skins/_all-skins.css"));
+                       "~/assets/vendor_components/Magnific-Popup-master/dist/magnific-popup.css",
+                      "~/Content/css/skins/_all-skins.css"
+                ));
         }
     }
 }

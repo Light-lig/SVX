@@ -26,5 +26,35 @@ namespace SVX.Controllers
 
             return View();
         }
+        
+        public ActionResult ProductDetails()
+        {
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        public ActionResult Registrarme()
+        {
+            return View();
+        }
+
+        public ActionResult AddProduct()
+        {
+            return View();
+        }
+
+        public ActionResult MisAnuncios()
+        {
+            return View();
+        }
+
+        public ActionResult MiPerfil()
+        {
+            return View();
+        }
     }
 }
