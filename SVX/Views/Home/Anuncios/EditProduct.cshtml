@@ -1,0 +1,128 @@
+﻿
+@{
+    ViewBag.Title = "EditProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Validation wizard -->
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h4 class="box-title">Step wizard with validation</h4>
+        <h6 class="box-subtitle">You can us the validation like what we did</h6>
+
+        <ul class="box-controls pull-right">
+            <li><a class="box-btn-close" href="#"></a></li>
+            <li><a class="box-btn-slide" href="#"></a></li>
+            <li><a class="box-btn-fullscreen" href="#"></a></li>
+        </ul>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body wizard-content">
+        <form action="#" class="validation-wizard wizard-circle">
+            <!-- Step 1 -->
+            <h6>Step 1</h6>
+            <section>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wfirstName2"> First Name : <span class="danger">*</span> </label>
+                            <input type="text" class="form-control required" id="wfirstName2" name="firstName">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wlastName2"> Last Name : <span class="danger">*</span> </label>
+                            <input type="text" class="form-control required" id="wlastName2" name="lastName">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wemailAddress2"> Email Address : <span class="danger">*</span> </label>
+                            <input type="email" class="form-control required" id="wemailAddress2" name="emailAddress">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wphoneNumber2">Phone Number :</label>
+                            <input type="tel" class="form-control" id="wphoneNumber2">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wlocation2"> Select City : <span class="danger">*</span> </label>
+                            <select class="custom-select form-control required" id="wlocation2" name="location">
+                                <option value="">Select City</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                                <option value="Dubai">Dubai</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="wdate2">Date of Birth :</label>
+                            <input type="date" class="form-control" id="wdate2">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Step 2 -->
+            <h6>Step 2</h6>
+            <section>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="jobTitle3">Company Name :</label>
+                            <input type="text" class="form-control required" id="jobTitle3">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="webUrl3">Company URL :</label>
+                            <input type="url" class="form-control required" id="webUrl3" name="webUrl3">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="shortDescription3">Short Description :</label>
+                            <textarea name="shortDescription" id="shortDescription3" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <h6>Step 3</h6>
+            <section>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="jobTitle3">Company Name :</label>
+                            <input type="text" class="form-control required" id="jobTitle3">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="webUrl3">Company URL :</label>
+                            <input type="url" class="form-control required" id="webUrl3" name="webUrl3">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="shortDescription3">Short Description :</label>
+                            <textarea name="shortDescription" id="shortDescription3" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </form>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->

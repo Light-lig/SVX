@@ -610,5 +610,12 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/steper")
     @RenderSection("scripts", required: false)
+    <script>
+	 // chat app scrolling
+
+	  $('#chat-app, #chat-contact').slimScroll({
+		height: '600px'
+	  });
+    </script>
 </body>
 </html>

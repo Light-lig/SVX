@@ -44,15 +44,24 @@ namespace SVX.Controllers
 
         public ActionResult AddProduct()
         {
-            return View();
+            return View("~/Views/Home/Anuncios/AddProduct.cshtml");
         }
 
         public ActionResult MisAnuncios()
         {
-            return View();
+            return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
         }
 
         public ActionResult MiPerfil()
+        {
+            return View();
+        }
+
+        public ActionResult EditProduct()
+        {
+            return View("~/Views/Home/Anuncios/EditProduct.cshtml");
+        }
+        public ActionResult Chat()
         {
             return View();
         }
