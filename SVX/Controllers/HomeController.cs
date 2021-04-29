@@ -12,6 +12,10 @@ namespace SVX.Controllers
         ProyectoWeb2021Entities1 conexto = new ProyectoWeb2021Entities1();
         public ActionResult Index()
         {
+            Usuario us = (Usuario)Session["idUsuario"];
+            var productos = (from a in conexto.Anuncio
+                             join u in conexto.Usuario on a.idUsuario equals u.idUsuario 
+                             where ((u.idDepto == ((us==null)?null:us.idDepto)) || (us == null)) select a).ToList();
             return View();
         }
 
