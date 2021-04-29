@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="idAnuncio" />
           </Key>
-          <Property Name="idAnuncio" Type="int" Nullable="false" />
+          <Property Name="idAnuncio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="35" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
@@ -25,7 +25,7 @@
           <Key>
             <PropertyRef Name="idCategoria" />
           </Key>
-          <Property Name="idCategoria" Type="int" Nullable="false" />
+          <Property Name="idCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idSuper" Type="int" />
         </EntityType>
@@ -33,21 +33,21 @@
           <Key>
             <PropertyRef Name="idConver" />
           </Key>
-          <Property Name="idConver" Type="int" Nullable="false" />
+          <Property Name="idConver" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Departamento">
           <Key>
             <PropertyRef Name="idDepto" />
           </Key>
-          <Property Name="idDepto" Type="int" Nullable="false" />
+          <Property Name="idDepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Foto">
           <Key>
             <PropertyRef Name="idFoto" />
           </Key>
-          <Property Name="idFoto" Type="int" Nullable="false" />
+          <Property Name="idFoto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="urls" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idAnuncio" Type="int" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="15" Nullable="false" />
@@ -56,7 +56,7 @@
           <Key>
             <PropertyRef Name="idMensaje" />
           </Key>
-          <Property Name="idMensaje" Type="int" Nullable="false" />
+          <Property Name="idMensaje" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idTo" Type="int" Nullable="false" />
           <Property Name="idFrom" Type="int" Nullable="false" />
           <Property Name="idConversacion" Type="int" Nullable="false" />
@@ -67,7 +67,7 @@
           <Key>
             <PropertyRef Name="idPuntuacion" />
           </Key>
-          <Property Name="idPuntuacion" Type="int" Nullable="false" />
+          <Property Name="idPuntuacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="valor" Type="float" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
         </EntityType>
@@ -75,7 +75,7 @@
           <Key>
             <PropertyRef Name="idUsuario" />
           </Key>
-          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="apellido" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
@@ -246,7 +246,7 @@
           <Key>
             <PropertyRef Name="idAnuncio" />
           </Key>
-          <Property Name="idAnuncio" Type="Int32" Nullable="false" />
+          <Property Name="idAnuncio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="titulo" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
@@ -265,7 +265,7 @@
           <Key>
             <PropertyRef Name="idCategoria" />
           </Key>
-          <Property Name="idCategoria" Type="Int32" Nullable="false" />
+          <Property Name="idCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idSuper" Type="Int32" />
           <NavigationProperty Name="Anuncio" Relationship="Self.fk_AnunCat" FromRole="Categoria" ToRole="Anuncio" />
@@ -276,7 +276,7 @@
           <Key>
             <PropertyRef Name="idConver" />
           </Key>
-          <Property Name="idConver" Type="Int32" Nullable="false" />
+          <Property Name="idConver" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="mensaje" Relationship="Self.fk_ConMen" FromRole="Conversacion" ToRole="mensaje" />
         </EntityType>
@@ -284,7 +284,7 @@
           <Key>
             <PropertyRef Name="idDepto" />
           </Key>
-          <Property Name="idDepto" Type="Int32" Nullable="false" />
+          <Property Name="idDepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_deptoUs" FromRole="Departamento" ToRole="Usuario" />
         </EntityType>
@@ -292,7 +292,7 @@
           <Key>
             <PropertyRef Name="idFoto" />
           </Key>
-          <Property Name="idFoto" Type="Int32" Nullable="false" />
+          <Property Name="idFoto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="urls" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idAnuncio" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
@@ -302,7 +302,7 @@
           <Key>
             <PropertyRef Name="idMensaje" />
           </Key>
-          <Property Name="idMensaje" Type="Int32" Nullable="false" />
+          <Property Name="idMensaje" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idTo" Type="Int32" Nullable="false" />
           <Property Name="idFrom" Type="Int32" Nullable="false" />
           <Property Name="idConversacion" Type="Int32" Nullable="false" />
@@ -316,7 +316,7 @@
           <Key>
             <PropertyRef Name="idPuntuacion" />
           </Key>
-          <Property Name="idPuntuacion" Type="Int32" Nullable="false" />
+          <Property Name="idPuntuacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="valor" Type="Double" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_PuntUs" FromRole="puntuacion" ToRole="Usuario" />
@@ -325,7 +325,7 @@
           <Key>
             <PropertyRef Name="idUsuario" />
           </Key>
-          <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
@@ -446,7 +446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ProyectoWeb2021Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ProyectoWeb2021Entities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Anuncio" EntityType="Self.Anuncio" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="Conversacion" EntityType="Self.Conversacion" />
@@ -497,7 +497,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ProyectoWeb2021ModelStoreContainer" CdmEntityContainer="ProyectoWeb2021Entities">
+        <EntityContainerMapping StorageEntityContainer="ProyectoWeb2021ModelStoreContainer" CdmEntityContainer="ProyectoWeb2021Entities1">
           <EntitySetMapping Name="Anuncio">
             <EntityTypeMapping TypeName="ProyectoWeb2021Model.Anuncio">
               <MappingFragment StoreEntitySet="Anuncio">

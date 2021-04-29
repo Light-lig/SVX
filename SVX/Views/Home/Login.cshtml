@@ -3,13 +3,19 @@
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@model SVX.Models.Usuario
 <style>
-    .login-page{
-        background:none !important;
-        position:relative !important;
+    .login-page {
+        background: none !important;
+        position: relative !important;
     }
 </style>
+@section scripts {
+    <script>
+        $("#form-login").validate();
+    </script>
+  
+}
 
 <div class="hold-transition login-page my-5">
     <div class="container h-p100">
@@ -57,14 +63,14 @@
                     <div class="login-box-body">
                         <h3 class="text-center">Get started with Us</h3>
                         <p class="login-box-msg">Sign in to start your session</p>
-
-                        <form action="../../index.html" method="post">
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post, htmlAttributes: new { @id = "form-login" }))
+                        {
                             <div class="form-group has-feedback">
-                                <input type="email" class="form-control rounded" placeholder="Email">
+                                @Html.TextBoxFor(us => us.email, htmlAttributes: new { type = "email", @class = "form-control rounded", @required = "required", placeholder = "Email" })
                                 <span class="ion ion-email form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                <input type="password" class="form-control rounded" placeholder="Password">
+                                @Html.PasswordFor(us => us.contrasenia, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
                                 <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="row">
@@ -86,7 +92,9 @@
                                 </div>
                                 <!-- /.col -->
                             </div>
-                        </form>
+
+                        }
+
 
                         <div class="social-auth-links text-center">
                             <p>- OR -</p>
@@ -110,5 +118,6 @@
 
         </div>
     </div>
-    </div>
+</div>
+
 

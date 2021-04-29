@@ -155,43 +155,43 @@
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Models\Anuncio.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Categoria.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Conversacion.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Departamento.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Foto.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\mensaje.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModeloSVX.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloSVX.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModeloSVX.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ModeloSVX.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModeloSVX.edmx</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\puntuacion.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SvxModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SvxModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SvxModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SvxModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SvxModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SvxModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>ModeloSVX.tt</DependentUpon>
+      <DependentUpon>SvxModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
@@ -7832,15 +7832,15 @@
     <Content Include="images\user8-128x128.jpg" />
     <Content Include="images\visa.png" />
     <Content Include="images\weight.png" />
-    <Content Include="Models\ModeloSVX.Context.tt">
+    <Content Include="Models\SvxModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModeloSVX.edmx</DependentUpon>
-      <LastGenOutput>ModeloSVX.Context.cs</LastGenOutput>
+      <DependentUpon>SvxModel.edmx</DependentUpon>
+      <LastGenOutput>SvxModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ModeloSVX.tt">
+    <Content Include="Models\SvxModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModeloSVX.edmx</DependentUpon>
-      <LastGenOutput>ModeloSVX.cs</LastGenOutput>
+      <DependentUpon>SvxModel.edmx</DependentUpon>
+      <LastGenOutput>SvxModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
@@ -9365,12 +9365,12 @@
     <Content Include="assets\vendor_components\weather-icons\weathericons-regular-webfont.woff" />
     <Content Include="assets\vendor_components\weather-icons\weathericons-regular-webfont.woff2" />
     <Content Include="images\Thumbs.db" />
-    <EntityDeploy Include="Models\ModeloSVX.edmx">
+    <EntityDeploy Include="Models\SvxModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModeloSVX.Designer.cs</LastGenOutput>
+      <LastGenOutput>SvxModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ModeloSVX.edmx.diagram">
-      <DependentUpon>ModeloSVX.edmx</DependentUpon>
+    <Content Include="Models\SvxModel.edmx.diagram">
+      <DependentUpon>SvxModel.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="assets\vendor_plugins\bootstrap-wysihtml5\fonts\glyphicons-halflings-regular.eot" />
@@ -9389,6 +9389,7 @@
     <Content Include="Views\Home\MiPerfil.cshtml" />
     <Content Include="Views\Home\Anuncios\EditProduct.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\_Categories.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -13,10 +13,10 @@ namespace SVX.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ProyectoWeb2021Entities : DbContext
+    public partial class ProyectoWeb2021Entities1 : DbContext
     {
-        public ProyectoWeb2021Entities()
-            : base("name=ProyectoWeb2021Entities")
+        public ProyectoWeb2021Entities1()
+            : base("name=ProyectoWeb2021Entities1")
         {
         }
     

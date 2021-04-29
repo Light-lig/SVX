@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SVX.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace SVX.Controllers
 {
     public class HomeController : Controller
     {
+        ProyectoWeb2021Entities1 conexto = new ProyectoWeb2021Entities1();
         public ActionResult Index()
         {
             return View();
@@ -64,6 +66,28 @@ namespace SVX.Controllers
         public ActionResult Chat()
         {
             return View();
+        }
+        [ChildActionOnly]
+        public ActionResult RenderCategories()
+        {
+            List<Categoria> datos = conexto.Categoria.ToList();
+            ViewBag.categorias = datos;
+            return PartialView("_Categories");
+        }
+
+        [HttpPost]
+        public ActionResult Login(Usuario us)
+        {
+            Usuario user = conexto.Usuario.Where(u => u.email.Equals(us.email) && u.contrasenia.Equals(us.contrasenia)).FirstOrDefault();
+            if (user == null)
+            {
+                return View();
+            }
+            else
+            {
+                Session["idUsuario"] = user;
+                return RedirectToAction("Index");
+            }
         }
     }
 }
