@@ -12,14 +12,14 @@ namespace SVX.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class mensaje
+    public partial class Mensaje
     {
         public int idMensaje { get; set; }
         public int idTo { get; set; }
         public int idFrom { get; set; }
         public int idConversacion { get; set; }
         public string mensaje1 { get; set; }
-        public string fecha { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
     
         public virtual Conversacion Conversacion { get; set; }
         public virtual Usuario Usuario { get; set; }

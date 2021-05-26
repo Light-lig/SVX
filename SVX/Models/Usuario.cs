@@ -18,27 +18,27 @@ namespace SVX.Models
         public Usuario()
         {
             this.Anuncio = new HashSet<Anuncio>();
-            this.mensaje = new HashSet<mensaje>();
-            this.mensaje1 = new HashSet<mensaje>();
-            this.puntuacion = new HashSet<puntuacion>();
+            this.Mensaje = new HashSet<Mensaje>();
+            this.Mensaje1 = new HashSet<Mensaje>();
+            this.Puntuacion = new HashSet<Puntuacion>();
         }
     
         public int idUsuario { get; set; }
         public string nombre { get; set; }
         public string apellido { get; set; }
         public string email { get; set; }
-        public string contrasenia { get; set; }
+        public string pass { get; set; }
         public string telefono { get; set; }
-        public int idDepto { get; set; }
+        public int idDepartamento { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Anuncio> Anuncio { get; set; }
         public virtual Departamento Departamento { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<mensaje> mensaje { get; set; }
+        public virtual ICollection<Mensaje> Mensaje { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<mensaje> mensaje1 { get; set; }
+        public virtual ICollection<Mensaje> Mensaje1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<puntuacion> puntuacion { get; set; }
+        public virtual ICollection<Puntuacion> Puntuacion { get; set; }
     }
 }
