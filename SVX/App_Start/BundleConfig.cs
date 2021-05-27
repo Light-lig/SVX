@@ -20,17 +20,18 @@ namespace SVX
                 "~/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.min.js",
                 "~/assets/vendor_components/fastclick/lib/fastclick.js",
                 "~/assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup.min.js",
-                "~/assets/vendor_components/Magnific-Popup-master/dist/jquery.magnific-popup-init.js",
                 "~/assets/vendor_components/datatable/datatables.min.js",
                 "~/Scripts/js/template.js",
                 "~/Scripts/js/demo.js",
-                "~/assets/vendor_components/sweetalert/sweetalert.min.js"
-
+                "~/assets/vendor_components/sweetalert/sweetalert.min.js",
+                                "~/assets/vendor_components/sweetalert/jquery.sweet-alert.custom.js",
+                "~/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js",
+                                      "~/assets/vendor_components/inputmask/dist/inputmask/inputmask.js",
+                      "~/assets/vendor_components/inputmask/dist/inputmask/inputmask.extensions.js",
+                "~/assets/vendor_components/inputmask/dist/inputmask/jquery.inputmask.js"
                ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryVal").Include(
-
                         "~/assets/vendor_components/jquery-validation-1.17.0/dist/jquery.validate.min.js"
-
                  ));
 
         
@@ -45,7 +46,9 @@ namespace SVX
                       "~/Content/css/bootstrap-extend.css",
                       "~/Content/css/master_style.css",
                        "~/assets/vendor_components/Magnific-Popup-master/dist/magnific-popup.css",
-                      "~/Content/css/skins/_all-skins.css"
+                      "~/Content/css/skins/_all-skins.css",
+                          "~/assets/vendor_components/sweetalert/sweetalert.css",
+                      "~/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.css"
                 ));
         }
     }

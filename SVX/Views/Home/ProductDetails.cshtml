@@ -1,5 +1,4 @@
-﻿
-<!-- Content Header (Page header) -->
+﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
         Product Details
@@ -39,106 +38,86 @@
                             <div class="clear"></div>
                         </div>
                         <div class="col-md-8 col-sm-6">
-                            <h2 class="box-title mt-0">Product Title</h2>
+                            <h2 class="box-title mt-0">@ViewBag.producto.titulo</h2>
                             <h1 class="pro-price mb-0 mt-20">
-                                &#36;270
-                                <span class="old-price">&#36;540</span>
-                                <span class="text-danger">50% off</span>
+                                &#36;@ViewBag.producto.precio
+                             
                             </h1>
                             <hr>
-                            <p>Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. but the majority have suffered alteration in some form, by injected humour</p>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h6>Color</h6>
-                                    <div class="input-group">
-                                        <ul class="icolors">
-                                            <li class="bg-red"></li>
-                                            <li class="bg-blue"></li>
-                                            <li class="bg-purple active"></li>
-                                        </ul>
+
+                            <p>@ViewBag.producto.descripcion</p>
+                            <p>User rate:</p>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star"></span>
+                                    <span class="glyphicon glyphicon-star-empty"></span>
+                                </li>
+                            </ul>
+                            <a href="~/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-primary mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+
+                            <div class="col-sm-12 my-15">
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Ubicacion</h3>
                                     </div>
-                                    <h6 class="mt-20">Available Size</h6>
-                                    <p class="mb-0">
-                                        <span class="badge badge-lg badge-default">S</span>
-                                        <span class="badge badge-lg badge-default">M</span>
-                                        <span class="badge badge-lg badge-default">L</span>
-                                    </p>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div id="markermap" class="gmaps"></div>
+                                    </div>
+                                    <!-- /.box-body -->
                                 </div>
                             </div>
+                        </div>
                             <hr>
-                            <button class="btn btn-danger mr-5"> Buy Now </button>
-                            <button class="btn btn-primary mr-5"><i class="ti-shopping-cart"></i> Add to Cart</button>
-                            <button class="btn btn-info"><i class="ti-plus"></i> Add to Compare</button>
-                            <h3 class="box-title mt-40">Key Highlights</h3>
-                            <ul class="list-icons">
-                                <li><i class="fa fa-check text-danger float-none"></i> Party Wear</li>
-                                <li><i class="fa fa-check text-danger float-none"></i> Nam libero tempore, cum soluta nobis est</li>
-                                <li><i class="fa fa-check text-danger float-none"></i> Omnis voluptas as placeat facere possimus omnis voluptas.</li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <h3 class="box-title mt-40">General Info</h3>
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td width="390">Brand</td>
-                                            <td> Brand Name </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Delivery Condition</td>
-                                            <td> Lorem Ipsum </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Type</td>
-                                            <td> Party Wear </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Style</td>
-                                            <td> Modern </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Product Number</td>
-                                            <td> FG1548952 </td>
-                                        </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
+                 
+                      
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+  
     <h2 class="page-header">Related Products</h2>
     <div class="row fx-element-overlay">
-        <div class="col-md-12 col-lg-3">
-            <div class="box box-default">
-                <div class="fx-card-item">
-                    <div class="fx-card-avatar fx-overlay-1">
-                        <img src="../../../images/card/1.jpg" alt="user">
-                        <div class="fx-overlay scrl-dwn">
-                            <ul class="fx-info">
-                                <li><a class="btn default btn-outline image-popup-vertical-fit" href="../../../images/card/1.jpg"><i class="ion-search"></i></a></li>
-                                <li><a class="btn default btn-outline" href="javascript:void(0);"><i class="ion-link"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="fx-card-content ribbon-wrapper-reverse">
-                        <div class="ribbon ribbon-bookmark ribbon-right bg-info">$30</div>
-                        <p class="box-text text-bold">Nombre del anuncio</p>
 
+        @foreach (var item in ViewBag.productosRelacionados)
+        {
+            <div class="col-md-12 col-lg-3">
+                <div class="box box-default">
+                    <div class="fx-card-item">
+                        <div class="fx-card-avatar fx-overlay-1">
+                            <img src="../../../images/card/1.jpg" alt="user">
+                            <div class="fx-overlay scrl-dwn">
+                                <ul class="fx-info">
+                                    <li><a class="btn default btn-outline image-popup-vertical-fit" href="../../../images/card/1.jpg"><i class="ion-search"></i></a></li>
+                                    <li><a class="btn default btn-outline" href="~/Home/ProductDetails/@item.idAnuncio"><i class="ion-link"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="fx-card-content ribbon-wrapper-reverse">
+                            <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio</div>
+                            <p class="box-text text-bold">@item.titulo</p>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
         <!-- /.box -->
     </div>
 
 </section>
 <!-- /.content -->
 
+<script src="~/Scripts/js/demo.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTrPWo_dq1_LOkKHrf4uukvOdIUrmHPSE"></script>
+<script src="~/assets/vendor_components/gmaps/gmaps.min.js"></script>
+<script src="~/assets/vendor_components/gmaps/jquery.gmaps.js"></script>
 
 <script type="text/javascript">
     $(function () {
@@ -152,6 +131,23 @@
             $('#product-image').attr('src', src);
             $('.photos-item').removeClass('item-active');
             $(this).addClass('item-active');
+        });
+
+        $(document).ready(function () {
+            map = new GMaps({
+                el: '#markermap',
+                lat: parseFloat(@ViewBag.producto.latitud),
+                lng: parseFloat(@ViewBag.producto.longitud)
+
+            });
+            map.addMarker({
+                lat: parseFloat(@ViewBag.producto.latitud),
+                lng: parseFloat(@ViewBag.producto.longitud),
+                title: 'Marker with InfoWindow',
+                infoWindow: {
+                    content: '<p>@ViewBag.producto.nombre</p>'
+                }
+            });
         });
     });
 </script>

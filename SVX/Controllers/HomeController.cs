@@ -1,21 +1,32 @@
 ﻿using SVX.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using SVX.Hubs;
 namespace SVX.Controllers
 {
     public class HomeController : Controller
     {
-        ProyectoWeb2021Entities1 conexto = new ProyectoWeb2021Entities1();
-        public ActionResult Index()
+        SvxEntities contexto = new SvxEntities();
+        public ActionResult Index(int id = 0)
         {
-            Usuario us = (Usuario)Session["idUsuario"];
-            var productos = (from a in conexto.Anuncio
-                             join u in conexto.Usuario on a.idUsuario equals u.idUsuario 
-                             where ((u.idDepto == ((us==null)?null:us.idDepto)) || (us == null)) select a).ToList();
+            Usuario us = (Usuario)Session["Usuario"];
+            int idDepto = 0;
+            int idUser = 0;
+            if(us != null)
+            {
+                idDepto = us.idDepto;
+                idUser = us.idUsuario;
+            }
+            var productos = (from a in contexto.Anuncio
+                             join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
+                             where /*((u.idDepto.Equals(idDepto)) || (idDepto == 0)) &&*/
+                                    ((a.idCategoria.Equals(id)) || (id == 0)) &&
+                                    ((a.idUsuario != idUser) || (idUser == 0)) select a).ToList();
+            ViewBag.productos = productos;
             return View();
         }
 
@@ -33,8 +44,28 @@ namespace SVX.Controllers
             return View();
         }
         
-        public ActionResult ProductDetails()
+        public ActionResult ProductDetails(int id)
         {
+            Usuario us = (Usuario)Session["Usuario"];
+            int idUser = 0;
+            if(us != null)
+            {
+                idUser = us.idUsuario;
+            }
+            var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
+
+            var conversacion = (from c in contexto.Conversacion
+                                join m in contexto.mensaje on c.idConver equals m.idConversacion
+                                join u in contexto.Usuario on  m.idTo equals u.idUsuario
+                                join a in contexto.Anuncio on  u.idUsuario equals a.idUsuario
+                                where ((m.idFrom.Equals(idUser)) || (idUser == 0)) &&
+                                       ((a.idAnuncio.Equals(id)))
+                                select m).FirstOrDefault();
+
+            var productosRelacionados = contexto.Anuncio.ToList().Take(4);
+            ViewBag.producto = producto;
+            ViewBag.productosRelacionados = productosRelacionados;
+            ViewBag.conversacion = conversacion;
             return View();
         }
 
@@ -45,6 +76,8 @@ namespace SVX.Controllers
 
         public ActionResult Registrarme()
         {
+            var departamentos = contexto.Departamento.ToList();
+            ViewBag.Departamentos = departamentos;
             return View();
         }
 
@@ -67,14 +100,28 @@ namespace SVX.Controllers
         {
             return View("~/Views/Home/Anuncios/EditProduct.cshtml");
         }
-        public ActionResult Chat()
+        #region apartado chat
+
+
+
+        public ActionResult Chat(int idUser, int idConver)
         {
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if(us != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+           
         }
+        #endregion
         [ChildActionOnly]
         public ActionResult RenderCategories()
         {
-            List<Categoria> datos = conexto.Categoria.ToList();
+            List<Categoria> datos = contexto.Categoria.ToList();
             ViewBag.categorias = datos;
             return PartialView("_Categories");
         }
@@ -82,16 +129,35 @@ namespace SVX.Controllers
         [HttpPost]
         public ActionResult Login(Usuario us)
         {
-            Usuario user = conexto.Usuario.Where(u => u.email.Equals(us.email) && u.contrasenia.Equals(us.contrasenia)).FirstOrDefault();
+            Usuario user = contexto.Usuario.Where(u => u.email.Equals(us.email) && u.contrasenia.Equals(us.contrasenia)).FirstOrDefault();
             if (user == null)
             {
-                return View();
+                return Json(new { result = false });
             }
             else
             {
-                Session["idUsuario"] = user;
-                return RedirectToAction("Index");
+                Session["Usuario"] = user;
+                return Json(new { result = "/Home/Index"});
             }
+        }
+
+        [HttpPost]
+        public ActionResult Registrarme(Usuario us)
+        {
+            var usuarioExistente = contexto.Usuario.Where(u => u.email.Equals(us.email)).FirstOrDefault(); 
+            if(usuarioExistente != null)
+            {
+                return Json(new { result = false, mensaje = "El correo especificado ya esta asociado a una cuenta, favor utilizar otro correo." });
+            }
+            else
+            {
+                contexto.Usuario.Add(us);
+                contexto.SaveChanges();
+                var usuario = contexto.Usuario.ToList().Last();
+                Session["Usuario"] = usuario;
+                return Json(new { result = "/Home/Index", mensaje = "Bien hecho, Bienvenido a nuestro sitio." });
+            }
+
         }
     }
 }

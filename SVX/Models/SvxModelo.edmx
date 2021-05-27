@@ -13,13 +13,13 @@
           <Property Name="titulo" Type="varchar" MaxLength="35" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="estado" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="latitud" Type="int" Nullable="false" />
-          <Property Name="longitud" Type="int" Nullable="false" />
-          <Property Name="disponible" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="estado" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="latitud" Type="float" Nullable="false" />
+          <Property Name="longitud" Type="float" Nullable="false" />
+          <Property Name="disponible" Type="int" Nullable="false" />
           <Property Name="idCategoria" Type="int" Nullable="false" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
-          <Property Name="precio" Type="float" Nullable="false" />
+          <Property Name="precio" Type="money" Nullable="false" />
         </EntityType>
         <EntityType Name="Categoria">
           <Key>
@@ -50,7 +50,7 @@
           <Property Name="idFoto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="urls" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="idAnuncio" Type="int" Nullable="false" />
-          <Property Name="estado" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="tipo" Type="varchar" MaxLength="15" Nullable="false" />
         </EntityType>
         <EntityType Name="mensaje">
           <Key>
@@ -61,7 +61,7 @@
           <Property Name="idFrom" Type="int" Nullable="false" />
           <Property Name="idConversacion" Type="int" Nullable="false" />
           <Property Name="mensaje" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="fecha" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="puntuacion">
           <Key>
@@ -250,13 +250,13 @@
           <Property Name="titulo" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="estado" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="latitud" Type="Int32" Nullable="false" />
-          <Property Name="longitud" Type="Int32" Nullable="false" />
-          <Property Name="disponible" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="latitud" Type="Double" Nullable="false" />
+          <Property Name="longitud" Type="Double" Nullable="false" />
+          <Property Name="disponible" Type="Int32" Nullable="false" />
           <Property Name="idCategoria" Type="Int32" Nullable="false" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
-          <Property Name="precio" Type="Double" Nullable="false" />
+          <Property Name="precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="Categoria" Relationship="Self.fk_AnunCat" FromRole="Anuncio" ToRole="Categoria" />
           <NavigationProperty Name="Foto" Relationship="Self.fk_AnunFot" FromRole="Anuncio" ToRole="Foto" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_AnunUs" FromRole="Anuncio" ToRole="Usuario" />
@@ -295,7 +295,7 @@
           <Property Name="idFoto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="urls" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="idAnuncio" Type="Int32" Nullable="false" />
-          <Property Name="estado" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Anuncio" Relationship="Self.fk_AnunFot" FromRole="Foto" ToRole="Anuncio" />
         </EntityType>
         <EntityType Name="mensaje">
@@ -307,7 +307,7 @@
           <Property Name="idFrom" Type="Int32" Nullable="false" />
           <Property Name="idConversacion" Type="Int32" Nullable="false" />
           <Property Name="mensaje1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fecha" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Conversacion" Relationship="Self.fk_ConMen" FromRole="mensaje" ToRole="Conversacion" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_MenUs1" FromRole="mensaje" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="Self.fk_MenUs2" FromRole="mensaje" ToRole="Usuario" />
@@ -446,7 +446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ProyectoWeb2021Entities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="SvxEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Anuncio" EntityType="Self.Anuncio" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="Conversacion" EntityType="Self.Conversacion" />
@@ -497,7 +497,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ProyectoWeb2021ModelStoreContainer" CdmEntityContainer="ProyectoWeb2021Entities1">
+        <EntityContainerMapping StorageEntityContainer="ProyectoWeb2021ModelStoreContainer" CdmEntityContainer="SvxEntities">
           <EntitySetMapping Name="Anuncio">
             <EntityTypeMapping TypeName="ProyectoWeb2021Model.Anuncio">
               <MappingFragment StoreEntitySet="Anuncio">
@@ -546,7 +546,7 @@
                 <ScalarProperty Name="idFoto" ColumnName="idFoto" />
                 <ScalarProperty Name="urls" ColumnName="urls" />
                 <ScalarProperty Name="idAnuncio" ColumnName="idAnuncio" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

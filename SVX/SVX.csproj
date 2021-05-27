@@ -2,7 +2,6 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -28,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,21 +54,27 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.1.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -76,6 +82,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -84,6 +93,12 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -128,9 +143,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -141,62 +153,242 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DTO\ConversacionViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Models\Anuncio.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Categoria.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Conversacion.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Departamento.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Foto.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\mensaje.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\puntuacion.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SvxModel.Context.cs">
+    <Compile Include="Models\SvxModelo.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SvxModel.Context.tt</DependentUpon>
+      <DependentUpon>SvxModelo.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SvxModel.cs">
+    <Compile Include="Models\SvxModelo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SvxModel.Designer.cs">
+    <Compile Include="Models\SvxModelo.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SvxModel.edmx</DependentUpon>
+      <DependentUpon>SvxModelo.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs">
-      <DependentUpon>SvxModel.tt</DependentUpon>
+      <DependentUpon>SvxModelo.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
+    <Compile Include="util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.js" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.min.js" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper.js" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper.min.js" />
+    <Content Include="assets\vendor_components\popper\dist\popper-utils.js" />
+    <Content Include="assets\vendor_components\popper\dist\popper-utils.min.js" />
+    <Content Include="assets\vendor_components\popper\dist\popper.js" />
+    <Content Include="assets\vendor_components\popper\dist\popper.min.js" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.js" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.min.js" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper.js" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\css\code.css" />
+    <Content Include="assets\vendor_components\popper\docs\css\font-awesome.min.css" />
+    <Content Include="assets\vendor_components\popper\docs\css\images\arrow.svg" />
+    <Content Include="assets\vendor_components\popper\docs\css\images\bars.svg" />
+    <Content Include="assets\vendor_components\popper\docs\css\images\close.svg" />
+    <Content Include="assets\vendor_components\popper\docs\css\popper.css" />
+    <Content Include="assets\vendor_components\popper\docs\documentation.html" />
+    <Content Include="assets\vendor_components\popper\docs\favicon-16x16.png" />
+    <Content Include="assets\vendor_components\popper\docs\favicon-32x32.png" />
+    <Content Include="assets\vendor_components\popper\docs\favicon-96x96.png" />
+    <Content Include="assets\vendor_components\popper\docs\favicon.ico" />
+    <Content Include="assets\vendor_components\popper\docs\feed.xml" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\vendor_components\popper\docs\images\banner.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\images\banner.png" />
+    <Content Include="assets\vendor_components\popper\docs\images\logo.png" />
+    <Content Include="assets\vendor_components\popper\docs\images\pic01.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\images\pic02.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\images\pic03.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\images\pic04.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\images\pic05.jpg" />
+    <Content Include="assets\vendor_components\popper\docs\index.html" />
+    <Content Include="assets\vendor_components\popper\docs\js\ie\backgroundsize.min.htc" />
+    <Content Include="assets\vendor_components\popper\docs\js\ie\html5shiv.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\ie\respond.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\jquery.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\jquery.nanoscroller.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\jquery.scrollex.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\jquery.scrolly.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\main.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\skel.min.js" />
+    <Content Include="assets\vendor_components\popper\docs\js\util.js" />
+    <Content Include="assets\vendor_components\popper\docs\LICENSE.txt" />
+    <Content Include="assets\vendor_components\popper\docs\popper-documentation.html" />
+    <Content Include="assets\vendor_components\popper\docs\README.txt" />
+    <Content Include="assets\vendor_components\popper\docs\tooltip-documentation.html" />
+    <Content Include="assets\vendor_components\popper\docs\tooltip-examples.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example10-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example10.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example10t-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example10t.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example20-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example20.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example20t-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example20t.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example30-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example30.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example40-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example40.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example50-code.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\example50.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\footer.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\head.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\header.html" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\scripts.html" />
+    <Content Include="assets\vendor_components\popper\docs\_layouts\default.html" />
+    <Content Include="assets\vendor_components\popper\docs\_layouts\landing.html" />
+    <Content Include="assets\vendor_components\popper\docs\_layouts\page-hashtag.html" />
+    <Content Include="assets\vendor_components\popper\docs\_layouts\page-nowrap.html" />
+    <Content Include="assets\vendor_components\popper\docs\_layouts\page.html" />
+    <Content Include="assets\vendor_components\popper\packages\babel-config\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\bundle\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\.eslintrc.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\bundle.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\defaults.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\destroy.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\disableEventListeners.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\enableEventListeners.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\placements.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\update.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\applyStyle.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\arrow.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\computeStyle.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\flip.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\hide.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\inner.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\keepTogether.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\offset.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\preventOverflow.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\shift.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\clockwise.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\computeAutoPlacement.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\debounce.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\find.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\findCommonOffsetParent.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\findIndex.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBordersSize.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBoundaries.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBoundingClientRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getClientRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetParent.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOppositePlacement.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOppositeVariation.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOuterSizes.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getParentNode.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getPopperOffsets.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getReferenceOffsets.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getRoot.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getScroll.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getScrollParent.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getStyleComputedProperty.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getSupportedPropertyName.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getWindowSizes.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\includeScroll.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isFixed.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isFunction.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isIE10.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isModifierEnabled.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isModifierRequired.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isNative.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isNumeric.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isOffsetContainer.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\removeEventListeners.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\runModifiers.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setAttributes.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setStyles.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setupEventListeners.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\.eslintrc.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\arrow.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\core.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\flips.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\lifecycle.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\offset.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\rendering.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\styles\test.css" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\clockwise.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\debounce.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\find.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\findIndex.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getClientRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOffsetParent.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOppositePlacement.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOppositeVariation.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getParentNode.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getScrollParent.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getStyleComputedProperty.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\isFixed.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\isNative.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\parseOffset.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\utils\getRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\utils\makePopperFactory.js" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\flipWithoutPreventOverflow.html" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\test.html" />
+    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\tooltip.html" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\setup.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\appendNewPopper.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\appendNewRef.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\customEventPolyfill.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\getRect.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\isMSBrowser.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeConnectedElement.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeConnectedScrollElement.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeElement.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\prepend.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\simulateScroll.js" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\then.js" />
+    <Content Include="assets\vendor_components\popper\packages\test\.babelrc.js" />
+    <Content Include="assets\vendor_components\popper\packages\test\bin\karma.js" />
+    <Content Include="assets\vendor_components\popper\packages\test\karma.conf.js" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\.eslintrc.js" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\bundle.js" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\src\index.js" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\tests\functional\tooltip.js" />
+    <Content Include="assets\vendor_components\popper\popperjs.png" />
     <Content Include="Content\css\bootstrap-extend.css" />
     <Content Include="Content\css\master_style.css" />
     <Content Include="Content\css\skins\_all-skins.css" />
@@ -6642,189 +6834,6 @@
     <Content Include="assets\vendor_components\PACE\themes\yellow\pace-theme-loading-bar.css" />
     <Content Include="assets\vendor_components\PACE\themes\yellow\pace-theme-mac-osx.css" />
     <Content Include="assets\vendor_components\PACE\themes\yellow\pace-theme-minimal.css" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.js" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.min.js" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper.js" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper.min.js" />
-    <Content Include="assets\vendor_components\popper\dist\popper-utils.js" />
-    <Content Include="assets\vendor_components\popper\dist\popper-utils.min.js" />
-    <Content Include="assets\vendor_components\popper\dist\popper.js" />
-    <Content Include="assets\vendor_components\popper\dist\popper.min.js" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.js" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.min.js" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper.js" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\css\code.css" />
-    <Content Include="assets\vendor_components\popper\docs\css\font-awesome.min.css" />
-    <Content Include="assets\vendor_components\popper\docs\css\images\arrow.svg" />
-    <Content Include="assets\vendor_components\popper\docs\css\images\bars.svg" />
-    <Content Include="assets\vendor_components\popper\docs\css\images\close.svg" />
-    <Content Include="assets\vendor_components\popper\docs\css\popper.css" />
-    <Content Include="assets\vendor_components\popper\docs\documentation.html" />
-    <Content Include="assets\vendor_components\popper\docs\favicon-16x16.png" />
-    <Content Include="assets\vendor_components\popper\docs\favicon-32x32.png" />
-    <Content Include="assets\vendor_components\popper\docs\favicon-96x96.png" />
-    <Content Include="assets\vendor_components\popper\docs\favicon.ico" />
-    <Content Include="assets\vendor_components\popper\docs\feed.xml" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.svg" />
-    <Content Include="assets\vendor_components\popper\docs\images\banner.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\images\banner.png" />
-    <Content Include="assets\vendor_components\popper\docs\images\logo.png" />
-    <Content Include="assets\vendor_components\popper\docs\images\pic01.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\images\pic02.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\images\pic03.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\images\pic04.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\images\pic05.jpg" />
-    <Content Include="assets\vendor_components\popper\docs\index.html" />
-    <Content Include="assets\vendor_components\popper\docs\js\ie\backgroundsize.min.htc" />
-    <Content Include="assets\vendor_components\popper\docs\js\ie\html5shiv.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\ie\respond.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\jquery.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\jquery.nanoscroller.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\jquery.scrollex.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\jquery.scrolly.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\main.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\skel.min.js" />
-    <Content Include="assets\vendor_components\popper\docs\js\util.js" />
-    <Content Include="assets\vendor_components\popper\docs\LICENSE.txt" />
-    <Content Include="assets\vendor_components\popper\docs\popper-documentation.html" />
-    <Content Include="assets\vendor_components\popper\docs\README.txt" />
-    <Content Include="assets\vendor_components\popper\docs\tooltip-documentation.html" />
-    <Content Include="assets\vendor_components\popper\docs\tooltip-examples.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example10-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example10.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example10t-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example10t.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example20-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example20.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example20t-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example20t.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example30-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example30.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example40-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example40.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example50-code.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\example50.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\footer.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\head.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\header.html" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\scripts.html" />
-    <Content Include="assets\vendor_components\popper\docs\_layouts\default.html" />
-    <Content Include="assets\vendor_components\popper\docs\_layouts\landing.html" />
-    <Content Include="assets\vendor_components\popper\docs\_layouts\page-hashtag.html" />
-    <Content Include="assets\vendor_components\popper\docs\_layouts\page-nowrap.html" />
-    <Content Include="assets\vendor_components\popper\docs\_layouts\page.html" />
-    <Content Include="assets\vendor_components\popper\packages\babel-config\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\bundle\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\.eslintrc.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\bundle.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\defaults.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\destroy.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\disableEventListeners.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\enableEventListeners.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\placements.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\methods\update.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\applyStyle.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\arrow.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\computeStyle.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\flip.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\hide.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\inner.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\keepTogether.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\offset.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\preventOverflow.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\modifiers\shift.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\clockwise.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\computeAutoPlacement.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\debounce.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\find.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\findCommonOffsetParent.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\findIndex.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBordersSize.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBoundaries.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getBoundingClientRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getClientRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetParent.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOppositePlacement.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOppositeVariation.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getOuterSizes.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getParentNode.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getPopperOffsets.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getReferenceOffsets.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getRoot.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getScroll.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getScrollParent.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getStyleComputedProperty.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getSupportedPropertyName.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\getWindowSizes.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\includeScroll.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isFixed.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isFunction.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isIE10.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isModifierEnabled.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isModifierRequired.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isNative.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isNumeric.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\isOffsetContainer.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\removeEventListeners.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\runModifiers.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setAttributes.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setStyles.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\src\utils\setupEventListeners.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\.eslintrc.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\arrow.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\core.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\flips.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\lifecycle.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\offset.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\functional\rendering.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\styles\test.css" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\clockwise.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\debounce.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\find.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\findIndex.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getClientRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOffsetParent.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOppositePlacement.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getOppositeVariation.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getParentNode.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getScrollParent.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\getStyleComputedProperty.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\isFixed.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\isNative.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\unit\parseOffset.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\utils\getRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\utils\makePopperFactory.js" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\flipWithoutPreventOverflow.html" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\test.html" />
-    <Content Include="assets\vendor_components\popper\packages\popper\tests\visual\tooltip.html" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\setup.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\appendNewPopper.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\appendNewRef.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\customEventPolyfill.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\getRect.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\isMSBrowser.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeConnectedElement.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeConnectedScrollElement.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\makeElement.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\prepend.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\simulateScroll.js" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\utils\then.js" />
-    <Content Include="assets\vendor_components\popper\packages\test\.babelrc.js" />
-    <Content Include="assets\vendor_components\popper\packages\test\bin\karma.js" />
-    <Content Include="assets\vendor_components\popper\packages\test\karma.conf.js" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\.eslintrc.js" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\bundle.js" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\src\index.js" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\tests\functional\tooltip.js" />
-    <Content Include="assets\vendor_components\popper\popperjs.png" />
     <Content Include="assets\vendor_components\raphael\dev\banner.txt" />
     <Content Include="assets\vendor_components\raphael\dev\raphael.amd.js" />
     <Content Include="assets\vendor_components\raphael\dev\raphael.core.js" />
@@ -7832,18 +7841,20 @@
     <Content Include="images\user8-128x128.jpg" />
     <Content Include="images\visa.png" />
     <Content Include="images\weight.png" />
-    <Content Include="Models\SvxModel.Context.tt">
+    <Content Include="Models\SvxModelo.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SvxModel.edmx</DependentUpon>
-      <LastGenOutput>SvxModel.Context.cs</LastGenOutput>
+      <DependentUpon>SvxModelo.edmx</DependentUpon>
+      <LastGenOutput>SvxModelo.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\SvxModel.tt">
+    <Content Include="Models\SvxModelo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>SvxModel.edmx</DependentUpon>
-      <LastGenOutput>SvxModel.cs</LastGenOutput>
+      <DependentUpon>SvxModelo.edmx</DependentUpon>
+      <LastGenOutput>SvxModelo.cs</LastGenOutput>
     </Content>
-    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.2.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js\demo.js" />
     <Content Include="Scripts\js\pages\advanced-form-element.js" />
     <Content Include="Scripts\js\pages\app-contact.js" />
@@ -9143,72 +9154,6 @@
     <Content Include="assets\vendor_components\PACE\LICENSE" />
     <Content Include="assets\vendor_components\PACE\pace.coffee" />
     <Content Include="assets\vendor_components\PACE\README.md" />
-    <Content Include="assets\vendor_components\popper\.bithoundrc" />
-    <Content Include="assets\vendor_components\popper\.codeclimate.yml" />
-    <Content Include="assets\vendor_components\popper\.editorconfig" />
-    <Content Include="assets\vendor_components\popper\.github\ISSUE_TEMPLATE.md" />
-    <Content Include="assets\vendor_components\popper\.github\PULL_REQUEST_TEMPLATE.md" />
-    <Content Include="assets\vendor_components\popper\.gitignore" />
-    <Content Include="assets\vendor_components\popper\.jsdoc" />
-    <Content Include="assets\vendor_components\popper\.travis.yml" />
-    <Content Include="assets\vendor_components\popper\bower.json" />
-    <Content Include="assets\vendor_components\popper\CHANGELOG.md" />
-    <Content Include="assets\vendor_components\popper\CODE_OF_CONDUCT.md" />
-    <Content Include="assets\vendor_components\popper\CONTRIBUTING.md" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.min.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\esm\popper.min.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\popper-utils.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\popper-utils.min.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\popper.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\popper.min.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.min.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper.js.map" />
-    <Content Include="assets\vendor_components\popper\dist\umd\popper.min.js.map" />
-    <Content Include="assets\vendor_components\popper\docs\CNAME" />
-    <Content Include="assets\vendor_components\popper\docs\css\ie8.scss" />
-    <Content Include="assets\vendor_components\popper\docs\css\ie9.scss" />
-    <Content Include="assets\vendor_components\popper\docs\css\main.scss" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.eot" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.ttf" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.woff" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.woff2" />
-    <Content Include="assets\vendor_components\popper\docs\fonts\FontAwesome.otf" />
-    <Content Include="assets\vendor_components\popper\docs\_config.yml" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\popper-documentation.md" />
-    <Content Include="assets\vendor_components\popper\docs\_includes\tooltip-documentation.md" />
-    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_functions.scss" />
-    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_mixins.scss" />
-    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_skel.scss" />
-    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_vars.scss" />
-    <Content Include="assets\vendor_components\popper\lerna.json" />
-    <Content Include="assets\vendor_components\popper\LICENSE.md" />
-    <Content Include="assets\vendor_components\popper\MENTIONS.md" />
-    <Content Include="assets\vendor_components\popper\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\babel-config\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\babel-config\yarn.lock" />
-    <Content Include="assets\vendor_components\popper\packages\bundle\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\bundle\yarn.lock" />
-    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\yarn.lock" />
-    <Content Include="assets\vendor_components\popper\packages\popper\.eslintignore" />
-    <Content Include="assets\vendor_components\popper\packages\popper\.npmignore" />
-    <Content Include="assets\vendor_components\popper\packages\popper\bower-publish.sh" />
-    <Content Include="assets\vendor_components\popper\packages\popper\bower.json" />
-    <Content Include="assets\vendor_components\popper\packages\popper\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\test-utils\yarn.lock" />
-    <Content Include="assets\vendor_components\popper\packages\test\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\test\README.md" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\.eslintignore" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\.npmignore" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\package.json" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\tests\.eslintrc" />
-    <Content Include="assets\vendor_components\popper\packages\tooltip\yarn.lock" />
-    <Content Include="assets\vendor_components\popper\README.md" />
-    <Content Include="assets\vendor_components\popper\yarn.lock" />
     <Content Include="assets\vendor_components\raphael\.bower.json" />
     <Content Include="assets\vendor_components\raphael\bower.json" />
     <Content Include="assets\vendor_components\raphael\yarn.lock" />
@@ -9365,12 +9310,78 @@
     <Content Include="assets\vendor_components\weather-icons\weathericons-regular-webfont.woff" />
     <Content Include="assets\vendor_components\weather-icons\weathericons-regular-webfont.woff2" />
     <Content Include="images\Thumbs.db" />
-    <EntityDeploy Include="Models\SvxModel.edmx">
+    <Content Include="assets\vendor_components\popper\.bithoundrc" />
+    <Content Include="assets\vendor_components\popper\.codeclimate.yml" />
+    <Content Include="assets\vendor_components\popper\.editorconfig" />
+    <Content Include="assets\vendor_components\popper\.github\ISSUE_TEMPLATE.md" />
+    <Content Include="assets\vendor_components\popper\.github\PULL_REQUEST_TEMPLATE.md" />
+    <Content Include="assets\vendor_components\popper\.gitignore" />
+    <Content Include="assets\vendor_components\popper\.jsdoc" />
+    <Content Include="assets\vendor_components\popper\.travis.yml" />
+    <Content Include="assets\vendor_components\popper\bower.json" />
+    <Content Include="assets\vendor_components\popper\CHANGELOG.md" />
+    <Content Include="assets\vendor_components\popper\CODE_OF_CONDUCT.md" />
+    <Content Include="assets\vendor_components\popper\CONTRIBUTING.md" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.min.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\esm\popper.min.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\popper-utils.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\popper-utils.min.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\popper.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\popper.min.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper-utils.min.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper.js.map" />
+    <Content Include="assets\vendor_components\popper\dist\umd\popper.min.js.map" />
+    <Content Include="assets\vendor_components\popper\docs\CNAME" />
+    <Content Include="assets\vendor_components\popper\docs\css\ie8.scss" />
+    <Content Include="assets\vendor_components\popper\docs\css\ie9.scss" />
+    <Content Include="assets\vendor_components\popper\docs\css\main.scss" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\vendor_components\popper\docs\fonts\FontAwesome.otf" />
+    <Content Include="assets\vendor_components\popper\docs\_config.yml" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\popper-documentation.md" />
+    <Content Include="assets\vendor_components\popper\docs\_includes\tooltip-documentation.md" />
+    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_functions.scss" />
+    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_mixins.scss" />
+    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_skel.scss" />
+    <Content Include="assets\vendor_components\popper\docs\_sass\libs\_vars.scss" />
+    <Content Include="assets\vendor_components\popper\lerna.json" />
+    <Content Include="assets\vendor_components\popper\LICENSE.md" />
+    <Content Include="assets\vendor_components\popper\MENTIONS.md" />
+    <Content Include="assets\vendor_components\popper\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\babel-config\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\babel-config\yarn.lock" />
+    <Content Include="assets\vendor_components\popper\packages\bundle\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\bundle\yarn.lock" />
+    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\eslint-config-popper\yarn.lock" />
+    <Content Include="assets\vendor_components\popper\packages\popper\.eslintignore" />
+    <Content Include="assets\vendor_components\popper\packages\popper\.npmignore" />
+    <Content Include="assets\vendor_components\popper\packages\popper\bower-publish.sh" />
+    <Content Include="assets\vendor_components\popper\packages\popper\bower.json" />
+    <Content Include="assets\vendor_components\popper\packages\popper\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\test-utils\yarn.lock" />
+    <Content Include="assets\vendor_components\popper\packages\test\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\test\README.md" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\.eslintignore" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\.npmignore" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\package.json" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\tests\.eslintrc" />
+    <Content Include="assets\vendor_components\popper\packages\tooltip\yarn.lock" />
+    <Content Include="assets\vendor_components\popper\README.md" />
+    <Content Include="assets\vendor_components\popper\yarn.lock" />
+    <EntityDeploy Include="Models\SvxModelo.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>SvxModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>SvxModelo.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\SvxModel.edmx.diagram">
-      <DependentUpon>SvxModel.edmx</DependentUpon>
+    <Content Include="Models\SvxModelo.edmx.diagram">
+      <DependentUpon>SvxModelo.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
     <Content Include="assets\vendor_plugins\bootstrap-wysihtml5\fonts\glyphicons-halflings-regular.eot" />
@@ -9432,11 +9443,12 @@
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
     <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
   </Target>
   <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -3,6 +3,7 @@
     ViewBag.Title = "Registrarme";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model SVX.Models.Usuario
 <style>
     .register-page {
         background: none !important;
@@ -17,38 +18,47 @@
                     <div class="register-box-body">
                         <h3 class="text-center">Get started with Us</h3>
                         <p class="login-box-msg">Register a new membership</p>
+                        @using (Html.BeginForm("Registrarme", "Home", FormMethod.Post, htmlAttributes: new { id = "form-registrarme" }))
+                        {
+                            <div class="form-group has-feedback">
+                                @Html.TextBoxFor(u => u.nombre, htmlAttributes: new { @class = "form-control", placeholder = "Nombre", @required = "required" })
+                            </div>
+                            <div class="form-group has-feedback">
+                                @Html.TextBoxFor(u => u.apellido, htmlAttributes: new { @class = "form-control", placeholder = "Apellido", @required = "required" })
+                            </div>
 
-                        <form action="../../index.html" method="post">
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control" placeholder="Full name">
-                                <span class="ion ion-person form-control-feedback "></span>
-                            </div>
-                            <div class="form-group has-feedback">
-                                <input type="email" class="form-control" placeholder="Email">
-                                <span class="ion ion-email form-control-feedback "></span>
+                                @Html.TextBoxFor(u => u.email, htmlAttributes: new { type = "email", @class = "form-control", placeholder = "correo", @required = "required" })
+                                <span class="ion ion-email form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                <input type="password" class="form-control" placeholder="Password">
-                                <span class="ion ion-locked form-control-feedback "></span>
+                                <input name="contrasenia1" id="contrasenia1" type="password" class="form-control" placeholder="Contraseña" required>
+                                <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                <input type="password" class="form-control" placeholder="Retype password">
-                                <span class="ion ion-log-in form-control-feedback "></span>
+                                @Html.PasswordFor(u => u.contrasenia, htmlAttributes: new { @class = "form-control", placeholder = "Repetir Contraseña", @required = "required" })
+                                <span class="ion ion-locked form-control-feedback"></span>
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="checkbox">
-                                        <input type="checkbox" id="basic_checkbox_1">
-                                        <label for="basic_checkbox_1">I agree to the <a href="#" class="text-warning"><b>Terms</b></a></label>
-                                    </div>
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-12 text-center">
-                                    <button type="submit" class="btn btn-info btn-block margin-top-10">SIGN UP</button>
-                                </div>
-                                <!-- /.col -->
+                            <div class="form-group has-feedback">
+                                @Html.TextBoxFor(u => u.telefono, htmlAttributes: new { @class = "form-control telefono", placeholder = "Telefono", @required = "required" })
                             </div>
-                        </form>
+                            <div class="form-group has-feedback">
+                                <select id="idDepto" name="idDepto" class="form-control" required>
+                                    <option value="0" disabled>Selecciona una opcion</option>
+
+                                    @foreach (var item in ViewBag.Departamentos)
+                                    {
+                                        <option value="@item.idDepto">@item.nombre</option>
+
+                                    }
+
+                                </select>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-info btn-block margin-top-10">SIGN UP</button>
+                            </div>
+                        }
+
 
                         <div class="social-auth-links text-center">
                             <p>- OR -</p>
@@ -60,7 +70,7 @@
                         <!-- /.social-auth-links -->
 
                         <div class="margin-top-20 text-center">
-                            <p>Already have an account?<a href="login.html" class="text-info m-l-5"> Sign In</a></p>
+                            <p>Already have an account? @Html.ActionLink("Sign In", "Login", null, htmlAttributes: new { @class = "text-info m-l-5" })</p>
                         </div>
 
                     </div>
@@ -71,6 +81,127 @@
         </div>
     </div>
 </div>
+@section scripts {
+    <script>
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || !re.test(value);
+            },
+            "La contrasenia no debe tener espacios en blanco."
+        );
+        $.validator.addMethod(
+            "equelsCon",
+            function (value, element, contra) {
+                var contra = $("#" + contra).val();
+                return this.optional(element) || value === contra;
+            },
+            "Las contrasenias son diferentes."
+        );
+        setTimeout(function () {
+            $("#contrasenia").rules("add", { regex: / / });
+            $("#contrasenia1").rules("add", { regex: / / });
+            $("#contrasenia").rules("add", { equelsCon: "contrasenia1" });
+            $("#contrasenia1").rules("add", { equelsCon: "contrasenia" })
+        }, 0);
+        $("#form-registrarme").validate({
+            rules: {
+                idDepto: {
+                    required:true
+
+                },
+                telefono: {
+                    required:true
+                },
+                apellido: {
+                    required:true
+                },
+                nombre: {
+                    required:true
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                contrasenia: {
+                    required: true,
+                    minlength: 8
+                },
+                constrasenia1:{
+                required: true,
+                    minlength:8
+                }
+            },
+            messages: {
+                idDepto: {
+                    required: "Este campo es requerido.",
+                },
+                telefono: {
+                    required: "Este campo es requerido.",
+                },
+                apellido: {
+                    required: "Este campo es requerido.",
+                },
+                nombre: {
+                    required: "Este campo es requerido.",
+                },
+                email: {
+                    required: "Este campo es requerido.",
+                    email:"El correo no es valido"
+                },
+                contrasenia: {
+                    required: "Este campo es requerido.",
+                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                },
+                contrasenia1: {
+                    required: "Este campo es requerido.",
+                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                }
+            },
+            submitHandler: function (form) {
+       
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: $(form).serialize(),
+                    url: '/Home/Registrarme',
+                    success: function (respuesta) {
+                        if (respuesta.result === false) {
+                            $.toast({
+                                heading: 'Bienvenido a SVX',
+                                text: respuesta.mensaje ,
+                                position: 'top-right',
+                                loaderBg: '#ff6849',
+                                icon: 'warning',
+                                hideAfter: 3000,
+                                stack: 6
+                            });
+                        } else {
+                            swal(
+                                'Bienvenido a SVX!',
+                                respuesta.mensaje ,
+                                'success'
+                            )
+                            window.location.href = respuesta.result;
+                        }
+                    },
+                    error: function () {
+                        $.toast({
+                            heading: 'Bienvenido a SVX',
+                            text: 'Ocurrio un error al momento de conectarse.',
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: 'error',
+                            hideAfter: 3500
+
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+
+}
 
 
-    

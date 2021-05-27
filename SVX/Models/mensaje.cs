@@ -9,6 +9,7 @@
 
 namespace SVX.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -19,10 +20,12 @@ namespace SVX.Models
         public int idFrom { get; set; }
         public int idConversacion { get; set; }
         public string mensaje1 { get; set; }
-        public string fecha { get; set; }
-    
+        public System.DateTime fecha { get; set; }
+        [JsonIgnore]
         public virtual Conversacion Conversacion { get; set; }
+
         public virtual Usuario Usuario { get; set; }
+    
         public virtual Usuario Usuario1 { get; set; }
     }
 }
