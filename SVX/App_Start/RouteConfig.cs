@@ -18,6 +18,11 @@ namespace SVX
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               name: "Chat",
+               url: "{controller}/{action}/{idUser}/{idConver}",
+               defaults: new { controller = "Home", action = "Chat", idUser = 0, idConver =0}
+           );
         }
     }
 }

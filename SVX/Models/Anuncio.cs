@@ -45,6 +45,7 @@ namespace SVX.Models
         [Display(Name = "Descripcion")]
         public string descripcion { get; set; }
 
+
         [Required(ErrorMessage = "Campo Requerido")]
         [MinLength(length: 3, ErrorMessage = "Al menos 3 caracteres")]
         [MaxLength(length: 50, ErrorMessage = "No más de 50 caracteres")]
@@ -64,6 +65,7 @@ namespace SVX.Models
         [Required(ErrorMessage = "Campo Requerido")]
         public int idUsuario { get; set; }
 
+
         [Required(ErrorMessage = "Campo Requerido")]
         [DataType(DataType.Currency)]
         [Display(Name = "Precio")]
@@ -71,7 +73,8 @@ namespace SVX.Models
         public Nullable<int> disponible { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
         public Nullable<int> estado { get; set; }
-    
+
+
         public virtual Categoria Categoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Foto> Foto { get; set; }
