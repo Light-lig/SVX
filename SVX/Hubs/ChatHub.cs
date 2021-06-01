@@ -13,10 +13,10 @@ namespace SVX.Hubs
 {
     public class ChatHub : Hub
     {
-        private SvxEntities contexto;
+        private ProyectoWeb2021Entities contexto;
         public ChatHub()
         {
-            contexto = new SvxEntities();
+            contexto = new ProyectoWeb2021Entities();
         }
         public void readConversations(int id)
         {
@@ -26,7 +26,7 @@ namespace SVX.Hubs
 
 
             var conversaciones = (from c in contexto.Conversacion
-                                  join m in contexto.mensaje on c.idConver equals m.idConversacion
+                                  join m in contexto.Mensaje on c.idConversacion equals m.idConversacion
                                   join u in contexto.Usuario on m.idFrom equals u.idUsuario
                                   where u.idUsuario == id select c
                                   ).ToList() ;
@@ -51,19 +51,19 @@ namespace SVX.Hubs
 
         public void readMenesajes(int? idConversacion = null )
         {
-            var mensajes = contexto.mensaje.Where(m => m.idConversacion == idConversacion);
+            var mensajes = contexto.Mensaje.Where(m => m.idConversacion == idConversacion);
             Clients.Group(idConversacion.ToString()).getMensajes(mensajes);
         }
 
         public void send(int idTo, int idConversacion, int idFrom,string nombreFrom, string mensaje)
         {
-            mensaje men = new mensaje();
+            Mensaje men = new Mensaje();
             men.idTo = idTo;
             men.idConversacion = idConversacion;
             men.idFrom = idFrom;
             men.mensaje1 = mensaje;
             men.fecha = System.DateTime.Now;
-            contexto.mensaje.Add(men);
+            contexto.Mensaje.Add(men);
             contexto.SaveChanges();
             Clients.Group(idConversacion.ToString()).addMensajes(idTo, idConversacion, idFrom, nombreFrom, mensaje, System.DateTime.Now);
         }

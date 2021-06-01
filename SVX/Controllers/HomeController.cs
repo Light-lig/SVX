@@ -19,7 +19,7 @@ namespace SVX.Controllers
             int idUser = 0;
             if(us != null)
             {
-                idDepto = us.idDepto;
+                idDepto = us.idDepartamento;
                 idUser = us.idUsuario;
             }
             var productos = (from a in contexto.Anuncio
@@ -56,7 +56,7 @@ namespace SVX.Controllers
             var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
 
             var conversacion = (from c in contexto.Conversacion
-                                join m in contexto.mensaje on c.idConver equals m.idConversacion
+                                join m in contexto.Mensaje on c.idConversacion equals m.idConversacion
                                 join u in contexto.Usuario on  m.idTo equals u.idUsuario
                                 join a in contexto.Anuncio on  u.idUsuario equals a.idUsuario
                                 where ((m.idFrom.Equals(idUser)) || (idUser == 0)) &&

@@ -18,7 +18,7 @@
                     required: true,
                     email: true
                 },
-                contrasenia: {
+                pass: {
                     required: true
                 }
             },
@@ -27,7 +27,7 @@
                     required: "Este campo es requerido.",
                     email:"El correo no es valido"
                 },
-                contrasenia: {
+                pass: {
                     required: "Este campo es requerido.",
                 }
             },
@@ -123,7 +123,7 @@
                                 <span class="ion ion-email form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                @Html.PasswordFor(us => us.contrasenia, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
+                                @Html.PasswordFor(us => us.pass, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
                                 <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="row">

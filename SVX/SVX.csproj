@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SVX</RootNamespace>
     <AssemblyName>SVX</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -27,7 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
 
-    <TypeScriptToolsVersion>4.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
     <LangVersion>9.0</LangVersion>
     <TargetFrameworkProfile />
 
@@ -9410,7 +9410,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="assets\vendor_components\moment\moment.d.ts" />
-    <TypeScriptCompile Include="assets\vendor_components\popper\packages\popper\index.d.ts" />
+
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

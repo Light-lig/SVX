@@ -36,7 +36,7 @@
                                 <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                @Html.PasswordFor(u => u.contrasenia, htmlAttributes: new { @class = "form-control", placeholder = "Repetir Contraseña", @required = "required" })
+                                @Html.PasswordFor(u => u.pass, htmlAttributes: new { @class = "form-control", placeholder = "Repetir Contraseña", @required = "required" })
                                 <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
@@ -100,10 +100,10 @@
             "Las contrasenias son diferentes."
         );
         setTimeout(function () {
-            $("#contrasenia").rules("add", { regex: / / });
+            $("#pass").rules("add", { regex: / / });
             $("#contrasenia1").rules("add", { regex: / / });
-            $("#contrasenia").rules("add", { equelsCon: "contrasenia1" });
-            $("#contrasenia1").rules("add", { equelsCon: "contrasenia" })
+            $("#pass").rules("add", { equelsCon: "contrasenia1" });
+            $("#contrasenia1").rules("add", { equelsCon: "pass" })
         }, 0);
         $("#form-registrarme").validate({
             rules: {
@@ -124,7 +124,7 @@
                     required: true,
                     email: true
                 },
-                contrasenia: {
+                pass: {
                     required: true,
                     minlength: 8
                 },
@@ -150,7 +150,7 @@
                     required: "Este campo es requerido.",
                     email:"El correo no es valido"
                 },
-                contrasenia: {
+                pass: {
                     required: "Este campo es requerido.",
                     minlength: "La contrasenia debe contener al menos 8 caracteres."
                 },
