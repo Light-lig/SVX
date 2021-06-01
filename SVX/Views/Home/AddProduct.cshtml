@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @model SVX.Models.Anuncio
+    if (ViewBag.Message != null)
+    {
+        <script>mostrarAlerta('success', ViewBag.Message);</script>
+    }
+    if (ViewBag.MessageError != null)
+    {
+        <script>mostrarAlerta('error', ViewBag.MessageError);</script>
+    }
+}
+
+<!-- Validation wizard -->
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h4 class="box-title">Step wizard to <span id="titulo">Create ad</span></h4>
+        <h6 class="box-subtitle">Please complete the form below</h6>
+
+        <ul class="box-controls pull-right">
+            <li><a class="box-btn-close" href="#"></a></li>
+            <li><a class="box-btn-slide" href="#"></a></li>
+            <li><a class="box-btn-fullscreen" href="#"></a></li>
+        </ul>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body wizard-content">
+        @using (Html.BeginForm("AddProduct", "Home", FormMethod.Post, htmlAttributes: new
+        {
+            @autocomplete = "off",
+            @class = "validation-wizard wizard-circle",
+            enctype = "multipart/form-data",
+            id = "dropzoneForm"
+        }))
+        {
+            @Html.AntiForgeryToken()
+            <!-- Step 1 -->
+            <h6>Step 1</h6>
+            <section>
+                <div class="form-row mt-30">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.titulo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextBoxFor(x => x.titulo, htmlAttributes: new { @class = "form-control leras required", @placeholder = "Titulo" })
+                        @Html.ValidationMessageFor(m => m.titulo, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.nombre, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                            <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                            @Html.TextBoxFor(x => x.nombre, htmlAttributes: new { @class = "form-control required", @placeholder = "Nombre" })
+                            @Html.ValidationMessageFor(m => m.nombre, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.modelo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextBoxFor(x => x.modelo, htmlAttributes: new { @class = "form-control required", @placeholder = "Modelo" })
+                        @Html.ValidationMessageFor(m => m.modelo, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.marca, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextBoxFor(x => x.marca, htmlAttributes: new { @class = "form-control required", @placeholder = "Marca" })
+                        @Html.ValidationMessageFor(m => m.marca, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.idCategoria, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span><br />
+                        @Html.DropDownListFor(x => x.idCategoria, (IEnumerable<SelectListItem>)ViewBag.Categoria, 
+                        htmlAttributes: new
+                            {
+                                @class = "selectpicker show-tick w-100",
+                                @title = "Seleccione categoria",
+                                data_live_search = "true",
+                                data_size = "4"
+                            })
+                        @Html.ValidationMessageFor(m => m.idCategoria, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(x => x.precio, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        @Html.TextBoxFor(x => x.precio, htmlAttributes: new { @class = "form-control money required", @placeholder = "Precio" })
+                        @Html.ValidationMessageFor(m => m.precio, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+            <h6>Step 2</h6>
+            <section>
+                <!-- aqui deberia ir en el value el isUsuario de variable de sesion -->
+                <input type="hidden" name="idUsuario" id="idUsuario" value="2">
+                <div class="form-row mt-25">
+                    <div class="form-group col-md-12">
+                        <div class="dropzone dz-clickable p-0">
+                            <div class="fallback">
+                                @Html.EditorFor(model => model.files, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control-file",
+                                        type = "file",
+                                        @multiple = "multiple",
+                                        accept = "image/png, image/jpeg, image/jpeg"
+                                    }
+                                })
+                                @Html.ValidationMessageFor(model => model.files, null, new { @class = "text-danger" })
+                                <input type="submit" value="Upload" />
+                            </div>
+                            <div id="previews" class="dz-default dz-message">
+                                <i class="fas fa-upload"></i><strong> Arrastra y suelta los archivos aquí o haz clic.</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-25">
+                    <div class="form-group col-md-12">
+                        @Html.LabelFor(x => x.descripcion, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        @Html.TextAreaFor(x => x.descripcion, htmlAttributes: new { @class = "form-control required", @placeholder = "Descripcion" })
+                        @Html.ValidationMessageFor(m => m.descripcion, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </section>
+        }
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->

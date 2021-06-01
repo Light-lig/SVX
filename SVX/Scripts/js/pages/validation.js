@@ -401,7 +401,8 @@
                         , callback: $this.data("validation" + name + "Callback")
                         , lastValue: $this.val()
                         , lastValid: true
-                        , lastFinished: true
+                        , last
+                        hed: true
                     };
                     var message = "Not valid";
                     if ($this.data("validation" + name + "Message")) {

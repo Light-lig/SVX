@@ -21,7 +21,7 @@ $(".validation-wizard").steps({
     , transitionEffect: "none"
     , titleTemplate: '<span class="step">#index#</span> #title#'
     , labels: {
-        finish: "Submit"
+        finish: $("#titulo").text()
     }
     , onStepChanging: function (event, currentIndex, newIndex) {
         return currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid())
@@ -30,7 +30,8 @@ $(".validation-wizard").steps({
         return form.validate().settings.ignore = ":disabled", form.valid()
     }
     , onFinished: function (event, currentIndex) {
-         swal("Your Form Submitted!", "Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor.");
+        //mostrarAlerta('success','Enviado');
+        $(this).closest('form').submit();
     }
 }), $(".validation-wizard").validate({
     ignore: "input[type=hidden]"
@@ -48,6 +49,6 @@ $(".validation-wizard").steps({
     , rules: {
         email: {
             email: !0
-        }
+        },
     }
 })

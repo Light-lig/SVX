@@ -17,13 +17,13 @@ namespace SVX.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Conversacion()
         {
-            this.mensaje = new HashSet<mensaje>();
+            this.Mensaje = new HashSet<Mensaje>();
         }
     
-        public int idConver { get; set; }
+        public int idConversacion { get; set; }
         public string nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<mensaje> mensaje { get; set; }
+        public virtual ICollection<Mensaje> Mensaje { get; set; }
     }
 }

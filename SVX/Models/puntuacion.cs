@@ -12,7 +12,7 @@ namespace SVX.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class puntuacion
+    public partial class Puntuacion
     {
         public int idPuntuacion { get; set; }
         public Nullable<double> valor { get; set; }
