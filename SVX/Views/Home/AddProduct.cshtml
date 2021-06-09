@@ -11,6 +11,7 @@
     {
         <script>mostrarAlerta('error', ViewBag.MessageError);</script>
     }
+    SVX.Models.Usuario us = (SVX.Models.Usuario)Session["Usuario"];
 }
 
 <!-- Validation wizard -->
@@ -95,7 +96,7 @@
             <h6>Step 2</h6>
             <section>
                 <!-- aqui deberia ir en el value el isUsuario de variable de sesion -->
-                <input type="hidden" name="idUsuario" id="idUsuario" value="2">
+                <input type="hidden" name="idUsuario" id="idUsuario" value="@us.idUsuario">
                 <div class="form-row mt-25">
                     <div class="form-group col-md-12">
                         <div class="dropzone dz-clickable p-0">

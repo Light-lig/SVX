@@ -12,22 +12,39 @@ namespace SVX.Controllers
     public class HomeController : Controller
     {
         ProyectoWeb2021Entities contexto = new ProyectoWeb2021Entities();
-        public ActionResult Index(int id = 0)
+        public ActionResult Index(int id = 0, int idDepartamento = 0,  string filtro = "", int limit = 25)
         {
             Usuario us = (Usuario)Session["Usuario"];
             int idDepto = 0;
-            int idUser = 0;
             if(us != null)
             {
                 idDepto = us.idDepartamento;
-                idUser = us.idUsuario;
             }
-            var productos = (from a in contexto.Anuncio
+            var resultados = (from a in contexto.Anuncio
                              join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
-                             where /*((u.idDepto.Equals(idDepto)) || (idDepto == 0)) &&*/
+                             where  ((u.idDepartamento.Equals(idDepartamento)||(idDepartamento.Equals(0))) &&
                                     ((a.idCategoria.Equals(id)) || (id == 0)) &&
-                                    ((a.idUsuario != idUser) || (idUser == 0)) select a).ToList();
+                                    ((a.titulo.Contains(filtro)) || (filtro == "")))
+                                    select a).ToList();
+            int limiteFinal = 0;
+            if (resultados.Count < limit)
+            {
+                limiteFinal = resultados.Count;
+            }
+            else
+            {
+                limiteFinal = limit;
+            }
+
+            var productos = resultados.Take(limiteFinal).ToList();
+
+            /*((u.idDepto.Equals(idDepto)) || (idDepto == 0)) &&*/
+
+            var departamentos = contexto.Departamento.ToList();
+            ViewBag.resultados = resultados.Count();
+            ViewBag.departamentos = departamentos;
             ViewBag.productos = productos;
+            ViewBag.limite = limit;
             return View();
         }
 
@@ -55,12 +72,11 @@ namespace SVX.Controllers
             }
             var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
 
-            var conversacion = (from c in contexto.Conversacion
-                                join m in contexto.Mensaje on c.idConversacion equals m.idConversacion
+            var conversacion = (from m in contexto.Mensaje 
                                 join u in contexto.Usuario on  m.idTo equals u.idUsuario
                                 join a in contexto.Anuncio on  u.idUsuario equals a.idUsuario
-                                where ((m.idFrom.Equals(idUser)) || (idUser == 0)) &&
-                                       ((a.idAnuncio.Equals(id)))
+                                where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser))|| (idUser.Equals(0)) &&
+                                       (a.idAnuncio.Equals(id)) 
                                 select m).FirstOrDefault();
 
             var productosRelacionados = contexto.Anuncio.ToList().Take(4);
@@ -84,9 +100,18 @@ namespace SVX.Controllers
 
         public ActionResult AddProduct()
         {
-            ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
-                .OrderBy(x=>x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString()});
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
+                 .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+
         }
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddProduct(Anuncio ano)
@@ -181,7 +206,7 @@ namespace SVX.Controllers
 
 
 
-        public ActionResult Chat(int idUser, int idConver)
+        public ActionResult Chat(int idUser = 0, int idConver = 0)
         {
             Usuario us = (Usuario)Session["Usuario"];
             if(us != null)
@@ -235,6 +260,12 @@ namespace SVX.Controllers
                 return Json(new { result = "/Home/Index", mensaje = "Bien hecho, Bienvenido a nuestro sitio." });
             }
 
+        }
+
+        public ActionResult CerrarSession()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

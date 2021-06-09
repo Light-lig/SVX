@@ -7,6 +7,21 @@
     <h1>
         Anuncios
     </h1>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
+    {
+        <select name="idDepartamento" id="idDepartamento" class="form-control">
+            @foreach (var item in ViewBag.departamentos)
+            {
+                <option value="@item.idDepartamento">@item.nombre</option>
+            }
+
+        </select>
+        <button type="submit" class="btn btn-primary mr-5">
+            Filtrar
+        </button>
+    }
+    <a href="/Home/AddProduct" class="btn btn-primary"><i class="ion ion-log-in"></i> Agregar Anuncio </a>
+
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="breadcrumb-item active">Anuncios</li>
@@ -21,14 +36,20 @@
         {
             foreach (var item in ViewBag.productos)
             {
+                string nombre = "";
+                foreach (var foto in item.Foto)
+                {
+                    nombre = foto.ruta;
+                    break;
+                }
                 <div class="col-md-12 col-lg-3">
                     <div class="box box-default">
                         <div class="fx-card-item">
                             <div class="fx-card-avatar fx-overlay-1">
-                                <img src="../../../images/card/1.jpg" alt="user">
+                                <img src="~/archivos/@nombre" alt="user">
                                 <div class="fx-overlay scrl-dwn">
                                     <ul class="fx-info">
-                                        <li><a class="btn default btn-outline image-popup-vertical-fit" href="../../../images/card/1.jpg"><i class="ion-search"></i></a></li>
+                                        <li><a class="btn default btn-outline image-popup-vertical-fit" href="~/archivos/@nombre"><i class="ion-search"></i></a></li>
                                         <li><a class="btn default btn-outline" href="~/Home/ProductDetails/@item.idAnuncio"><i class="ion-link"></i></a></li>
                                     </ul>
                                 </div>
@@ -42,19 +63,35 @@
                     </div>
                 </div>
             }
-        }
-        else
-        {
-            <div class="alert alert-info alert-dismissible w-full text-center">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <h4><i class="icon fa fa-info"></i> Informacion!</h4>
-                No se encontraron resultados.
-            </div>
-        }
+            if (ViewBag.resultados > ViewBag.limite)
+            {
+                <center>
 
-        <!-- /.box -->
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
+                    {
+                    int limite = ViewBag.limite + 5;
 
-    </div>
+                    <input type="hidden" value="@limite" id="limit" name="limit">
+                    <button type="submit" class="btn btn-primary mr-5">
+                        Ver mas
+                    </button>
+                    }
+                </center>
+                }
+
+            }
+            else
+            {
+                <div class="alert alert-info alert-dismissible w-full text-center">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-info"></i> Informacion!</h4>
+                    No se encontraron resultados.
+                </div>
+            }
+
+            <!-- /.box -->
+
+        </div>
 
 </section>
 <!-- /.content -->

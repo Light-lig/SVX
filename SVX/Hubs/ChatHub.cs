@@ -28,7 +28,9 @@ namespace SVX.Hubs
             var conversaciones = (from c in contexto.Conversacion
                                   join m in contexto.Mensaje on c.idConversacion equals m.idConversacion
                                   join u in contexto.Usuario on m.idFrom equals u.idUsuario
-                                  where u.idUsuario == id select c
+                                  join us in contexto.Usuario on m.idTo equals us.idUsuario
+                                  where (u.idUsuario == id || us.idUsuario == id) 
+                                  select c
                                   ).ToList() ;
 
             foreach (var item in conversaciones)
@@ -55,9 +57,21 @@ namespace SVX.Hubs
             Clients.Group(idConversacion.ToString()).getMensajes(mensajes);
         }
 
-        public void send(int idTo, int idConversacion, int idFrom,string nombreFrom, string mensaje)
+        public void send(int idTo, int idConversacion, int idFrom,string nombreFrom, string mensaje, string conversacion)
         {
+            Conversacion con = new Conversacion();
+           
+            if(idConversacion == 0)
+            {
+                con.nombre = conversacion;
+                contexto.Conversacion.Add(con);
+                contexto.SaveChanges();
+                con = contexto.Conversacion.ToList().LastOrDefault();
+                idConversacion = con.idConversacion;
+                joinRoom(con.idConversacion.ToString());
+            }
             Mensaje men = new Mensaje();
+           
             men.idTo = idTo;
             men.idConversacion = idConversacion;
             men.idFrom = idFrom;
