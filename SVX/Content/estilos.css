@@ -1,100 +1,164 @@
 ﻿/* validacion visual error */
 .field-validation-error {
-    color: #e80c4d;
-    font-weight: bold;
+	color: #e80c4d;
+	font-weight: bold;
 }
 
 .input-validation-valid,
 .input-validation-valid:focus {
-    background-image: url('https://findicons.com/files/icons/1155/diagona/16/102.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    border: 1px solid #108400;
-    box-shadow: inset 0px 0px 3px #108400;
-    background-size: 16px 16px;
+	background-image: url('https://findicons.com/files/icons/1155/diagona/16/102.png');
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	border: 1px solid #108400;
+	box-shadow: inset 0px 0px 3px #108400;
+	background-size: 16px 16px;
 }
 
 .input-validation-error,
 .input-validation-error:focus {
-    background-image: url('http://findicons.com/files/icons/1014/ivista/128/error.png');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    border: 1px solid #ff0000;
-    box-shadow: inset 0px 0px 3px #ff0000;
-    background-size: 16px 16px;
+	background-image: url('http://findicons.com/files/icons/1014/ivista/128/error.png');
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	border: 1px solid #ff0000;
+	box-shadow: inset 0px 0px 3px #ff0000;
+	background-size: 16px 16px;
 }
 
 input.input-validation-error ~ span.invalid-icon {
-    display: inline-flex !important;
+	display: inline-flex !important;
 }
 
 input.input-validation-error ~ span.valid-icon {
-    display: none !important;
+	display: none !important;
 }
 
 input.valid ~ span.valid-icon {
-    display: inline-flex !important;
+	display: inline-flex !important;
 }
 
 input.valid ~ span.invalid-icon {
-    display: none !important;
+	display: none !important;
 }
 
 .validation-summary-errors {
-    color: #e80c4d;
-    font-weight: bold;
-    font-size: 1.1em;
+	color: #e80c4d;
+	font-weight: bold;
+	font-size: 1.1em;
 }
 
 .validation-summary-valid {
-    display: none;
+	display: none;
 }
 
 .form-control {
-    padding-left: 2.375rem;
+	padding-left: 2.375rem;
 }
 
 .form-control-feedback {
-    position: absolute;
-    z-index: 2;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
+	position: absolute;
+	z-index: 2;
+	display: block;
+	width: 2.375rem;
+	height: 2.375rem;
+	line-height: 2.375rem;
+	text-align: center;
+	pointer-events: none;
+	color: #aaa;
 }
 
 .badge {
-    border-radius: 0.25rem 0.25rem 0 0;
+	border-radius: 0.25rem 0.25rem 0 0;
 }
 
 /* personalizado */
 label {
-    margin: 0;
+	margin: 0;
 }
 
 .table-responsive {
-    display: inline-table;
+	display: inline-table;
 }
 
 table {
-    box-shadow: 0px 0px 0.5em #444;
-    font-size: small;
+	box-shadow: 0px 0px 0.5em #444;
+	font-size: small;
 }
 
 th,
 td {
-    text-align: center;
+	text-align: center;
 }
 #previews {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100px;
 }
-.dropdown-item.active, .dropdown-item:active {
-    color: #225db7;
-    background-color: #e7ecf0;
+.dropdown-item.active,
+.dropdown-item:active {
+	color: #225db7;
+	background-color: #e7ecf0;
+}
+#mapa {
+	height: 400px;
+	width: 100%;
+}
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: '';
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+input:checked + .slider {
+	background-color: #2196f3;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px #2196f3;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
 }

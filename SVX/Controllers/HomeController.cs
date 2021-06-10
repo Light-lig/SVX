@@ -11,6 +11,7 @@ namespace SVX.Controllers
     public class HomeController : Controller
     {
         ProyectoWeb2021Entities contexto = new ProyectoWeb2021Entities();
+        Util objUtil = new Util();
         public ActionResult Index()
         {
             /*Usuario us = (Usuario)Session["idUsuario"];
@@ -60,7 +61,8 @@ namespace SVX.Controllers
         {
             ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
                 .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
-            ano.idAnuncio = contexto.Anuncio.Count() + 1;
+
+            ano.idAnuncio = objUtil.GenerarCodigo("A");
             ano.estado = 1;
             ano.disponible = 1;
             ano.fecha = DateTime.Now;
@@ -97,7 +99,7 @@ namespace SVX.Controllers
                         {
                             Foto ft = new Foto();
                             string newFile = newName + "-" + rand + extension;
-                            ft.idFoto = contexto.Foto.Count() + 1;
+                            ft.idFoto = objUtil.GenerarCodigo("F");
                             ft.idAnuncio = ano.idAnuncio;
                             ft.ruta = newFile;
                             contexto.Foto.Add(ft);

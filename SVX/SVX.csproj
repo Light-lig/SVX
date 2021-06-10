@@ -204,6 +204,7 @@
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
   </ItemGroup>
@@ -215,6 +216,7 @@
     <Content Include="assets\vendor_components\font-awesome\css\all.css" />
     <Content Include="assets\vendor_components\sweetalert\darks.css" />
     <Content Include="Audio\mario-coin.mp3" />
+    <Content Include="base\proyectoActivas%2809-06-2021%29.sql" />
     <Content Include="Content\css\bootstrap-extend.css" />
     <Content Include="Content\css\master_style.css" />
     <Content Include="Content\css\skins\_all-skins.css" />

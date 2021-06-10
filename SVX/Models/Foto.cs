@@ -14,9 +14,9 @@ namespace SVX.Models
     
     public partial class Foto
     {
-        public int idFoto { get; set; }
+        public string idFoto { get; set; }
         public string ruta { get; set; }
-        public int idAnuncio { get; set; }
+        public string idAnuncio { get; set; }
     
         public virtual Anuncio Anuncio { get; set; }
     }

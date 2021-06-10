@@ -72,7 +72,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.idCategoria, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span><br />
-                        @Html.DropDownListFor(x => x.idCategoria, (IEnumerable<SelectListItem>)ViewBag.Categoria, 
+                        @Html.DropDownListFor(x => x.idCategoria, (IEnumerable<SelectListItem>)ViewBag.Categoria,
                         htmlAttributes: new
                             {
                                 @class = "selectpicker show-tick w-100",
@@ -95,7 +95,7 @@
             <h6>Step 2</h6>
             <section>
                 <!-- aqui deberia ir en el value el isUsuario de variable de sesion -->
-                <input type="hidden" name="idUsuario" id="idUsuario" value="2">
+                <input type="hidden" name="idUsuario" id="idUsuario" value="1">
                 <div class="form-row mt-25">
                     <div class="form-group col-md-12">
                         <div class="dropzone dz-clickable p-0">
@@ -127,6 +127,32 @@
                         @Html.ValidationMessageFor(m => m.descripcion, null, new { @class = "text-danger" })
                     </div>
                 </div>
+            </section>
+            <!-- Step 3 -->
+            <h6>Step 3</h6>
+            <section>
+                <div class="form-row mt-25">
+                    <h3>Estado del producto</h3>
+                    <div class="form-group col-md-12">
+                        <div class="form-check-inline">
+                            Usado
+                            <label class="switch ml-3 mr-3">
+                                <input type="checkbox" name="estadoProducto" id="estadoProducto" value="">
+                                <span class="slider round"></span>
+                            </label>
+                            Nuevo
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mt-25">
+                    <h3>Seleccione ubicación</h3>
+                    <div class="form-group col-md-12">
+                        <script async src="https://maps.googleapis.com/maps/api/js?v=weekly&key=AIzaSyDTrPWo_dq1_LOkKHrf4uukvOdIUrmHPSE"></script>
+                        <div id="mapa"></div>
+                    </div>
+                </div>
+                <input type="hidden" name="latitud" id="latitud" value="">
+                <input type="hidden" name="longitud" id="longitud" value="">
             </section>
         }
     </div>
