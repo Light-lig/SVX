@@ -65,7 +65,7 @@ namespace SVX.Controllers
             return View();
         }
 
-        public ActionResult ProductDetails(int id)
+        public ActionResult ProductDetails(string id)
         {
             Usuario us = (Usuario)Session["Usuario"];
             int idUser = 0;
@@ -132,8 +132,8 @@ namespace SVX.Controllers
             //var aux = Request.QueryString.AllKeys;
             if (ModelState.IsValid)
             {
-                //contexto.Anuncio.Add(ano);
-                contexto.Entry(ano).State = System.Data.Entity.EntityState.Added;
+
+                contexto.Anuncio.Add(ano);
                 contexto.SaveChanges();
                 //funciona con input
                 //IList<HttpPostedFileBase> files = Request.Files.GetMultiple("files");
@@ -177,6 +177,7 @@ namespace SVX.Controllers
             else
                 return View(ano);
         }
+  
 
         private bool ValidateExtension(string extension)
         {
@@ -310,7 +311,7 @@ namespace SVX.Controllers
                 {
                     i++;
                     anun_struct temp = new anun_struct();
-                    temp.id = item.idAnuncio;
+                    //temp.id = item.idAnuncio;
                     temp.titulo = item.titulo;
                     temp.nombre = item.nombre;
                     temp.descripcion = item.descripcion;
@@ -379,7 +380,7 @@ namespace SVX.Controllers
         {
             EditAnuncioViewModel model = new();
             var oAnuncio = contexto.Anuncio.Find(id);
-            model.IdAnuncio = oAnuncio.idAnuncio;
+          //  model.IdAnuncio = oAnuncio.idAnuncio;
             model.Titulo = oAnuncio.titulo;
             model.Nombre = oAnuncio.nombre;
             model.Marca = oAnuncio.marca;
@@ -531,21 +532,21 @@ namespace SVX.Controllers
         [HttpGet]
         public JsonResult CargarFotos(EditAnuncioViewModel model)
         {
-            var imagen = (from f in contexto.Foto
-                         where f.idAnuncio == 1
-                         orderby f.idFoto ascending
-                         select f).ToList();
-            List<Foto> datos = new();
-            List<Foto_struct> fotos = new();
-            foreach (Foto item2 in imagen)
-            {
-                Foto_struct tmp2 = new();
-                tmp2.IdAnuncio = item2.idAnuncio;
-                tmp2.Nombre = item2.ruta;
-                tmp2.IdFoto = item2.idFoto;
-                fotos.Add(tmp2);
-            }
-            return Json(new { img = fotos }, JsonRequestBehavior.AllowGet);
+            //var imagen = (from f in contexto.Foto
+            //             where f.idAnuncio == 1
+            //             orderby f.idFoto ascending
+            //             select f).ToList();
+            //List<Foto> datos = new();
+            //List<Foto_struct> fotos = new();
+            //foreach (Foto item2 in imagen)
+            //{
+            //    Foto_struct tmp2 = new();
+            //    tmp2.IdAnuncio = item2.idAnuncio;
+            //    tmp2.Nombre = item2.ruta;
+            //    tmp2.IdFoto = item2.idFoto;
+            //    fotos.Add(tmp2);
+            //}
+            return Json(new {  }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion MisAnuncios

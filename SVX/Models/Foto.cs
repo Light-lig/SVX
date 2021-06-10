@@ -17,6 +17,7 @@ namespace SVX.Models
         public string idFoto { get; set; }
         public string ruta { get; set; }
         public string idAnuncio { get; set; }
+    
         public virtual Anuncio Anuncio { get; set; }
     }
 }
