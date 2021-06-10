@@ -58,3 +58,18 @@
 
 </section>
 <!-- /.content -->
+
+
+<h2>DisplayImages</h2>
+
+<div class="jumbotron">
+    <form action="~/Home/SaveUploadedFile" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
+        </div>
+        <div id="previews" class="dz-message needsclick">
+
+        </div>
+    </form>
+</div>

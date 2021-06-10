@@ -7,7 +7,7 @@ $(function () {
     $('.money').keypress(function (e) {
         return /^[0-9]*\.?[0-9]{0,2}$/.test($(this).val() + e.key);
     });
-    var myDropzone = new Dropzone('#dropzoneForm', {
+    var myDropzone = new Dropzone('#dropzoneForm, #formEditarAnuncio', {
         autoProcessQueue: false,
         maxFilesize: 5,
         uploadMultiple: true,

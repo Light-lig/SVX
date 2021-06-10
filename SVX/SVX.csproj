@@ -224,6 +224,11 @@
     <Compile Include="util\Utilidades.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="archivos\imagen-1-ALV.jpg" />
+    <Content Include="archivos\imagen-2-ALV.jpg" />
+    <Content Include="archivos\imagen-3-ALV.jpg" />
+    <Content Include="archivos\imagen-4-ALV.jpg" />
+    <Content Include="archivos\imagen-5-ALV.jpg" />
     <Content Include="assets\vendor_components\bootstrap-select\bootstrap-select.min.css" />
     <Content Include="assets\vendor_components\bootstrap-select\bootstrap-select.min.js" />
     <Content Include="assets\vendor_components\dropzone\dropzone.css" />
@@ -8457,7 +8462,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="archivos\" />
     <Folder Include="assets\vendor_components\flat-color-icons\PNG\512\A\" />
   </ItemGroup>
   <ItemGroup>
@@ -9389,6 +9393,7 @@
     <Content Include="Views\Home\Anuncios\EditProduct.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Home\_Categories.cshtml" />
+    <Content Include="Views\Home\Anuncios\EditarAnuncio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

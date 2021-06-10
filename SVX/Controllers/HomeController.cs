@@ -110,7 +110,8 @@ namespace SVX.Controllers
             //var aux = Request.QueryString.AllKeys;
             if (ModelState.IsValid)
             {
-                contexto.Anuncio.Add(ano);
+                //contexto.Anuncio.Add(ano);
+                contexto.Entry(ano).State = System.Data.Entity.EntityState.Added;
                 contexto.SaveChanges();
                 //funciona con input
                 //IList<HttpPostedFileBase> files = Request.Files.GetMultiple("files");
@@ -265,6 +266,13 @@ namespace SVX.Controllers
             public string fecha { get; set; }
         }
 
+        private struct Foto_struct
+        {
+            public int IdFoto { get; set; }
+            public string Nombre { get; set; }
+            public int IdAnuncio { get; set; }
+        }
+
         [HttpGet]
         public JsonResult GetMisAnuncios()
         {
@@ -272,6 +280,7 @@ namespace SVX.Controllers
             {
                 var query = from a in contexto.Anuncio
                             select a;
+
                 List<Anuncio> datos = query.ToList();
                 List<anun_struct> datosF = new List<anun_struct>();
                 int i = 0;
@@ -290,8 +299,8 @@ namespace SVX.Controllers
                     if (item.disponible == 1)
                     {
                         temp.disponible = "<span class=\"label bg-green\" >Disponible</span>";
-                        temp.opc = "<div class=\"btn-group\">"+
-                            "<a role=\"button\" class=\"btn text-white btn-success\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Marcar como vendido\">" +
+                        temp.opc = "<div class=\"btn-group\">" +
+                            "<a role=\"button\" class=\"btn text-white btn-success\" id=\"btnMarcar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Marcar como vendido\">" +
                         "<i class=\"fa fa-shopping-cart\"></i>" +
                         "</a>" +
                         "<a role=\"button\" class=\"btn text-white btn-info\" id=\"btnEditar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Editar anuncio\">" +
@@ -299,7 +308,7 @@ namespace SVX.Controllers
                         "</a>" +
                         "<a role=\"button\" class=\"btn text-white btn-danger\" id=\"btnEliminar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Eliminar anuncio\">" +
                               "<i class=\"fa fa-trash\"></i>" +
-                        "</a>"+
+                        "</a>" +
                         "</div>";
                     }
                     else
@@ -319,21 +328,23 @@ namespace SVX.Controllers
                         temp.estado = "<span class=\"label bg-warning\" >Usado</span>";
                     }
 
-                    //temp.opc = "<a href=\"javascript:void(0)\" class=\"text-info pr-10\" style=\"font-size: 22px;\" data-toggle=\"tooltip\" data-original-title=\"Edit\">" +
-                    //    "<i class=\"ti-marker-alt\"></i>" +
-                    //    "</a>" +
-                    //    "<a href = \"javascript:void(0)\" class=\"text-danger\" data-original-title=\"Eliminar\" data-toggle=\"tooltip\" id=\"btnEliminarAnuncio\">" +
-                    //    "<i class=\"ti-trash\" style=\"font-size: 22px;\"></i>" +
-                    //    "</a>";
+                    var imagen = (from f in contexto.Foto
+                                  where f.idAnuncio == item.idAnuncio
+                                  orderby f.idFoto ascending
+                                  select f).Take(1);
+                    
+                    foreach(Foto item2 in imagen)
+                    {
+                        temp.foto = "<img src=\"../archivos/"+ item2.ruta + "\" alt=\"" + item2.idFoto + "\" width=\"80\">";
+                    }
 
-                    temp.foto = "<img src=\"/images/product/product-" + (i + 1) + ".png\" alt=\"product-" + (i + 1) + "\" width=\"80\">";
                     DateTime dateTime = (DateTime)item.fecha;
-
                     temp.fecha = dateTime.ToString("dddd, dd MMMM yyyy");
+
                     datosF.Add(temp);
                 }
-
-                return Json(new { data = datosF }, JsonRequestBehavior.AllowGet);
+                
+                return Json(new { data = datosF}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -341,8 +352,28 @@ namespace SVX.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult EditarAnuncio(int id)
+        {
+            EditAnuncioViewModel model = new();
+            var oAnuncio = contexto.Anuncio.Find(id);
+            model.IdAnuncio = oAnuncio.idAnuncio;
+            model.Titulo = oAnuncio.titulo;
+            model.Nombre = oAnuncio.nombre;
+            model.Marca = oAnuncio.marca;
+            model.Modelo = oAnuncio.modelo;
+            model.Precio = oAnuncio.precio;
+            model.IdCategoria = oAnuncio.idCategoria;
+            model.Descripcion = oAnuncio.descripcion;
+            model.Estado = oAnuncio.estado;
+            model.files = oAnuncio.files;
+            model.Disponible = oAnuncio.disponible;
+            return View("~/Views/Home/Anuncios/EditarAnuncio.cshtml", model);
+        }
+
+
         [HttpPost]
-        public JsonResult EditarAnuncio(EditAnuncioViewModel model)
+        public JsonResult DbEditarAnuncio(EditAnuncioViewModel model)
         {
             try
             {
@@ -352,11 +383,85 @@ namespace SVX.Controllers
                 oAnuncio.modelo = model.Modelo;
                 oAnuncio.marca = model.Marca;
                 oAnuncio.precio = model.Precio;
-                oAnuncio.descripcion = model.Descripcion;
+                oAnuncio.descripcion = model.Descripcion;                
+                oAnuncio.files = model.files;
 
+                //const int maxFileLength = 5242880;
+                //Random r = new Random();
+
+                //foreach (HttpPostedFileBase file in model.files)
+                //{
+                //    if (file != null && (file.ContentLength > 0 && file.ContentLength <= maxFileLength))
+                //    {
+                //        string path = HttpContext.Server.MapPath(@"~/archivos");
+                //        bool exists = System.IO.Directory.Exists(path);
+                //        string newName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                //        int rand = r.Next();
+                //        if (!exists)
+                //            System.IO.Directory.CreateDirectory(path);
+                //        string extension = Path.GetExtension(file.FileName);
+                //        bool stateExt = false;
+                //        if (ValidateExtension(extension))
+                //            stateExt = true;
+                //        else
+                //            TempData["MessageError"] = "Solo .jpg, .png y .jpeg";
+                //        if (stateExt)
+                //        {
+                //            Foto ft = new Foto();
+                //            string newFile = newName + "-" + rand + extension;
+                //            ft.idFoto = contexto.Foto.Count() + 1;
+                //            ft.idAnuncio = model.IdAnuncio;
+                //            ft.ruta = newFile;
+                //            contexto.Foto.Add(ft);
+                //            contexto.SaveChanges();
+                //            var ServerSavePath = Path.Combine(path, newFile);
+                //            file.SaveAs(ServerSavePath);
+                //        }
+                //    }
+                //    else
+                //        TempData["MessageError"] = "Archivo no debe ser mayor que 5mb.";
+                //}
+
+                TempData["Message"] = "Se actualizo con exito el anuncio.";
                 contexto.Entry(oAnuncio).State = System.Data.Entity.EntityState.Modified;
-                contexto.SaveChanges();
+                contexto.SaveChanges();                
                 return Json("ok");
+            }
+            catch (DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Trace.TraceInformation("Property: {0} Error: {1}",
+                            validationError.PropertyName,
+                            validationError.ErrorMessage);
+                    }
+                }
+                return Json("error al editar control");
+            }
+        }
+
+        [HttpGet]
+        public JsonResult EliminarAnuncio(int id)
+        {
+            try
+            {                
+                var del = from a in contexto.Anuncio
+                          join f in contexto.Foto on a.idAnuncio equals f.idAnuncio
+                          where a.idAnuncio.Equals(id)
+                          select new { idA = a, idF = f };
+
+                foreach(var item in del)
+                {
+                    contexto.Foto.Remove(item.idF);
+                    contexto.Anuncio.Remove(item.idA);
+                    contexto.Entry(item.idF).State = System.Data.Entity.EntityState.Deleted;
+                    contexto.Entry(item.idA).State = System.Data.Entity.EntityState.Deleted;
+                }
+                
+                contexto.SaveChanges();
+                return Json("ok", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -374,16 +479,16 @@ namespace SVX.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult EliminarAnuncio(EditAnuncioViewModel model)
+        [HttpGet]
+        public JsonResult CambiarDisponibilidad(int id)
         {
             try
             {
-                var oAnuncio = contexto.Anuncio.Remove(contexto.Anuncio.FirstOrDefault(x => x.idAnuncio == model.IdAnuncio));
-
-                contexto.Entry(oAnuncio).State = System.Data.Entity.EntityState.Deleted;
+                var oAnuncio = contexto.Anuncio.Find(id);
+                oAnuncio.disponible = 0;
+                contexto.Entry(oAnuncio).State = System.Data.Entity.EntityState.Modified;
                 contexto.SaveChanges();
-                return Json("ok");
+                return Json("ok", JsonRequestBehavior.AllowGet);
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -399,6 +504,26 @@ namespace SVX.Controllers
 
                 return Json("F");
             }
+        }
+
+        [HttpGet]
+        public JsonResult CargarFotos(EditAnuncioViewModel model)
+        {
+            var imagen = (from f in contexto.Foto
+                         where f.idAnuncio == 1
+                         orderby f.idFoto ascending
+                         select f).ToList();
+            List<Foto> datos = new();
+            List<Foto_struct> fotos = new();
+            foreach (Foto item2 in imagen)
+            {
+                Foto_struct tmp2 = new();
+                tmp2.IdAnuncio = item2.idAnuncio;
+                tmp2.Nombre = item2.ruta;
+                tmp2.IdFoto = item2.idFoto;
+                fotos.Add(tmp2);
+            }
+            return Json(new { img = fotos }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion MisAnuncios

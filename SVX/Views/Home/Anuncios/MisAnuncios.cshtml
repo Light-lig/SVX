@@ -1,58 +1,66 @@
 ﻿@{
     ViewBag.Title = "MisAnuncios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    @model SVX.Models.ViewModels.EditAnuncioViewModel
 
+    if (ViewBag.Message != null)
+    {
+        <script>mostrarAlerta('success', ViewBag.Message);</script>
+    }
+    if (ViewBag.MessageError != null)
+    {
+        <script>mostrarAlerta('error', ViewBag.MessageError);</script>
+    }
 }
 
 <script>
     $(document).ready(function () {
 
-        function LlenarModal(id, titulo, nombre, descrip, modelo, marca, precio, condicion, estado) {
-            let modalForm = $("#modal-fill");
-            modalForm.modal('show');
-            var txtPrecio = parseFloat(precio.substring(1));
-            modalForm.find("#IdAnuncio").val(id);
-            modalForm.find("#tituloBox").text(titulo);
-            modalForm.find("#Titulo").val(titulo);
-            modalForm.find("#Nombre").val(nombre);
-            modalForm.find("#Descripcion").val(descrip);
-            modalForm.find("#Modelo").val(modelo);
-            modalForm.find("#Marca").val(marca);
-            modalForm.find("#Precio").val(txtPrecio);
-            modalForm.find("#Condicion").val(condicion);
-            modalForm.find("#Estado").val(estado);
+        function cargarDatos(id, dataID) {
+
+
+            switch (id) {
+                case "btnEliminar":
+                    confirmarOpcion("eliminar", dataID);
+                    break;
+                case "btnEditar":
+                    let url = "@Url.Action("EditarAnuncio","Home")?id=" + dataID;
+                    $(location).prop('href', url);
+                    break;
+                case "btnMarcar":
+                    confirmarOpcion("marcar", dataID);
+                    break;
+                default:
+                    console.error("[ERROR] opcion incorrecta.")
+                    break;
+            }
         }
 
-        function editarAnuncio() {
+        function eliminarAnuncio(id) {
             $.ajax({
-                 url: "@Url.Action("EditarAnuncio","Home")",
-                 type: "POST",
-                 cache: false,
-                data: $("#formEditarAnuncio").serialize()
-            }).done(function (respuesta) {
-                console.log(respuesta);                              
-            }).fail(function () {
-                console.error('[ERROR] en editar !');
-                 });
-        }
-
-        function eliminarAnuncio() {
-            $.ajax({
-                 url: "@Url.Action("EliminarAnuncio","Home")",
-                 type: "POST",
-                 cache: false,
-                data: $("#formEditarAnuncio").serialize()
+                url: "@Url.Action("EliminarAnuncio","Home")?id=" + id,
+                 type: "GET",
+                 cache: false
                  }).done(function (respuesta) {
                      console.log(respuesta);
-                                         
+                     refrescarTabla();
                  }).fail(function () {
                      console.error('[ERROR] en eliminar !');
                  });
         }
 
-        function confirmarOpcion(opcion) {
+        function marcarAnuncio(id) {
+            $.ajax({
+                url: "@Url.Action("CambiarDisponibilidad", "Home")?id=" + id,
+                 type: "GET",
+                 cache: false
+                 }).done(function (respuesta) {
+                     console.log(respuesta);
+                     refrescarTabla();
+                 }).fail(function () {
+                     console.error('[ERROR] en cambiar disponibilidad !');
+                 });
+        }
 
+        function confirmarOpcion(opcion, id) {
             let _titulo = "";
 
             switch (opcion) {
@@ -61,6 +69,9 @@
                     break;
                 case "eliminar":
                     _titulo = "¿Está seguro que desea eliminar este archivo de forma permanente?";
+                    break;
+                case "marcar":
+                    _titulo = "¿Está seguro que desea marcar este anuncio como Vendido?";
                     break;
             }
 
@@ -83,23 +94,20 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     let _opc = "";
-                    if (opcion == "editar") {
-                        editarAnuncio();
-                        _opc = "Editado";
+                    if(opcion == "eliminar") {
+                        eliminarAnuncio(id);
+                        _opc = "Eliminado";
                     }
                     else {
-                        eliminarAnuncio();
-                        _opc = "Eliminado";
+                        _opc = "Vendido";
+                        marcarAnuncio(id);
                     }
                     swalWithCustomButtons.fire(
                         _opc + '!',
                         'El anuncio fue ' + _opc + ' con exito.',
                         'success'
                     )
-                    $("#modal-fill").modal("hide");
-                    $('#tablaMisAnuncios').DataTable().ajax.reload();
                 } else if (
-                    /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
                     swalWithCustomButtons.fire(
@@ -107,7 +115,6 @@
                         'El ' + opcion + " fue cancelado.",
                         'error'
                     )
-                    $("#modal-fill").modal("hide");
                 }
             })
         }
@@ -125,7 +132,6 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
                 },
                 data: function (response) {
-                    console.log(response);
                     return JSON.stringify(response);
                 }
             },
@@ -156,24 +162,25 @@
         var table = $('#tablaMisAnuncios').DataTable();
 
         $('#tablaMisAnuncios tbody').on('click', 'tr a', function (event) {
-            console.log("A: " + this);            
-            let txtId = event.id;
-
-            console.log("ID: " + txtId);
-
             let row = $(this).parent().parent();
-            console.log(row);
             var data = table.row(row).data();
-            console.log("TR: " + data);                        
-            console.log('#: ' + data.id);
-            LlenarModal(data.id, data.titulo, data.nombre, data.descripcion, data.modelo, data.marca, data.precio, data.condicion, data.estado);           
-        });
-
-        $("#Descripcion").css("resize", "none");
-
-        $("#btnEditar").on("click", function () {
-            console.log("Editar");
-            confirmarOpcion("editar");
+            let id = $(this).attr('id');
+            console.log("id: " + id);
+            cargarDatos(id, data.id);
+            switch (id) {
+                case "btnEliminar":
+                    cargarDatos(id, data.id);
+                    break;
+                case "btnEditar":
+                    cargarDatos(id, data.id);
+                    break;
+                case "btnMarcar":
+                    cargarDatos(id, data.id);
+                    break;
+                default:
+                    console.error("[ERROR] opcion incorrecta.")
+                    break;
+            }
         });
 
         $("#btnEliminar").on("click", function () {
@@ -181,11 +188,9 @@
             confirmarOpcion("eliminar");
         });
 
-        $('#modal-fill').on('hidden.bs.modal', function () {
-            $("#modal-fill").find("input,textarea,select").val("");
-        });
-
-        $('[data-toggle="tooltip"]').tooltip();
+        function refrescarTabla() {
+            $('#tablaMisAnuncios').DataTable().ajax.reload();
+        }
     })
 </script>
 
@@ -236,112 +241,3 @@
     </div>
 </section>
 <!-- /.content -->
-<!-- Modal -->
-<div class="modal modal-fill fade" data-backdrop="false" id="modal-fill" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            @*<div class="modal-header">
-                    <h5 class="modal-title" id="modalTitulo">:Modal title</h5>
-                    <a role="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
-                </div>*@
-            <div class="modal-body">
-                <!-- Validation wizard -->
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h4 class="box-title" id="tituloBox">:Titulo</h4>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        @using (Html.BeginForm("MisAnuncios", "Home", FormMethod.Post, htmlAttributes: new { id = "formEditarAnuncio" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <!-- Step 1 -->
-                            <section>
-                                @Html.HiddenFor(x => x.IdAnuncio)
-                                <div class="form-row mt-30">
-                                    <div class="form-group col-md-6">
-                                        @Html.LabelFor(x => x.Titulo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
-                                        @Html.TextBoxFor(x => x.Titulo, htmlAttributes: new { @class = "form-control leras required", @placeholder = "Titulo" })
-                                        @Html.ValidationMessageFor(m => m.Titulo, null, new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            @Html.LabelFor(x => x.Nombre, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                            <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
-                                            @Html.TextBoxFor(x => x.Nombre, htmlAttributes: new { @class = "form-control required", @placeholder = "Nombre" })
-                                            @Html.ValidationMessageFor(m => m.Nombre, null, new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        @Html.LabelFor(x => x.Modelo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
-                                        @Html.TextBoxFor(x => x.Modelo, htmlAttributes: new { @class = "form-control required", @placeholder = "Modelo" })
-                                        @Html.ValidationMessageFor(m => m.Modelo, null, new { @class = "text-danger" })
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        @Html.LabelFor(x => x.Marca, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
-                                        @Html.TextBoxFor(x => x.Marca, htmlAttributes: new { @class = "form-control required", @placeholder = "Marca" })
-                                        @Html.ValidationMessageFor(m => m.Marca, null, new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-6">
-                                        @Html.LabelFor(x => x.Precio, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
-                                        @Html.TextBoxFor(x => x.Precio, htmlAttributes: new { @class = "form-control money required", @placeholder = "Precio" })
-                                        @Html.ValidationMessageFor(m => m.Precio, null, new { @class = "text-danger" })
-                                    </div>
-                                    <div class="col-md-6">
-                                        @Html.LabelFor(x => x.Estado, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>                                        
-                                        <select name="cars" class="custom-select">
-                                            <option selected disabled>Estado del producto</option>
-                                            <option value="1">Nuevo</option>
-                                            <option value="o">Usado</option>                                            
-                                        </select>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <!-- Step 2 -->
-
-                            <section>
-                                <!-- aqui deberia ir en el value el isUsuario de variable de sesion -->
-                                <input type="hidden" name="idUsuario" id="idUsuario" value="2">
-                                <div class="form-row mt-25">
-                                    <div class="form-group col-md-12">
-                                        @Html.LabelFor(x => x.Descripcion, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
-                                        @Html.TextAreaFor(x => x.Descripcion, htmlAttributes: new { @class = "form-control required", @placeholder = "Descripcion" })
-                                        @Html.ValidationMessageFor(m => m.Descripcion, null, new { @class = "text-danger", style = "resize: none;" })
-                                    </div>
-                                </div>
-                            </section>
-                        }
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal" role="button">
-                    <i class="fa fa-window-close"></i>&nbsp;&nbsp;Cerrar&nbsp;
-                </a>
-                <div class="float-right">
-                    <a role="button" class="btn btn-bold btn-pure btn-info text-white" id="btnEditar">
-                        <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar&nbsp;
-                    </a>
-                    <a role="button" class="btn btn-bold btn-pure btn-danger text-white" id="btnEliminar">
-                        <i class="fa fa-trash"></i>&nbsp;&nbsp;Eliminar&nbsp;
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /.modal -->
