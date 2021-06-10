@@ -2,22 +2,51 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using SVX.Hubs;
 namespace SVX.Controllers
 {
     public class HomeController : Controller
     {
         ProyectoWeb2021Entities contexto = new ProyectoWeb2021Entities();
         Util objUtil = new Util();
-        public ActionResult Index()
+
+        public ActionResult Index(int id = 0, int idDepartamento = 0,  string filtro = "", int limit = 25)
         {
-            /*Usuario us = (Usuario)Session["idUsuario"];
-            var productos = (from a in contexto.Anuncio
+            Usuario us = (Usuario)Session["Usuario"];
+            int idDepto = 0;
+            if(us != null)
+            {
+                idDepto = us.idDepartamento;
+            }
+            var resultados = (from a in contexto.Anuncio
                              join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
-                             where ((u.idDepartamento == ((us==null)?null:us.idDepartamento)) || (us == null)) select a).ToList();*/
+                             where  ((u.idDepartamento.Equals(idDepartamento)||(idDepartamento.Equals(0))) &&
+                                    ((a.idCategoria.Equals(id)) || (id == 0)) &&
+                                    ((a.titulo.Contains(filtro)) || (filtro == "")))
+                                    select a).ToList();
+            int limiteFinal = 0;
+            if (resultados.Count < limit)
+            {
+                limiteFinal = resultados.Count;
+            }
+            else
+            {
+                limiteFinal = limit;
+            }
+
+            var productos = resultados.Take(limiteFinal).ToList();
+
+            /*((u.idDepto.Equals(idDepto)) || (idDepto == 0)) &&*/
+
+            var departamentos = contexto.Departamento.ToList();
+            ViewBag.resultados = resultados.Count();
+            ViewBag.departamentos = departamentos;
+            ViewBag.productos = productos;
+            ViewBag.limite = limit;
             return View();
         }
 
@@ -35,8 +64,27 @@ namespace SVX.Controllers
             return View();
         }
         
-        public ActionResult ProductDetails()
+        public ActionResult ProductDetails(int id)
         {
+            Usuario us = (Usuario)Session["Usuario"];
+            int idUser = 0;
+            if(us != null)
+            {
+                idUser = us.idUsuario;
+            }
+            var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
+
+            var conversacion = (from m in contexto.Mensaje 
+                                join u in contexto.Usuario on  m.idTo equals u.idUsuario
+                                join a in contexto.Anuncio on  u.idUsuario equals a.idUsuario
+                                where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser))|| (idUser.Equals(0)) &&
+                                       (a.idAnuncio.Equals(id)) 
+                                select m).FirstOrDefault();
+
+            var productosRelacionados = contexto.Anuncio.ToList().Take(4);
+            ViewBag.producto = producto;
+            ViewBag.productosRelacionados = productosRelacionados;
+            ViewBag.conversacion = conversacion;
             return View();
         }
 
@@ -47,14 +95,25 @@ namespace SVX.Controllers
 
         public ActionResult Registrarme()
         {
+            var departamentos = contexto.Departamento.ToList();
+            ViewBag.Departamentos = departamentos;
             return View();
         }
 
         public ActionResult AddProduct()
         {
-            ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
-                .OrderBy(x=>x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString()});
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
+                 .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+
         }
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddProduct(Anuncio ano)
@@ -146,10 +205,24 @@ namespace SVX.Controllers
         {
             return View("~/Views/Home/Anuncios/EditProduct.cshtml");
         }
-        public ActionResult Chat()
+        #region apartado chat
+
+
+
+        public ActionResult Chat(int idUser = 0, int idConver = 0)
         {
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if(us != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+           
         }
+        #endregion
         [ChildActionOnly]
         public ActionResult RenderCategories()
         {
@@ -164,13 +237,38 @@ namespace SVX.Controllers
             Usuario user = contexto.Usuario.Where(u => u.email.Equals(us.email) && u.pass.Equals(us.pass)).FirstOrDefault();
             if (user == null)
             {
-                return View();
+                return Json(new { result = false });
             }
             else
             {
-                Session["idUsuario"] = user;
-                return RedirectToAction("Index");
+                Session["Usuario"] = user;
+                return Json(new { result = "/Home/Index"});
             }
+        }
+
+        [HttpPost]
+        public ActionResult Registrarme(Usuario us)
+        {
+            var usuarioExistente = contexto.Usuario.Where(u => u.email.Equals(us.email)).FirstOrDefault(); 
+            if(usuarioExistente != null)
+            {
+                return Json(new { result = false, mensaje = "El correo especificado ya esta asociado a una cuenta, favor utilizar otro correo." });
+            }
+            else
+            {
+                contexto.Usuario.Add(us);
+                contexto.SaveChanges();
+                var usuario = contexto.Usuario.ToList().Last();
+                Session["Usuario"] = usuario;
+                return Json(new { result = "/Home/Index", mensaje = "Bien hecho, Bienvenido a nuestro sitio." });
+            }
+
+        }
+
+        public ActionResult CerrarSession()
+        {
+            Session.Clear();
+            return RedirectToAction("Index");
         }
     }
 }

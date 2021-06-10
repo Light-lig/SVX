@@ -12,7 +12,60 @@
 </style>
 @section scripts {
     <script>
-        $("#form-login").validate();
+        $("#form-login").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                pass: {
+                    required: true
+                }
+            },
+            messages: {
+                email: {
+                    required: "Este campo es requerido.",
+                    email:"El correo no es valido"
+                },
+                pass: {
+                    required: "Este campo es requerido.",
+                }
+            },
+            submitHandler: function (form) {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: $(form).serialize(),
+                    url: '/Home/Login',
+                    success: function (respuesta) {
+                        if (respuesta.result === false) {
+                            $.toast({
+                                heading: 'Bienvenido a SVX',
+                                text: 'El usuario o la contrasenia son incorrectos.',
+                                position: 'top-right',
+                                loaderBg: '#ff6849',
+                                icon: 'warning',
+                                hideAfter: 3000,
+                                stack: 6
+                            });                
+                        } else {
+                            window.location.href = respuesta.result;
+                        }
+                    },
+                    error: function () {
+                        $.toast({
+                            heading: 'Bienvenido a SVX',
+                            text: 'Ocurrio un error al momento de conectarse.',
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: 'error',
+                            hideAfter: 3500
+
+                        });                    }
+                });
+            }
+        });
     </script>
   
 }
@@ -70,7 +123,7 @@
                                 <span class="ion ion-email form-control-feedback"></span>
                             </div>
                             <div class="form-group has-feedback">
-                                @Html.PasswordFor(us => us.contrasenia, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
+                                @Html.PasswordFor(us => us.pass, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
                                 <span class="ion ion-locked form-control-feedback"></span>
                             </div>
                             <div class="row">
@@ -106,7 +159,7 @@
                         <!-- /.social-auth-links -->
 
                         <div class="margin-top-30 text-center">
-                            <p>Don't have an account? <a href="register.html" class="text-warning ml-5">Sign Up</a></p>
+                            <p>Don't have an account? @Html.ActionLink("Registrarme","Registrarme", null, htmlAttributes:new { @class="text-warning" }) </p>
                         </div>
 
                     </div>

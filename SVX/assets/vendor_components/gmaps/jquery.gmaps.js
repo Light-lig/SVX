@@ -15,22 +15,6 @@ $(document).ready(function(){
 // Marker Map
 
 
-    $(document).ready(function(){
-      map = new GMaps({
-        el: '#markermap',
-        lat: 25.7617,
-        lng: -80.1918
-        
-      });
-      map.addMarker({
-        lat: 25.7617,
-        lng: -80.1918,
-        title: 'Marker with InfoWindow',
-        infoWindow: {
-          content: '<p>Miami City</p>'
-        }
-      });
-    });
 
 
 // Overlayer

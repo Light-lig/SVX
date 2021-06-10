@@ -15,9 +15,14 @@ namespace SVX
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{id}/{idDepartamento}/{filtro}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, idDepartamento = UrlParameter.Optional, filtro = UrlParameter.Optional }
             );
+            routes.MapRoute(
+               name: "Chat",
+               url: "{controller}/{action}/{idUser}/{idConver}",
+               defaults: new { controller = "Home", action = "Chat", idUser = UrlParameter.Optional, idConver = UrlParameter.Optional }
+           );
         }
     }
 }

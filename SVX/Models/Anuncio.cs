@@ -29,10 +29,12 @@ namespace SVX.Models
         public string titulo { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
+
         public string modelo { get; set; }
         public string marca { get; set; }
         public int idCategoria { get; set; }
         public int idUsuario { get; set; }
+
         public decimal precio { get; set; }
         public Nullable<int> disponible { get; set; }
         public decimal latitud { get; set; }
@@ -40,7 +42,8 @@ namespace SVX.Models
         public Nullable<System.DateTime> fecha { get; set; }
         public int estadoProducto { get; set; }
         public Nullable<int> estado { get; set; }
-    
+
+
         public virtual Categoria Categoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Foto> Foto { get; set; }
