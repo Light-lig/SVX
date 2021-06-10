@@ -218,6 +218,7 @@
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
     <Compile Include="util\Utilidades.cs" />
@@ -234,6 +235,7 @@
     <Content Include="assets\vendor_components\font-awesome\HELP-US-OUT.txt" />
     <Content Include="assets\vendor_components\sweetalert\darks.css" />
     <Content Include="Audio\mario-coin.mp3" />
+    <Content Include="base\proyectoActivas%2809-06-2021%29.sql" />
     <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.js" />
     <Content Include="assets\vendor_components\popper\dist\esm\popper-utils.min.js" />
     <Content Include="assets\vendor_components\popper\dist\esm\popper.js" />

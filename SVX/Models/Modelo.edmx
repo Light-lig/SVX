@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="idAnuncio" />
           </Key>
-          <Property Name="idAnuncio" Type="int" Nullable="false" />
+          <Property Name="idAnuncio" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="titulo" Type="varchar" MaxLength="35" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="150" Nullable="false" />
@@ -19,7 +19,10 @@
           <Property Name="idUsuario" Type="int" Nullable="false" />
           <Property Name="precio" Type="money" Nullable="false" />
           <Property Name="disponible" Type="int" />
+          <Property Name="latitud" Type="decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="longitud" Type="decimal" Precision="11" Scale="8" Nullable="false" />
           <Property Name="fecha" Type="date" />
+          <Property Name="estadoProducto" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" />
         </EntityType>
         <EntityType Name="Categoria">
@@ -48,9 +51,9 @@
           <Key>
             <PropertyRef Name="idFoto" />
           </Key>
-          <Property Name="idFoto" Type="int" Nullable="false" />
+          <Property Name="idFoto" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ruta" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="idAnuncio" Type="int" Nullable="false" />
+          <Property Name="idAnuncio" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Mensaje">
           <Key>
@@ -246,7 +249,7 @@
           <Key>
             <PropertyRef Name="idAnuncio" />
           </Key>
-          <Property Name="idAnuncio" Type="Int32" Nullable="false" />
+          <Property Name="idAnuncio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="titulo" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
@@ -256,7 +259,10 @@
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
           <Property Name="precio" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="disponible" Type="Int32" />
+          <Property Name="latitud" Type="Decimal" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="longitud" Type="Decimal" Precision="11" Scale="8" Nullable="false" />
           <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="estadoProducto" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" />
           <NavigationProperty Name="Categoria" Relationship="Self.fk_AnunCat" FromRole="Anuncio" ToRole="Categoria" />
           <NavigationProperty Name="Foto" Relationship="Self.fk_AnunFot" FromRole="Anuncio" ToRole="Foto" />
@@ -293,9 +299,9 @@
           <Key>
             <PropertyRef Name="idFoto" />
           </Key>
-          <Property Name="idFoto" Type="Int32" Nullable="false" />
+          <Property Name="idFoto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ruta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="idAnuncio" Type="Int32" Nullable="false" />
+          <Property Name="idAnuncio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Anuncio" Relationship="Self.fk_AnunFot" FromRole="Foto" ToRole="Anuncio" />
         </EntityType>
         <EntityType Name="Mensaje">
@@ -511,7 +517,10 @@
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="precio" ColumnName="precio" />
                 <ScalarProperty Name="disponible" ColumnName="disponible" />
+                <ScalarProperty Name="latitud" ColumnName="latitud" />
+                <ScalarProperty Name="longitud" ColumnName="longitud" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estadoProducto" ColumnName="estadoProducto" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
               </MappingFragment>
             </EntityTypeMapping>
