@@ -17,22 +17,33 @@
                 <form role="form" class="form-element">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <label for="exampleInputEmail1">Nombre</label>
+                            <input type="text" class="form-control" id="exampleName" placeholder="Enter name">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
+                            <label for="exampleInputEmail1">Apellido</label>
+                            <input type="text" class="form-control" id="exampleLastName" placeholder="Enter last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Contraseña</label>
                             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
-                            <input type="file" id="exampleInputFile">
-
-                            <p class="help-block text-red">Example block-level help text here.</p>
+                            <label for="exampleInputPassword1">Ingrese nuevamente su Contraseña</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password Confirmation">
                         </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Telefono</label>
+                            <input type="text" class="form-control" id="examplePhone" placeholder="Enter phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Departamento</label>
+                            <input type="text" class="form-control" id="exampleDepto" placeholder="Enter Departamento">
+                        </div>
+
                         <div class="checkbox">
                             <input type="checkbox" id="basic_checkbox_1">
-                            <label for="basic_checkbox_1">Check me out</label>
+                            <label for="basic_checkbox_1">Check me out from confirm change</label>
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -55,26 +66,36 @@
                 <form role="form" class="form-element">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <label for="exampleInputEmail1">Nombre</label>
+                            <input type="text" class="form-control" id="exampleName" placeholder="Enter name">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
+                            <label for="exampleInputEmail1">Apellido</label>
+                            <input type="text" class="form-control" id="exampleLastName" placeholder="Enter last name">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Ingrese su contraseña actual</label>
                             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Confirm Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="exampleInputPassword1">Ingrese su nueva contraseña</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password Confirmation">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">File input</label>
-                            <input type="file" id="exampleInputFile">
-
-                            <p class="help-block text-red">Example block-level help text here.</p>
+                            <label for="exampleInputPassword1">Ingrese su nueva contraseña de nuevo</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password Confirmation">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Telefono</label>
+                            <input type="text" class="form-control" id="examplePhone" placeholder="Enter phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Departamento</label>
+                            <input type="text" class="form-control" id="exampleDepto" placeholder="Enter Departamento">
                         </div>
                         <div class="checkbox">
                             <input type="checkbox" id="basic_checkbox_1">
-                            <label for="basic_checkbox_1">Check me out</label>
+                            <label for="basic_checkbox_1">Check me out from confirm change</label>
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -87,4 +108,79 @@
             <!-- /.box -->
         </div>
     </div>
-    </section>
+</section>
+<script>
+        $.validator.addMethod(
+            "regex",
+            function (value, element, regexp) {
+                var re = new RegExp(regexp);
+                return this.optional(element) || !re.test(value);
+            },
+            "La contrasenia no debe tener espacios en blanco."
+        );
+        $.validator.addMethod(
+            "equelsCon",
+            function (value, element, contra) {
+                var contra = $("#" + contra).val();
+                return this.optional(element) || value === contra;
+            },
+            "Las contrasenias son diferentes."
+        );
+        setTimeout(function () {
+            $("#pass").rules("add", { regex: / / });
+            $("#contrasenia1").rules("add", { regex: / / });
+            $("#pass").rules("add", { equelsCon: "contrasenia1" });
+            $("#contrasenia1").rules("add", { equelsCon: "pass" })
+        }, 0);
+        $("#form-registrarme").validate({
+            rules: {
+                idDepartamento: {
+                    required:true
+
+                },
+                telefono: {
+                    required:true
+                },
+                apellido: {
+                    required:true
+                },
+                nombre: {
+                    required:true
+                },
+                pass: {
+                    required: true,
+                    minlength: 8
+                },
+                constrasenia1:{
+                required: true,
+                    minlength:8
+                }
+            },
+            messages: {
+                idDepartamento: {
+                    required: "Este campo es requerido.",
+                },
+                telefono: {
+                    required: "Este campo es requerido.",
+                },
+                apellido: {
+                    required: "Este campo es requerido.",
+                },
+                nombre: {
+                    required: "Este campo es requerido.",
+                },
+                pass: {
+                    required: "Este campo es requerido.",
+                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                },
+                contrasenia1: {
+                    required: "Este campo es requerido.",
+                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                }
+            },
+            contrasenia1: {
+                required: "Este campo es requerido.",
+                minlength: "La contrasenia debe contener al menos 8 caracteres."
+            }
+        },       
+</script>
