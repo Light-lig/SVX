@@ -11,37 +11,38 @@
 
 <!-- Main content -->
 <section class="content">
+    @{ 
+        SVX.Models.Usuario us = (SVX.Models.Usuario)Session["Usuario"];
 
+    }
     <div class="row">
         <div class="col-lg-12">
             <div class="box">
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
+                          
                             <div class="box box-body b-1 text-center text-center">
                                 <img src="../../../images/product/product-6.png" id="product-image" class="img-fluid" alt="" />
                             </div>
                             <div class="pro-photos">
-                                <div class="photos-item item-active">
-                                    <img src="../../../images/product/product-6.png" alt="">
-                                </div>
-                                <div class="photos-item">
-                                    <img src="../../../images/product/product-7.png" alt="">
-                                </div>
-                                <div class="photos-item">
-                                    <img src="../../../images/product/product-8.png" alt="">
-                                </div>
-                                <div class="photos-item">
-                                    <img src="../../../images/product/product-9.png" alt="">
-                                </div>
+                                @{
+                                    foreach (var item in @ViewBag.producto.Foto)
+                                    {
+                                        <div class="photos-item">
+                                            <img src="~/archivos/@item.ruta" alt="">
+                                        </div>
+                                    }
+                                }
+
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="col-md-8 col-sm-6">
-                            <h2 class="box-title mt-0">@ViewBag.producto.titulo</h2>
+                            <h1 class="box-title mt-0">@ViewBag.producto.titulo</h1>
                             <h1 class="pro-price mb-0 mt-20">
-                                &#36;@ViewBag.producto.precio
-                             
+                                &#36;@ViewBag.producto.precio.ToString("C2")
+
                             </h1>
                             <hr>
 
@@ -56,7 +57,26 @@
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                 </li>
                             </ul>
-                            <a href="~/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-primary mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+
+                            @if (us != null)
+                            {
+                                if (us.idUsuario == ViewBag.producto.idUsuario)
+                                {
+                                    <a href="#" class="btn btn-primary mr-5"><i class="mdi mdi-message"></i> Editar</a>
+
+                                }
+                                else
+                                {
+                                    <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+
+                                }
+                            }
+                            else
+                            {
+                                <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+
+                            }
+
 
                             <div class="col-sm-12 my-15">
                                 <div class="box">
@@ -87,20 +107,26 @@
 
         @foreach (var item in ViewBag.productosRelacionados)
         {
+            string nombre = "";
+            foreach (var foto in item.Foto)
+            {
+                nombre = foto.ruta;
+                break;
+            }
             <div class="col-md-12 col-lg-3">
                 <div class="box box-default">
                     <div class="fx-card-item">
                         <div class="fx-card-avatar fx-overlay-1">
-                            <img src="../../../images/card/1.jpg" alt="user">
+                            <img src="~/archivos/@nombre" alt="user">
                             <div class="fx-overlay scrl-dwn">
                                 <ul class="fx-info">
-                                    <li><a class="btn default btn-outline image-popup-vertical-fit" href="../../../images/card/1.jpg"><i class="ion-search"></i></a></li>
+                                    <li><a class="btn default btn-outline image-popup-vertical-fit" href="~/archivos/@nombre"><i class="ion-search"></i></a></li>
                                     <li><a class="btn default btn-outline" href="~/Home/ProductDetails/@item.idAnuncio"><i class="ion-link"></i></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="fx-card-content ribbon-wrapper-reverse">
-                            <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio</div>
+                            <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio.ToString("C2")</div>
                             <p class="box-text text-bold">@item.titulo</p>
 
                         </div>
@@ -121,11 +147,12 @@
 
 <script type="text/javascript">
     $(function () {
+        sessionStorage.setItem("nombreConver", '@ViewBag.producto.nombre');
         $('.icolors li').on("click", function () {
             $('.icolors li').removeClass('active');
             $(this).addClass('active');
         });
-
+        $('#product-image').attr('src', $('.item-active').children().attr('src'));
         $('.photos-item').on("click", function () {
             var src = $(this).children().attr('src');
             $('#product-image').attr('src', src);
@@ -136,13 +163,13 @@
         $(document).ready(function () {
             map = new GMaps({
                 el: '#markermap',
-                lat: parseFloat(@ViewBag.producto.latitud),
-                lng: parseFloat(@ViewBag.producto.longitud)
+                lat: parseFloat(13.69),
+                lng: parseFloat(-89.19)
 
             });
             map.addMarker({
-                lat: parseFloat(@ViewBag.producto.latitud),
-                lng: parseFloat(@ViewBag.producto.longitud),
+                lat: parseFloat(13.69),
+                lng: parseFloat(-89.19),
                 title: 'Marker with InfoWindow',
                 infoWindow: {
                     content: '<p>@ViewBag.producto.nombre</p>'

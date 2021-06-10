@@ -43,12 +43,12 @@
                                 @Html.TextBoxFor(u => u.telefono, htmlAttributes: new { @class = "form-control telefono", placeholder = "Telefono", @required = "required" })
                             </div>
                             <div class="form-group has-feedback">
-                                <select id="idDepto" name="idDepto" class="form-control" required>
-                                    <option value="0" disabled>Selecciona una opcion</option>
+                                <select id="idDepartamento" name="idDepartamento" class="form-control" required>
+                                    <option value="" disabled>Selecciona una opcion</option>
 
                                     @foreach (var item in ViewBag.Departamentos)
                                     {
-                                        <option value="@item.idDepto">@item.nombre</option>
+                                        <option value="@item.idDepartamento">@item.nombre</option>
 
                                     }
 
@@ -107,7 +107,7 @@
         }, 0);
         $("#form-registrarme").validate({
             rules: {
-                idDepto: {
+                idDepartamento: {
                     required:true
 
                 },
@@ -134,7 +134,7 @@
                 }
             },
             messages: {
-                idDepto: {
+                idDepartamento: {
                     required: "Este campo es requerido.",
                 },
                 telefono: {
@@ -178,7 +178,7 @@
                                 stack: 6
                             });
                         } else {
-                            swal(
+                            Swal.fire(
                                 'Bienvenido a SVX!',
                                 respuesta.mensaje ,
                                 'success'

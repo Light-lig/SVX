@@ -47,7 +47,6 @@ namespace SVX
 
             bundles.Add(new StyleBundle("~/assets/").Include(
 
-                     "~/assets/vendor_components/font-awesome/css/all.css",
                       "~/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css",
                          "~/assets/vendor_components/bootstrap-select/bootstrap-select.min.css",
                       "~/assets/vendor_components/datatable/datatables.min.css",
@@ -59,7 +58,9 @@ namespace SVX
                           "~/assets/vendor_components/sweetalert/sweetalert.css",
                     "~/assets/vendor_components/sweetalert/darks.css",
                     "~/Content/estilos.css",
-                      "~/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.css"
+                      "~/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.css",
+                                           "~/assets/vendor_components/font-awesome/css/font-awesome.css"
+
 
                 ));
         }

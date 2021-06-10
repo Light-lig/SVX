@@ -25,53 +25,22 @@ namespace SVX.Models
         [Display(Name = "Subir Archivo")]
         //[Required(ErrorMessage = "Por favor seleccione un archivo.")]
         public HttpPostedFileBase[] files { get; set; }
-        public int idAnuncio { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [MinLength(length: 4, ErrorMessage = "Al menos 4 caracteres")]
-        [MaxLength(length: 35, ErrorMessage = "No más de 35 caracteres")]
-        [Display(Name = "Titulo")]
+        public string idAnuncio { get; set; }
         public string titulo { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [MinLength(length: 4, ErrorMessage = "Al menos 4 caracteres")]
-        [MaxLength(length: 50, ErrorMessage = "No más de 50 caracteres")]
-        [Display(Name = "Nombre")]
         public string nombre { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [MinLength(length: 4, ErrorMessage = "Al menos 4 caracteres")]
-        [MaxLength(length: 150, ErrorMessage = "No más de 150 caracteres")]
-        [Display(Name = "Descripcion")]
         public string descripcion { get; set; }
 
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [MinLength(length: 3, ErrorMessage = "Al menos 3 caracteres")]
-        [MaxLength(length: 50, ErrorMessage = "No más de 50 caracteres")]
-        [Display(Name = "Modelo")]
         public string modelo { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [MinLength(length: 3, ErrorMessage = "Al menos 3 caracteres")]
-        [MaxLength(length: 35, ErrorMessage = "No más de 35 caracteres")]
-        [Display(Name = "Marca")]
         public string marca { get; set; }
-        
-        [Required(ErrorMessage = "Campo Requerido")]
-        [Display(Name = "Categoria")]
         public int idCategoria { get; set; }
-
-        [Required(ErrorMessage = "Campo Requerido")]
         public int idUsuario { get; set; }
 
-
-        [Required(ErrorMessage = "Campo Requerido")]
-        [DataType(DataType.Currency)]
-        [Display(Name = "Precio")]
         public decimal precio { get; set; }
         public Nullable<int> disponible { get; set; }
+        public decimal latitud { get; set; }
+        public decimal longitud { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
+        public int estadoProducto { get; set; }
         public Nullable<int> estado { get; set; }
 
 
