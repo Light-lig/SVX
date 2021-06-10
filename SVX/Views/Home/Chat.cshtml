@@ -121,10 +121,11 @@
             };
 
             chat.client.getMensajes = function (mensajes) {
-
+             
                 var mensajesDiv = "";
                 var idUsuario = @usuario.idUsuario;
                 mensajes.map(item => {
+                    var today = new Date(item.fecha);
                     if (item.idFrom == idUsuario) {
 
                         mensajesDiv += '<div class="direct-chat-msg right mb-30">';
@@ -133,7 +134,7 @@
                         mensajesDiv += '<p>';
                         mensajesDiv += '<span class="direct-chat-name">You</span><br />';
                         mensajesDiv += ''+item.mensaje1+'<br />';
-                        mensajesDiv += '<small>' + item.fecha + '</small>';
+                        mensajesDiv += '<small>' + today.toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + '</small>';
                         mensajesDiv += '</p>';
                         mensajesDiv += '</div>';
                         mensajesDiv += '</div>';
@@ -149,7 +150,7 @@
                         mensajesDiv += '<p>';
                         mensajesDiv += '<span class="direct-chat-name">' + item.Usuario1.nombre + '</span><br />';
                         mensajesDiv += '' + item.mensaje1 + '<br />';
-                        mensajesDiv += '<small>' + item.fecha + '</small>';
+                        mensajesDiv += '<small>' + today.toLocaleTimeString([], { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + '</small>';
                         mensajesDiv += '</p>';
 
                         mensajesDiv += '</div>';

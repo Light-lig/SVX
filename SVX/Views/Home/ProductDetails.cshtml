@@ -39,9 +39,9 @@
                             <div class="clear"></div>
                         </div>
                         <div class="col-md-8 col-sm-6">
-                            <h2 class="box-title mt-0">@ViewBag.producto.titulo</h2>
+                            <h1 class="box-title mt-0">@ViewBag.producto.titulo</h1>
                             <h1 class="pro-price mb-0 mt-20">
-                                &#36;@ViewBag.producto.precio
+                                &#36;@ViewBag.producto.precio.ToString("C2")
 
                             </h1>
                             <hr>
@@ -67,13 +67,13 @@
                                 }
                                 else
                                 {
-                                    <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-primary mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+                                    <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
 
                                 }
                             }
                             else
                             {
-                                <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-primary mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+                                <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
 
                             }
 
@@ -126,7 +126,7 @@
                             </div>
                         </div>
                         <div class="fx-card-content ribbon-wrapper-reverse">
-                            <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio</div>
+                            <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio.ToString("C2")</div>
                             <p class="box-text text-bold">@item.titulo</p>
 
                         </div>
@@ -163,13 +163,13 @@
         $(document).ready(function () {
             map = new GMaps({
                 el: '#markermap',
-              //  lat: parseFloat(ViewBag.producto.latitud),
-            //    lng: parseFloat(ViewBag.producto.longitud)
+                lat: parseFloat(13.69),
+                lng: parseFloat(-89.19)
 
             });
             map.addMarker({
-              //  lat: parseFloat(ViewBag.producto.latitud),
-              //  lng: parseFloat(ViewBag.producto.longitud),
+                lat: parseFloat(13.69),
+                lng: parseFloat(-89.19),
                 title: 'Marker with InfoWindow',
                 infoWindow: {
                     content: '<p>@ViewBag.producto.nombre</p>'

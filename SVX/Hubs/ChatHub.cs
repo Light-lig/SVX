@@ -79,7 +79,7 @@ namespace SVX.Hubs
             men.fecha = System.DateTime.Now;
             contexto.Mensaje.Add(men);
             contexto.SaveChanges();
-            Clients.Group(idConversacion.ToString()).addMensajes(idTo, idConversacion, idFrom, nombreFrom, mensaje, System.DateTime.Now);
+            Clients.Group(idConversacion.ToString()).addMensajes(idTo, idConversacion, idFrom, nombreFrom, mensaje, System.DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"));
         }
     }
 }

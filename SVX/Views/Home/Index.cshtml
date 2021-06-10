@@ -7,20 +7,29 @@
     <h1>
         Anuncios
     </h1>
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
-    {
-        <select name="idDepartamento" id="idDepartamento" class="form-control">
-            @foreach (var item in ViewBag.departamentos)
-            {
-                <option value="@item.idDepartamento">@item.nombre</option>
-            }
+  
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-xl-6">
+        <a href="/Home/AddProduct" class="btn btn-info"><i class="ion ion-android-add"></i> Agregar Anuncio </a>
 
-        </select>
-        <button type="submit" class="btn btn-primary mr-5">
-            Filtrar
-        </button>
-    }
-    <a href="/Home/AddProduct" class="btn btn-primary"><i class="ion ion-log-in"></i> Agregar Anuncio </a>
+    </div>
+    <div class="col-sm-6 col-md-6 col-xl-6">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
+        {
+            <select name="idDepartamento" id="idDepartamento" class="form-control">
+                @foreach (var item in ViewBag.departamentos)
+                {
+                    <option value="@item.idDepartamento">@item.nombre</option>
+                }
+
+            </select>
+            <button type="submit" class="btn btn-primary mr-5 ">
+                <i class="ion-search"></i>
+            </button>
+        }
+    </div>
+
+</div>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -55,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="fx-card-content ribbon-wrapper-reverse">
-                                <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio</div>
+                                <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio.ToString("C2")</div>
                                 <p class="box-text text-bold">@item.titulo</p>
 
                             </div>
