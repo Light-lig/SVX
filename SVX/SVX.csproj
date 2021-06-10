@@ -218,6 +218,7 @@
     <Compile Include="Models\Usuario.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\AnuncioViewModel.cs" />
     <Compile Include="Models\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Hubs\Startup.cs" />
@@ -7629,6 +7630,7 @@
     <Content Include="assets\vendor_components\x-editable\dist\jqueryui-editable\img\loading.gif" />
     <Content Include="assets\vendor_components\x-editable\dist\jqueryui-editable\js\jqueryui-editable.js" />
     <Content Include="assets\vendor_components\x-editable\dist\jqueryui-editable\js\jqueryui-editable.min.js" />
+    <Content Include="Content\dataTables.bootstrap4.min.css" />
     <Content Include="Content\estilos.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -8461,7 +8463,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="archivos\" />
     <Folder Include="assets\vendor_components\flat-color-icons\PNG\512\A\" />
   </ItemGroup>
   <ItemGroup>
@@ -9429,6 +9430,7 @@
     <Content Include="Views\Home\Anuncios\EditProduct.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\Home\_Categories.cshtml" />
+    <Content Include="Views\Home\Anuncios\EditarAnuncio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

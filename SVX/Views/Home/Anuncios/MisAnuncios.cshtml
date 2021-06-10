@@ -1,18 +1,208 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "MisAnuncios";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewBag.Message != null)
+    {
+        <script>mostrarAlerta('success', ViewBag.Message);</script>
+    }
+    if (ViewBag.MessageError != null)
+    {
+        <script>mostrarAlerta('error', ViewBag.MessageError);</script>
+    }
 }
+
+<script>
+    $(document).ready(function () {
+
+        function cargarDatos(id, dataID) {
+
+
+            switch (id) {
+                case "btnEliminar":
+                    confirmarOpcion("eliminar", dataID);
+                    break;
+                case "btnEditar":
+                    let url = "@Url.Action("EditarAnuncio","Home")?id=" + dataID;
+                    $(location).prop('href', url);
+                    break;
+                case "btnMarcar":
+                    confirmarOpcion("marcar", dataID);
+                    break;
+                default:
+                    console.error("[ERROR] opcion incorrecta.")
+                    break;
+            }
+        }
+
+        function eliminarAnuncio(id) {
+            $.ajax({
+                url: "@Url.Action("EliminarAnuncio","Home")?id=" + id,
+                 type: "GET",
+                 cache: false
+                 }).done(function (respuesta) {
+                     console.log(respuesta);
+                     refrescarTabla();
+                 }).fail(function () {
+                     console.error('[ERROR] en eliminar !');
+                 });
+        }
+
+        function marcarAnuncio(id) {
+            $.ajax({
+                url: "@Url.Action("CambiarDisponibilidad", "Home")?id=" + id,
+                 type: "GET",
+                 cache: false
+                 }).done(function (respuesta) {
+                     console.log(respuesta);
+                     refrescarTabla();
+                 }).fail(function () {
+                     console.error('[ERROR] en cambiar disponibilidad !');
+                 });
+        }
+
+        function confirmarOpcion(opcion, id) {
+            let _titulo = "";
+
+            switch (opcion) {
+                case "editar":
+                    _titulo = "¿Está seguro que desea editar este anuncio?";
+                    break;
+                case "eliminar":
+                    _titulo = "¿Está seguro que desea eliminar este archivo de forma permanente?";
+                    break;
+                case "marcar":
+                    _titulo = "¿Está seguro que desea marcar este anuncio como Vendido?";
+                    break;
+            }
+
+            const swalWithCustomButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-bold btn-pure btn-success text-white ml-4',
+                    cancelButton: 'btn btn-bold btn-pure btn-danger text-white'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithCustomButtons.fire({
+                title: _titulo,
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, ' + opcion + '.',
+                cancelButtonText: 'No, cancelar.',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let _opc = "";
+                    if(opcion == "eliminar") {
+                        eliminarAnuncio(id);
+                        _opc = "Eliminado";
+                    }
+                    else {
+                        _opc = "Vendido";
+                        marcarAnuncio(id);
+                    }
+                    swalWithCustomButtons.fire(
+                        _opc + '!',
+                        'El anuncio fue ' + _opc + ' con exito.',
+                        'success'
+                    )
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithCustomButtons.fire(
+                        'Cancelado',
+                        'El ' + opcion + " fue cancelado.",
+                        'error'
+                    )
+                }
+            })
+        }
+
+        var table = $('#tablaMisAnuncios').DataTable({
+            ajax: {
+                method: "GET",
+                processing: true,
+                serverSide: true,
+                order: [],
+                url: "@Url.Action("GetMisAnuncios", "Home")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+                },
+                data: function (response) {
+                    return JSON.stringify(response);
+                }
+            },
+            columns: [
+                { "data": "titulo" },
+                { "data": "id" },
+                { "data": "nombre" },
+                { "data": "descripcion" },
+                { "data": "foto" },
+                { "data": "fecha" },
+                { "data": "modelo" },
+                { "data": "marca" },
+                { "data": "precio" },
+                { "data": "estado" },
+                { "data": "disponible" },
+                { "data": "opc"}
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
+            },
+            "columnDefs": [
+                { "visible": false, "targets": [1,2,3] }
+            ]
+        });
+
+        $("table.dataTable").find("thead").addClass("bg-pale-info");
+
+        var table = $('#tablaMisAnuncios').DataTable();
+
+        $('#tablaMisAnuncios tbody').on('click', 'tr a', function (event) {
+            let row = $(this).parent().parent();
+            var data = table.row(row).data();
+            let id = $(this).attr('id');
+            console.log("id: " + id);
+            cargarDatos(id, data.id);
+            switch (id) {
+                case "btnEliminar":
+                    cargarDatos(id, data.id);
+                    break;
+                case "btnEditar":
+                    cargarDatos(id, data.id);
+                    break;
+                case "btnMarcar":
+                    cargarDatos(id, data.id);
+                    break;
+                default:
+                    console.error("[ERROR] opcion incorrecta.")
+                    break;
+            }
+        });
+
+        $("#btnEliminar").on("click", function () {
+            console.log("DEL");
+            confirmarOpcion("eliminar");
+        });
+
+        function refrescarTabla() {
+            $('#tablaMisAnuncios').DataTable().ajax.reload();
+        }
+    })
+</script>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Product Orders
+        Mis anuncios
     </h1>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li class="breadcrumb-item"><a href="#">e-Commerce</a></li>
-        <li class="breadcrumb-item active">Product Orders</li>
+        <li class="breadcrumb-item active">Mis Anuncios</li>
     </ol>
 </section>
 @section scripts{
@@ -26,232 +216,28 @@
             <div class="box">
                 <div class="box-body">
                     <div class="table-responsive">
-                        <table id="productorder" class="table table-hover no-wrap product-order" data-page-size="10">
+                        <table id="tablaMisAnuncios" class="table table-hover" data-page-size="10">
                             <thead>
                                 <tr>
-                                    <th>Customer</th>
-                                    <th>Order ID</th>
-                                    <th>Photo</th>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Titulo</th>
+                                    <th>_IdAnuncio</th>
+                                    <th>_nombre</th>
+                                    <th>_descrip</th>
+                                    <th>Foto</th>
+                                    <th>Fecha</th>
+                                    <th>Modelo</th>
+                                    <th>Marca</th>
+                                    <th>Precio</th>
+                                    <th>Condicion</th>
+                                    <th>Estado</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-1.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>17</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-success">Paid</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-2.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>12</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-3.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>15</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-success">Paid</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-4.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>19</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-danger">Failed</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-5.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>24</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-success">Pending</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-6.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>04</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-danger">Failed</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-7.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>10</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-success">Paid</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-8.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>11</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-9.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>13</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-success">Paid</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-10.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>34</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-11.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>22</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-danger">Failed</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Maical Roy</td>
-                                    <td>#12485791</td>
-                                    <td><img src="../../../images/product/product-12.png" alt="product" width="80"></td>
-                                    <td>Product Title</td>
-                                    <td>12</td>
-                                    <td>24-01-2018</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>
-                                        <a href="javascript:void(0)" class="text-info pr-10" data-toggle="tooltip" data-original-title="Edit">
-                                            <i class="ti-marker-alt"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="text-danger" data-original-title="Delete" data-toggle="tooltip">
-                                            <i class="ti-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </section>
 <!-- /.content -->

@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Editar Anuncio";
+    @model SVX.Models.ViewModels.EditAnuncioViewModel
+}
+
+<script>
+    $(document).ready(function () {
+
+        function editarAnuncio() {
+            $.ajax({
+                 url: "@Url.Action("DbEditarAnuncio", "Home")",
+                 type: "POST",
+                 cache: false,
+                data: $("#formEditarAnuncio").serialize()
+            }).done(function (respuesta) {
+                console.log(respuesta);
+                if (respuesta == "ok") {
+
+                }
+            }).fail(function () {
+                console.error('[ERROR] en editar !');
+                 });
+        }
+
+        function confirmarOpcion(opcion, id) {
+            let _titulo = "";
+
+            switch (opcion) {
+                case "editar":
+                    _titulo = "¿Está seguro que desea editar este anuncio?";
+                    break;
+                case "eliminar":
+                    _titulo = "¿Está seguro que desea eliminar este archivo de forma permanente?";
+                    break;
+                case "marcar":
+                    _titulo = "¿Está seguro que desea marcar este anuncio como Vendido?";
+                    break;
+            }
+
+            const swalWithCustomButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-bold btn-pure btn-success text-white ml-4',
+                    cancelButton: 'btn btn-bold btn-pure btn-danger text-white'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithCustomButtons.fire({
+                title: _titulo,
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, ' + opcion + '.',
+                cancelButtonText: 'No, cancelar.',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let _opc = "";
+                    if (opcion == "editar") {
+                        editarAnuncio();
+                        _opc = "<b>Actualizado</b>";
+                    }
+                    swalWithCustomButtons.fire(
+                        _opc + '!',
+                        'El anuncio fue ' + _opc + ' con exito.',
+                        'success'
+                    )
+                    setTimeout(function () {
+                        let url = "@Url.Action("MisAnuncios","Home")"
+                    $(location).prop('href', url);
+                    }, 2500);
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithCustomButtons.fire(
+                        'Cancelado',
+                        'El ' + opcion + " fue cancelado.",
+                        'error'
+                    )
+                }
+            })
+        }
+
+        $("textarea").css("resize", "none");
+
+        $("#btnEditar").on("click", function () {
+            console.log("Editar");
+            confirmarOpcion("editar");
+
+        });
+
+        let precio = $("#Precio").val();
+        let newPrecio = (Math.round(precio * 100) / 100).toFixed(2);
+        $("#Precio").val(newPrecio);
+        let estado = $("#Estado").val();
+        $("#cmbEstado").val(estado);
+
+        $("#cmbEstado").on("change", function () {
+            let newEstado = $(this).val();
+            $("#Estado").val(newEstado);
+        });
+    })
+</script>
+
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h4 class="box-title display-3">@ViewBag.Title</h4>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @using (Html.BeginForm("DbEditarAnuncio", "Home", FormMethod.Post, htmlAttributes: new
+        {
+            id = "formEditarAnuncio",
+            enctype = "multipart/form-data"
+        }))
+        {
+            @Html.AntiForgeryToken()
+            <!-- Step 1 -->
+            <section>
+                @Html.HiddenFor(x => x.IdAnuncio)
+                <div class="form-row mt-30">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.Titulo, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextAreaFor(x => x.Titulo, htmlAttributes: new { @class = "form-control leras required", @placeholder = "Titulo" })
+                        @Html.ValidationMessageFor(m => m.Titulo, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Nombre, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                            <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                            @Html.TextBoxFor(x => x.Nombre, htmlAttributes: new { @class = "form-control required", @placeholder = "Nombre" })
+                            @Html.ValidationMessageFor(m => m.Nombre, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.Modelo, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextBoxFor(x => x.Modelo, htmlAttributes: new { @class = "form-control required", @placeholder = "Modelo" })
+                        @Html.ValidationMessageFor(m => m.Modelo, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col-md-6">
+                        @Html.LabelFor(x => x.Marca, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        @Html.TextBoxFor(x => x.Marca, htmlAttributes: new { @class = "form-control required", @placeholder = "Marca" })
+                        @Html.ValidationMessageFor(m => m.Marca, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        @Html.LabelFor(x => x.Precio, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        @Html.TextBoxFor(x => x.Precio, htmlAttributes: new { @class = "form-control money required", @placeholder = "Precio" })
+                        @Html.ValidationMessageFor(m => m.Precio, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(x => x.Estado, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        @Html.HiddenFor(x => x.Estado)
+                        <select id="cmbEstado" class="custom-select">
+                            <option selected disabled>Estado del producto</option>
+                            <option value="1">Nuevo</option>
+                            <option value="0">Usado</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2 -->
+
+            <section>
+                <div class="form-row mt-25">
+                    <div class="form-group col-md-12">
+                        @Html.LabelFor(x => x.Descripcion, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
+                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        @Html.TextAreaFor(x => x.Descripcion, htmlAttributes: new { @class = "form-control required", @placeholder = "Descripcion" })
+                        @Html.ValidationMessageFor(m => m.Descripcion, null, new { @class = "text-danger", style = "resize: none;" })
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="container">
+                    <div class="row">
+                        <div class="table-responsive">
+                            <i class="fas fa-upload needsclick"></i><strong> Arrastra y suelta los archivos aquí o haz clic.</strong>
+                            <div class="dropzone bg-secondary needsclick">
+                                <div class="fallback">
+                                    @Html.EditorFor(a => a.files, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @class = "form-control-file",
+                                            type = "file",
+                                            @multiple = "multiple",
+                                            accept = "image/png, image/jpeg, image/jpeg"
+                                        }
+                                    })
+                                    @Html.ValidationMessageFor(a => a.files, null, new { @class = "text-danger" })
+                                    <input type="submit" value="Upload" />
+                                </div>
+                                <div id="previews" class="dz-message needsclick">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+        <div class="container-fluid m-15 p-10">
+            <div class="float-right">
+                <a role="button" class="btn btn-bold btn-pure btn-info text-white" id="btnEditar">
+                    <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar&nbsp;
+                </a>
+                <a class="btn btn-bold btn-pure btn-secondary" data-dismiss="modal" role="button">
+                    <i class="fa fa-window-close"></i>&nbsp;&nbsp;Cerrar&nbsp;
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+        let id = $("#IdAnuncio").val();
+        Dropzone.options.formEditarAnuncio = {
+            /* acceptedFiles: "image/*",*/
+            init: function () {
+                var thisDropzone = this;
+                $.getJSON("/Home/CargarFotos/?id=" + id).done(function (data) {
+                    console.log(data.img)
+                    if (data.img != '') {
+                        $.each(data.img, function (index, item) {
+                            //// Create the mock file:
+                            var mockFile = {
+                                name: item.Nombre,
+                                size: 12345
+                            };
+                            // Call the default addedfile event handler
+                            thisDropzone.emit("addedfile", mockFile);
+                            // And optionally show the thumbnail of the file:
+                            let path = "../archivos/" + item.Nombre;
+                            thisDropzone.emit("thumbnail", mockFile, path);
+                            thisDropzone.emit("complete", mockFile);
+                        });
+                    }
+                });
+
+            }
+        };
+    </script>
+}
