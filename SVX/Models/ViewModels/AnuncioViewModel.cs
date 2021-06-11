@@ -12,7 +12,7 @@ namespace SVX.Models.ViewModels
 
     public class EditAnuncioViewModel
     {
-        public int IdAnuncio { get; set; }
+        public string IdAnuncio { get; set; }
         [Required]
         [MinLength(length: 4, ErrorMessage = "Al menos 4 caracteres")]
         [MaxLength(length: 35, ErrorMessage = "No más de 35 caracteres")]

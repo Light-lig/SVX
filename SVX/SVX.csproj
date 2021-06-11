@@ -7636,6 +7636,7 @@
     <Content Include="Global.asax" />
     <Content Include="images\1.jpg" />
     <Content Include="images\150x100.png" />
+    <Content Include="images\404 Page Not Found _Outline.png" />
     <Content Include="images\5.jpg" />
     <Content Include="images\alert\alert.png" />
     <Content Include="images\alert\alert2.png" />
