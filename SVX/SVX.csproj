@@ -9430,6 +9430,8 @@
     <Content Include="Views\Home\Anuncios\EditarAnuncio.cshtml" />
     <Content Include="Views\Home\Error404.cshtml" />
     <Content Include="Views\Home\Error500.cshtml" />
+    <Content Include="Views\Home\RecuperarContrasenia.cshtml" />
+    <Content Include="Views\Home\CambiarContrasenia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

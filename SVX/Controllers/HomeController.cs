@@ -31,6 +31,7 @@ namespace SVX.Controllers
             var resultados = (from a in contexto.Anuncio
                              join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
                              where  ((u.idDepartamento.Equals(idDepartamento)||(idDepartamento.Equals(0))) &&
+                                    a.estado == 1 &&
                                     ((a.idCategoria.Equals(id)) || (id == 0)) &&
                                     ((a.titulo.Contains(filtro)) || (filtro == "")))
                                     select a).ToList();
@@ -145,6 +146,76 @@ namespace SVX.Controllers
             }
             return View();
         }
+        public ActionResult RecuperarContrasenia()
+        {
+            return View();
+        }
+
+        public ActionResult CambiarContrasenia(string id)
+        {
+            if(id != null)
+            {
+                ViewBag.idUsuario = Base64Decode(id);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Error404");
+            }
+       
+        }
+        [HttpPost]
+        public ActionResult CambiarContrasenia(Usuario us)
+         {
+            var usuario = contexto.Usuario.Where(u => u.idUsuario == us.idUsuario).FirstOrDefault();
+            try
+            {
+                usuario.pass = Base64Encode(us.pass);
+                contexto.SaveChanges();
+                Session["Usuario"] = null;
+                return Json(new { result = "/Home/Login", mensaje = "Se cambio la contrasenia correctamente." });
+            }
+            catch (Exception e)
+            {
+                return Json(new { result = false, mensaje = "Ocurrio un problema interno" });
+
+            }
+        }
+
+        
+        [HttpPost]
+        public ActionResult EnviarCorreoCambiarContra(string email)
+        {
+            try
+            {
+
+                var usuario = contexto.Usuario.Where(u => u.email.Equals(email)).FirstOrDefault();
+                if(usuario != null)
+                {
+                    string mensaje = "<h1>SVX</h1><br/>" +
+                         "<center><p>Favor presione el siguiente link para cambiar su contra.</p></center><br/>" +
+                         "<a href='https://localhost:44369/Home/CambiarContrasenia/" + Base64Encode(usuario.idUsuario.ToString()) + "'>Cambiar contra</a>";
+                    if (sendEmail(email, "Recuperar contrasenia", mensaje))
+                    {
+                        return Json(new { result = true, mensaje = "Se envio un mensaje a su correo para poder restablecer la contrasenia." });
+                    }
+                    else
+                    {
+                        return Json(new { result = false, mensaje = "Ocurrio un problema al momento de enviar su correo." });
+                    }
+                }
+                else
+                {
+                    return Json(new { result = false, mensaje = "El email que ha ingresado no esta asociado a ninguna cuenta." });
+                }
+            }
+                
+            catch (Exception e)
+            {
+
+                return Json(new { result = false, mensaje ="Ocurrio un problema interno." });
+            }
+        }
 
         public ActionResult Registrarme()
         {
@@ -252,13 +323,68 @@ namespace SVX.Controllers
 
         public ActionResult MisAnuncios()
         {
-            return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public ActionResult MiPerfil()
         {
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                var departamentos = contexto.Departamento.ToList();
+                ViewBag.Departamentos = departamentos;
+                return View(us);
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+          
         }
+        [HttpPost]
+        public ActionResult ActualizarPerfil(Usuario us)
+        {
+            try
+            {
+                var usuario = contexto.Usuario.Where(u => u.idUsuario == us.idUsuario).FirstOrDefault();
+                usuario.nombre = us.nombre;
+                usuario.apellido = us.apellido;
+                if(usuario.email != us.email)
+                {
+                    var email = contexto.Usuario.Where(u => u.email == us.email).FirstOrDefault();
+                    if(email != null)
+                    {
+                        return Json(new { result = false, mensaje ="El correo ya esta asociado a un cuenta." });
+                    }
+                    else
+                    {
+                        usuario.email = us.email;
+
+                    }
+                }
+                usuario.telefono = us.telefono;
+                usuario.idDepartamento = us.idDepartamento;
+                contexto.SaveChanges();
+                Session["Usuario"] = usuario;
+                return Json(new { result = true, mensaje = "Cambios aplicados correctamente." });
+
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { result = false, mensaje = "Ocurrio un error al procesar los datos." });
+            }
+
+        }
+    
 
         public ActionResult EditProduct()
         {
@@ -337,7 +463,7 @@ namespace SVX.Controllers
                 contexto.SaveChanges();
                 var usuario = contexto.Usuario.ToList().Last();
                 Session["Usuario"] = usuario;
-                string mensaje = "<img src='https://localhost:44369/images/logo-light.png'><br/>" +
+                string mensaje = "<h1> SVX </h1><br/>" +
                                   "<center><p>Favor presione el siguiente link para activar su cuenta.</p></center><br/>" +
                                   "<a href='https://localhost:44369/Home/ActivarCuenta/" + Base64Encode(usuario.idUsuario.ToString())+"'>Activar cuenta</a>";
                 sendEmail(us.email,"Activar", mensaje);

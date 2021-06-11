@@ -319,25 +319,22 @@
                                                     <p>
                                                         @us.nombre @us.apellido
                                                         <small class="mb-5">@us.email</small>
-                                                        <a href="#" class="btn btn-danger btn-sm btn-rounded">View Profile</a>
+                                                        <a href="/Home/MiPerfil" class="btn btn-danger btn-sm btn-rounded">View Profile</a>
                                                     </p>
                                                 </li>
                                                 <!-- Menu Body -->
                                                 <li class="user-body">
                                                     <div class="row no-gutters">
                                                         <div class="col-12 text-left">
-                                                            <a href="#"><i class="ion ion-person"></i> My Profile</a>
+                                                            <a href="/Home/MiPerfil"><i class="ion ion-person"></i>Mi perfil</a>
                                                         </div>
                                                         <div class="col-12 text-left">
                                                             <a href="/Home/Chat/0/0"><i class="ion ion-email-unread"></i> Inbox</a>
                                                         </div>
                                                         <div class="col-12 text-left">
-                                                            <a href="#"><i class="ion ion-settings"></i> Setting</a>
+                                                            <a href="/Home/MisAnuncios"><i class="ion ion-settings"></i> Mis anuncios</a>
                                                         </div>
-                                                        <div role="separator" class="divider col-12"></div>
-                                                        <div class="col-12 text-left">
-                                                            <a href="#"><i class="ti-settings"></i> Account Setting</a>
-                                                        </div>
+                                                       
                                                         <div role="separator" class="divider col-12"></div>
                                                         <div class="col-12 text-left">
                                                             <a href="/Home/CerrarSession"><i class="fa fa-power-off"></i> Logout</a>
@@ -575,7 +572,7 @@
 
     @Scripts.Render("~/bundles/Scripts")
     @Scripts.Render("~/bundles/steper")
-    @RenderSection("scripts", required: true)
+    @RenderSection("scripts", required: false)
     <script>
         // chat app scrolling
 
