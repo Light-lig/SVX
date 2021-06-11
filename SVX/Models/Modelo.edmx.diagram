@@ -4,13 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3d3b4d69c842491a8e445c8a076bfed4" Name="Diagram1">
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Anuncio" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Categoria" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Conversacion" Width="1.5" PointX="6" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Departamento" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Foto" Width="1.5" PointX="7.5" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProyectoWeb2021Model.Mensaje" Width="1.5" PointX="8.25" PointY="5.25" IsExpanded="true" />
+      <Diagram DiagramId="7d5048caca2942ea83483702668fc0e3" Name="Diagram1">
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Anuncio" Width="1.5" PointX="5.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Categoria" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Conversacion" Width="1.5" PointX="6" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Departamento" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Foto" Width="1.5" PointX="7.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProyectoWeb2021Model.Mensaje" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoWeb2021Model.Puntuacion" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ProyectoWeb2021Model.Usuario" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="ProyectoWeb2021Model.fk_AnunCat" ManuallyRouted="false" />

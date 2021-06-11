@@ -11,7 +11,7 @@
 
 <!-- Main content -->
 <section class="content">
-    @{ 
+    @{
         SVX.Models.Usuario us = (SVX.Models.Usuario)Session["Usuario"];
 
     }
@@ -21,7 +21,7 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-4 col-sm-6">
-                          
+
                             <div class="box box-body b-1 text-center text-center">
                                 <img src="../../../images/product/product-6.png" id="product-image" class="img-fluid" alt="" />
                             </div>
@@ -47,16 +47,31 @@
                             <hr>
 
                             <p>@ViewBag.producto.descripcion</p>
-                            <p>User rate:</p>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                </li>
-                            </ul>
+                            <div class="box box-body">
+                                <div class="flexbox align-items-center">
+                                    <div class="flexbox">
+                                        <label class="toggler toggler-yellow">
+                                            <input type="checkbox" checked>
+                                            <i class="fa fa-star"></i>
+                                        </label>
+                                        <h4 class="ml-10 mb-0">@ViewBag.producto.Usuario.nombre @ViewBag.producto.Usuario.apellido</h4>
+                                    </div>
+
+                                </div>
+                                <div class="text-center pt-15">
+                                    <div class="pull-left">
+                                        <p class="avatar avatar-xxl rounded" style="font-size:70px;" alt="">@ViewBag.producto.Usuario.nombre.Substring(0, 1)</p>
+                                    </div>
+                                    <p class="user-info mt-0 mb-5"><i class="fa fa-envelope pr-15"></i> @ViewBag.producto.Usuario.email</p>
+                                    <p class="user-info mt-0 mb-10"><i class="fa fa-phone pr-15"></i>@ViewBag.producto.Usuario.telefono</p>
+                                    <div class="gap-items user-social font-size-16">
+                                        <p>Vendedor rate:</p>
+                                        <div class="rate" ></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
 
                             @if (us != null)
                             {
@@ -91,17 +106,17 @@
                                 </div>
                             </div>
                         </div>
-                            <hr>
+                        <hr>
 
-                 
-                      
-                        </div>
+
 
                     </div>
+
                 </div>
             </div>
         </div>
-  
+    </div>
+
     <h2 class="page-header">Related Products</h2>
     <div class="row fx-element-overlay">
 
@@ -139,7 +154,7 @@
 
 </section>
 <!-- /.content -->
-
+<script src="~/Scripts/rater.js" charset="utf-8"></script>
 <script src="~/Scripts/js/demo.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTrPWo_dq1_LOkKHrf4uukvOdIUrmHPSE"></script>
 <script src="~/assets/vendor_components/gmaps/gmaps.min.js"></script>
@@ -159,8 +174,64 @@
             $('.photos-item').removeClass('item-active');
             $(this).addClass('item-active');
         });
+    
 
         $(document).ready(function () {
+            var options = {
+                max_value: 5,
+                step_size: 0.5,
+                initial_value: @ViewBag.rating,
+                change_once: false,
+            }
+
+                    $(".rate").rate(options);
+        $(".rate").on("change", function (ev, data) {
+            var data = {
+                valor: data.to,
+                idUsuario: @ViewBag.producto.Usuario.idUsuario,
+                idUsuarioPuntua: @((us == null)?0:us.idUsuario)
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: data,
+                url: '/Home/rate',
+                success: function (respuesta) {
+                    if (respuesta.result === false) {
+                        $.toast({
+                            heading: 'Bienvenido a SVX',
+                            text: respuesta.mensaje,
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: 'warning',
+                            hideAfter: 3000,
+                            stack: 6
+                        });
+                    } else {
+                        $.toast({
+                            heading: 'Bienvenido a SVX',
+                            text: respuesta.mensaje,
+                            position: 'top-right',
+                            loaderBg: '#ff6849',
+                            icon: 'info',
+                            hideAfter: 3000,
+                            stack: 6
+                        });
+                    }
+                },
+                error: function () {
+                    $.toast({
+                        heading: 'Bienvenido a SVX',
+                        text: 'Ocurrio un error al momento de conectarse.',
+                        position: 'top-right',
+                        loaderBg: '#ff6849',
+                        icon: 'error',
+                        hideAfter: 3500
+
+                    });
+                }
+            });
+        });
             map = new GMaps({
                 el: '#markermap',
                 lat: parseFloat(@ViewBag.producto.latitud),

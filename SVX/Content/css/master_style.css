@@ -58,7 +58,8 @@ Body :		Poppins, sans-serif;
 
 /*Body, layout*/
 .layout-boxed body, .layout-boxed html, .wrapper, body, html {
-    height: 100%}
+    height: 100% !important
+}
 .wrapper, body {
     overflow-x: hidden;
     overflow-y: auto;
