@@ -15,8 +15,6 @@
     $(document).ready(function () {
 
         function cargarDatos(id, dataID) {
-
-
             switch (id) {
                 case "btnEliminar":
                     confirmarOpcion("eliminar", dataID);
@@ -132,6 +130,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
                 },
                 data: function (response) {
+                    //console.log(JSON.stringify(response));
                     return JSON.stringify(response);
                 }
             },
