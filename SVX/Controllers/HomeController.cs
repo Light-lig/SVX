@@ -200,7 +200,15 @@ namespace SVX.Controllers
 
         public ActionResult MisAnuncios()
         {
-            return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }            
         }
 
         public ActionResult MiPerfil()
@@ -210,7 +218,15 @@ namespace SVX.Controllers
 
         public ActionResult EditProduct()
         {
-            return View("~/Views/Home/Anuncios/EditProduct.cshtml");
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                return View("~/Views/Home/Anuncios/EditProduct.cshtml");
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }            
         }
 
         #region apartado chat
@@ -301,73 +317,81 @@ namespace SVX.Controllers
         {
             try
             {
-                var query = from a in contexto.Anuncio
-                            select a;
+                Usuario us = (Usuario)Session["Usuario"];
 
-                List<Anuncio> datos = query.ToList();
-                List<anun_struct> datosF = new List<anun_struct>();
-                int i = 0;
-                foreach (Anuncio item in datos)
+                if (us != null)
                 {
-                    i++;
-                    anun_struct temp = new anun_struct();
-                    temp.id = item.idAnuncio;
-                    temp.titulo = item.titulo;
-                    temp.nombre = item.nombre;
-                    temp.descripcion = item.descripcion;
-                    temp.marca = item.marca;
-                    temp.modelo = item.modelo;
-                    temp.precio = item.precio.ToString("C", new CultureInfo("en-US"));
+                    var query = from a in contexto.Anuncio
+                                where a.idUsuario.Equals(us.idUsuario)
+                                select a;
 
-                    if (item.disponible == 1)
+                    List<Anuncio> datos = query.ToList();
+                    List<anun_struct> datosF = new List<anun_struct>();
+                    int i = 0;
+                    foreach (Anuncio item in datos)
                     {
-                        temp.disponible = "<span class=\"label bg-green\" >Disponible</span>";
-                        temp.opc = "<div class=\"btn-group\">" +
-                            "<a role=\"button\" class=\"btn text-white btn-success\" id=\"btnMarcar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Marcar como vendido\">" +
-                        "<i class=\"fa fa-shopping-cart\"></i>" +
-                        "</a>" +
-                        "<a role=\"button\" class=\"btn text-white btn-info\" id=\"btnEditar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Editar anuncio\">" +
-                              "<i class=\"fa fa-edit\"></i>" +
-                        "</a>" +
-                        "<a role=\"button\" class=\"btn text-white btn-danger\" id=\"btnEliminar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Eliminar anuncio\">" +
-                              "<i class=\"fa fa-trash\"></i>" +
-                        "</a>" +
-                        "</div>";
-                    }
-                    else
-                    {
-                        temp.disponible = "<span class=\"label bg-secondary\" >No Disponible</span>";
-                        temp.opc = "<a role=\"button\" class=\"btn btn-danger text-white\" id=\"btnEliminar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Eliminar anuncio\">" +
-                              "<i class=\"fa fa-trash\"></i>" +
-                        "</a>";
+                        i++;
+                        anun_struct temp = new anun_struct();
+                        temp.id = item.idAnuncio;
+                        temp.titulo = item.titulo;
+                        temp.nombre = item.nombre;
+                        temp.descripcion = item.descripcion;
+                        temp.marca = item.marca;
+                        temp.modelo = item.modelo;
+                        temp.precio = item.precio.ToString("C", new CultureInfo("en-US"));
+
+                        if (item.disponible == 1)
+                        {
+                            temp.disponible = "<span class=\"label bg-green\" >Disponible</span>";
+                            temp.opc = "<div class=\"btn-group\">" +
+                                "<a role=\"button\" class=\"btn text-white btn-success\" id=\"btnMarcar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Marcar como vendido\">" +
+                            "<i class=\"fa fa-shopping-cart\"></i>" +
+                            "</a>" +
+                            "<a role=\"button\" class=\"btn text-white btn-info\" id=\"btnEditar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Editar anuncio\">" +
+                                  "<i class=\"fa fa-edit\"></i>" +
+                            "</a>" +
+                            "<a role=\"button\" class=\"btn text-white btn-danger\" id=\"btnEliminar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Eliminar anuncio\">" +
+                                  "<i class=\"fa fa-trash\"></i>" +
+                            "</a>" +
+                            "</div>";
+                        }
+                        else
+                        {
+                            temp.disponible = "<span class=\"label bg-secondary\" >No Disponible</span>";
+                            temp.opc = "<a role=\"button\" class=\"btn btn-danger text-white\" id=\"btnEliminar\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Eliminar anuncio\">" +
+                                  "<i class=\"fa fa-trash\"></i>" +
+                            "</a>";
+                        }
+
+                        if (item.estado == 1)
+                        {
+                            temp.estado = "<span class=\"label bg-blue\" >Nuevo</span>";
+                        }
+                        else
+                        {
+                            temp.estado = "<span class=\"label bg-warning\" >Usado</span>";
+                        }
+
+                        var imagen = (from f in contexto.Foto
+                                      where f.idAnuncio.Equals(item.idAnuncio)
+                                      orderby f.idFoto ascending
+                                      select f).Take(1);
+
+                        foreach (Foto item2 in imagen)
+                        {
+                            temp.foto = "<img src=\"../archivos/" + item2.ruta + "\" alt=\"" + item2.idFoto + "\" width=\"80\" onerror=\"this.src = '../images/404 Page Not Found _Outline.png'\">";
+                        }
+
+                        DateTime dateTime = (DateTime)item.fecha;
+                        temp.fecha = dateTime.ToString("dddd, dd MMMM yyyy");
+
+                        datosF.Add(temp);
                     }
 
-                    if (item.estado == 1)
-                    {
-                        temp.estado = "<span class=\"label bg-blue\" >Nuevo</span>";
-                    }
-                    else
-                    {
-                        temp.estado = "<span class=\"label bg-warning\" >Usado</span>";
-                    }
-
-                    var imagen = (from f in contexto.Foto
-                                  where f.idAnuncio.Equals(item.idAnuncio)
-                                  orderby f.idFoto ascending
-                                  select f).Take(1);
-                    
-                    foreach(Foto item2 in imagen)
-                    {
-                        temp.foto = "<img src=\"../archivos/"+ item2.ruta + "\" alt=\"" + item2.idFoto + "\" width=\"80\" onerror=\"this.src = '../images/404 Page Not Found _Outline.png'\">";
-                    }
-
-                    DateTime dateTime = (DateTime)item.fecha;
-                    temp.fecha = dateTime.ToString("dddd, dd MMMM yyyy");
-
-                    datosF.Add(temp);
+                    return Json(new { data = datosF }, JsonRequestBehavior.AllowGet);
                 }
+                return Json(null);
                 
-                return Json(new { data = datosF}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -392,9 +416,10 @@ namespace SVX.Controllers
             model.files = oAnuncio.files;
             model.disponible = oAnuncio.disponible;
             model.Foto = oAnuncio.Foto;
-            model.Categoria = oAnuncio.Categoria;           
-            
-            return View("~/Views/Home/Anuncios/EditarAnuncio.cshtml", model);
+            model.Categoria = oAnuncio.Categoria;
+            ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
+                 .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
+            return View("~/Views/Home/Anuncios/EditarAnuncio.cshtml", model); 
         }
 
 
@@ -411,40 +436,43 @@ namespace SVX.Controllers
                 oAnuncio.precio = model.Precio;
                 oAnuncio.descripcion = model.Descripcion;                
                 oAnuncio.files = model.files;
-
-                const int maxFileLength = 5242880;
-                Random r = new Random();
-
-                foreach (HttpPostedFileBase file in oAnuncio.files)
+              
+                if(oAnuncio.files != null)
                 {
-                    if (file != null && (file.ContentLength > 0 && file.ContentLength <= maxFileLength))
+                    const int maxFileLength = 5242880;
+                    Random r = new Random();
+                    foreach (HttpPostedFileBase file in oAnuncio.files)
                     {
-                        string path = HttpContext.Server.MapPath(@"~/archivos");
-                        bool exists = System.IO.Directory.Exists(path);
-                        string newName = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        int rand = r.Next();
-                        if (!exists)
-                            System.IO.Directory.CreateDirectory(path);
-                        string extension = Path.GetExtension(file.FileName);
-                        bool stateExt = false;
-                        if (ValidateExtension(extension))
-                            stateExt = true;
-                        else
-                            TempData["MessageError"] = "Solo .jpg, .png y .jpeg";
-                        if (stateExt)
+                        if (file != null && (file.ContentLength > 0 && file.ContentLength <= maxFileLength))
                         {
-                            Foto ft = new Foto();
-                            string newFile = newName + "-" + rand + extension;
-                            ft.idFoto = objUtil.GenerarCodigo("F");
-                            ft.idAnuncio = model.IdAnuncio;
-                            ft.ruta = newFile;
-                            contexto.Foto.Add(ft);
-                            contexto.SaveChanges();
-                            var ServerSavePath = Path.Combine(path, newFile);
-                            file.SaveAs(ServerSavePath);
+                            string path = HttpContext.Server.MapPath(@"~/archivos");
+                            bool exists = System.IO.Directory.Exists(path);
+                            string newName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                            int rand = r.Next();
+                            if (!exists)
+                                System.IO.Directory.CreateDirectory(path);
+                            string extension = Path.GetExtension(file.FileName);
+                            bool stateExt = false;
+                            if (ValidateExtension(extension))
+                                stateExt = true;
+                            else
+                                TempData["MessageError"] = "Solo .jpg, .png y .jpeg";
+                            if (stateExt)
+                            {
+                                Foto ft = new Foto();
+                                string newFile = newName + "-" + rand + extension;
+                                ft.idFoto = objUtil.GenerarCodigo("F");
+                                ft.idAnuncio = model.IdAnuncio;
+                                ft.ruta = newFile;
+                                contexto.Foto.Add(ft);
+                                contexto.SaveChanges();
+                                var ServerSavePath = Path.Combine(path, newFile);
+                                file.SaveAs(ServerSavePath);
+                            }
                         }
                     }
                 }
+                
 
                 TempData["Message"] = "Se actualizo con exito el anuncio.";
                 contexto.Entry(oAnuncio).State = System.Data.Entity.EntityState.Modified;
@@ -479,6 +507,7 @@ namespace SVX.Controllers
                 foreach(var item in del)
                 {
                     contexto.Foto.Remove(item.idF);
+                    borrarArchivo(item.idF.ruta);
                     contexto.Anuncio.Remove(item.idA);
                     contexto.Entry(item.idF).State = System.Data.Entity.EntityState.Deleted;
                     contexto.Entry(item.idA).State = System.Data.Entity.EntityState.Deleted;
@@ -555,7 +584,8 @@ namespace SVX.Controllers
         {
             try
             {
-                Foto deleteFoto = new Foto { idFoto = f.idFoto };                
+                Foto deleteFoto = new Foto { idFoto = f.idFoto };               
+                borrarArchivo(f.ruta);                
                 contexto.Entry(deleteFoto).State = System.Data.Entity.EntityState.Deleted;
                 contexto.SaveChanges();
                 return Json("ok");
@@ -576,6 +606,44 @@ namespace SVX.Controllers
             }
         }
 
+        public void borrarArchivo(string nombreArchivo)
+        {
+            string sourcePath = HttpContext.Server.MapPath(@"~/archivos");
+            string fileName = nombreArchivo;
+            string url = "";
+            string nameFile = "";
+
+            if (System.IO.Directory.Exists(sourcePath))
+            {
+                string[] files = System.IO.Directory.GetFiles(sourcePath);
+
+                foreach (string s in files)
+                {
+                    nameFile = System.IO.Path.GetFileName(s);
+                    if (nameFile.Contains(fileName))
+                    {
+                        Console.Write("-> " + System.IO.Path.GetFileName(s) + "\n");
+                        url = sourcePath + @"\" + nameFile;
+                        Console.Write("-> " + url + "\n");
+                        try
+                        {
+                            System.IO.File.Delete(url);
+                            Console.Write("-> " + " Borrado" + "\n");
+                        }
+                        catch (System.IO.IOException e)
+                        {
+                            Console.WriteLine(e.Message);
+                            return;
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Source path does not exist!");
+            }
+        }
         #endregion MisAnuncios
 
         public ActionResult CerrarSession()
