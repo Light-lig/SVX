@@ -8,20 +8,12 @@
 <script>
     $(document).ready(function () {
         bsCustomFileInput.init();
+
         $("textarea").css("resize", "none");
 
         $("#btnConfirmar").on("click", function () {            
             confirmarOpcion("editar");
         });
-
-        function validarSubida(numFotos) {           
-            if (numFotos == 5) {
-                $("#files").prop('disabled', true);
-            }
-            else {
-                $("#files").prop('disabled', false);
-            }
-        }
 
         let precio = $("#precio").val();
         let newprecio = (Math.round(precio * 100) / 100).toFixed(2);
@@ -89,7 +81,6 @@
                 //console.log(template);
                 $("#containerPreviews").html(template);
                 $("#numeroFotos").text(num);
-                validarSubida(num);
             })
         }        
 
@@ -240,12 +231,9 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var cantiEspacios = $("#numeroFotos").text();
-        validarSubida(cantiEspacios);
 
         function readURL(input) {
             var cantiEspacios = $("#numeroFotos").text();
-            validarSubida(cantiEspacios);
             var cantiSubidas = input.files.length;
             let validar = 5 - cantiEspacios * 1;
 
