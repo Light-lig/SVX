@@ -3,40 +3,31 @@
     @model SVX.Models.Anuncio
 }
 
-<script src="~/Scripts/bs-custom-file-input.min.js"></script>
-
 <script>
     $(document).ready(function () {
-        bsCustomFileInput.init();
+        
+
         $("textarea").css("resize", "none");
 
-        $("#btnConfirmar").on("click", function () {            
+        $("#btnConfirmar").on("click", function () {
+            console.log("Editar");
             confirmarOpcion("editar");
         });
-
-        function validarSubida(numFotos) {           
-            if (numFotos == 5) {
-                $("#files").prop('disabled', true);
-            }
-            else {
-                $("#files").prop('disabled', false);
-            }
-        }
 
         let precio = $("#precio").val();
         let newprecio = (Math.round(precio * 100) / 100).toFixed(2);
         $("#precio").val(newprecio);
-        let estado = $("#estado").val();
+        let estado = $("#Estado").val();
         $("#cmbEstado").val(estado);
 
         $("#cmbEstado").on("change", function () {
             let newEstado = $(this).val();
-            $("#estado").val(newEstado);
+            $("#Estado").val(newEstado);
         });
 
         function obtenerFotos(id) {
             $.getJSON("/Home/CargarFotos/?id=" + id).done(function (data) {
-                //console.log(data.img)
+                console.log(data.img)
                 var template = ``;
                 var num = 0;
                 for (var i = 0; i < 5; i++) {
@@ -55,7 +46,7 @@
                         url = "../archivos/" + data.img[i].Nombre;                        
                         num++;
                         
-                        img = `<img class="img-preview" src="${url}" id="img${(i + 1)}" name="${data.img[i].IdFoto}" data-img-delete="false" data-img-name="${data.img[i].Nombre}">`
+                        img = `<img class="img-preview" src="${url}" id="img${(i + 1)}" name="${data.img[i].IdFoto}" data-img-delete="false">`
                         estado = `Actual`
                     }
                     else {
@@ -89,12 +80,21 @@
                 //console.log(template);
                 $("#containerPreviews").html(template);
                 $("#numeroFotos").text(num);
-                validarSubida(num);
             })
-        }        
+        }
+
+        var text = '3item';
+        if (text.includes("item")) {
+            var integer = parseInt(text, 10);
+            console.log(integer)
+        }
+        else {
+            console.log(text)
+        }
 
         let id = $("#idAnuncio").val();
-        obtenerFotos(id);                        
+        obtenerFotos(id);
+        
     })
 </script>
 
@@ -111,8 +111,8 @@
         <h4 class="box-title display-3">@ViewBag.Title</h4>
     </div>
     <!-- /.box-header -->
-    <div class="box-body bg-brick-white">
-        @using (Html.BeginForm("MisAnuncios", "Home", FormMethod.Post, htmlAttributes: new
+    <div class="box-body">
+        @using (Html.BeginForm("DbEditarAnuncio", "Home", FormMethod.Post, htmlAttributes: new
         {
             id = "formEditarAnuncio",
             enctype = "multipart/form-data"
@@ -139,27 +139,26 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.modelo, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
                         <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
                         @Html.TextBoxFor(x => x.modelo, htmlAttributes: new { @class = "form-control required", @placeholder = "Modelo" })
                         @Html.ValidationMessageFor(m => m.modelo, null, new { @class = "text-danger" })
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.marca, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
                         <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
                         @Html.TextBoxFor(x => x.marca, htmlAttributes: new { @class = "form-control required", @placeholder = "marca" })
                         @Html.ValidationMessageFor(m => m.marca, null, new { @class = "text-danger" })
                     </div>
-                    <div class="col-md-4">
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
                         @Html.LabelFor(x => x.precio, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
                         <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
                         @Html.TextBoxFor(x => x.precio, htmlAttributes: new { @class = "form-control money required", @placeholder = "precio" })
                         @Html.ValidationMessageFor(m => m.precio, null, new { @class = "text-danger" })
                     </div>
-                </div>
-                <div class="form-row">
-
                     <div class="col-md-6">
                         @Html.LabelFor(x => x.estado, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
                         @Html.HiddenFor(x => x.estado)
@@ -169,25 +168,13 @@
                             <option value="0">Usado</option>
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(x => x.idCategoria, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
-                        @Html.DropDownListFor(x => x.idCategoria, (IEnumerable<SelectListItem>)ViewBag.Categoria,
-                        htmlAttributes: new
-                            {
-                                @class = "custom-select",
-                                @title = "Seleccione categoria",
-                                data_live_search = "true",
-                                data_size = "4"
-                            })
-                        @Html.ValidationMessageFor(m => m.idCategoria, null, new { @class = "text-danger" })
-                    </div>
                 </div>
             </section>
 
             <!-- Step 2 -->
 
             <section>
-                <div class="form-row mt-15">
+                <div class="form-row mt-25">
                     <div class="form-group col-md-12">
                         @Html.LabelFor(x => x.descripcion, htmlAttributes: new { @class = "badge badge-success" })<span class="text-danger"> *</span>
                         <span class="form-control-feedback"><i class="fa fa-money-bill"></i></span>
@@ -197,7 +184,7 @@
                 </div>
             </section>
 
-            <section class="p-4">
+            <section class="bg-brick-white p-4">
                 <div class="container">
                     <h6><span id="numeroFotos"></span>/5 imagenes para el anuncio</h6>
                     <div class="row fx-element-overlay" id="containerPreviews">
@@ -210,9 +197,10 @@
                     <div class="row">                        
                         <div class="col-6">
                             <div class="custom-file">
-                                @Html.LabelFor(a => a.files, htmlAttributes: new { @class = "custom-file-label" })
-                                @Html.TextBoxFor(a => a.files, htmlAttributes: new { @class = "custom-file-input", type = "file", onchange = "readURL(this);", multiple = "multiple" })
+                                @Html.LabelFor(a => a.files, htmlAttributes: new { @class = "" })
+                                @Html.TextBoxFor(a => a.files, htmlAttributes: new { @class = "", type = "file", onchange = "readURL(this);", multiple = "multiple" })
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -221,12 +209,15 @@
             <div class="container-fluid m-15 p-10">
                 <div class="float-right">
                     <button type="button" class="btn btn-bold btn-pure btn-info text-white" id="btnConfirmar">
-                        <i class="fa fa-edit"></i>&nbsp;&nbsp;Confirmar&nbsp;
+                        <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar&nbsp;
                     </button>
                     <button type="submit" class="btn btn-outline-danger" id="btnEditar">
                         <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar&nbsp;
                     </button>
-                    <a class="btn btn-bold btn-pure btn-secondary" role="button" id="btnCancelar">
+                    <a class="btn btn-bold btn-pure btn-secondary" role="button" onclick="eliminarFoto()">
+                        <i class="fa fa-window-close"></i>&nbsp;&nbsp;Cerrar&nbsp;
+                    </a>
+                    <a class="btn btn-bold btn-pure btn-secondary" role="button" onclick="eliminarFoto()">
                         <i class="fa fa-window-close"></i>&nbsp;&nbsp;Cerrar&nbsp;
                     </a>
                 </div>
@@ -240,18 +231,17 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var cantiEspacios = $("#numeroFotos").text();
-        validarSubida(cantiEspacios);
 
         function readURL(input) {
             var cantiEspacios = $("#numeroFotos").text();
-            validarSubida(cantiEspacios);
             var cantiSubidas = input.files.length;
+            console.log(cantiEspacios);
+            console.log(input.files);
+            console.log(cantiSubidas);
             let validar = 5 - cantiEspacios * 1;
 
             if (cantiSubidas > validar) {
                 mostrarAlerta('error', 'La cantidad de archivos excede los espacios disponibles');
-
             }
             else {
                 //const filesOld = [...input.files];
@@ -259,25 +249,37 @@
 
                 //filesNew.push('xd');
 
+                //console.log("new");
+                //console.log(filesNew);
+                //console.log("old");
+                //console.log(filesOld);
+
+
                 var index = 0;
                 for (var i = 1; i < 6; i++) {
                     let id = '#img' + i;
+                    console.log(id);
                     let disp = $(id).attr("src");
 
                     if (disp === '' || disp === undefined) {
                         var reader = new FileReader();
+                        console.log(index)
                         reader.onload = function (e) {
                             $(id)
                                 .attr('src', e.target.result);
                         };
                         reader.readAsDataURL(input.files[index]);
                         index++;
-
+                        console.log("ACCEPT #: " + id);
                         let oldN = $("#numeroFotos").text();
                         oldN = Number(oldN);
                         let newN = Number(oldN) + 1;
                         $("#numeroFotos").text(newN);
                     }
+                    else {
+                        console.log("OCUPADO #: " + id);
+                    }
+
                 }
             }
         }
@@ -314,16 +316,12 @@
                 if (result.isConfirmed) {
                     let _opc = "";
                     if (opcion == "editar") {
-                        eliminarFoto();
-                        setTimeout(function () {                        
-                            $("#btnEditar").trigger("click");
-                        }, 1000);                        
+                        $("#btnConfirmar").trigger("click");
                         _opc = "<b>Actualizado</b>";
-                        
                         setTimeout(function () {
                         let url = "@Url.Action("MisAnuncios", "Home")"
                     $(location).prop('href', url);
-                    }, 1500);
+                    }, 2500);
                     }
                     else {
                         _opc = "<b>Eliminado</b>";
@@ -350,6 +348,7 @@
             var posFoto = $(index).attr("data-img-index");
             $(posFoto).attr("data-img-delete", "true");
             estaFoto = $(index).attr("data-img-delete");
+            console.log("# " + posFoto + " ESTADO: " + estaFoto);
             let oldN = $("#numeroFotos").text();
             oldN = Number(oldN);
             if (oldN > 0) {
@@ -360,12 +359,11 @@
         }
 
         function dbEliminarFoto(idsFotos, i) {
-
+            
             var newidsFotos = {
-                idFoto: idsFotos[i].idFoto,
-                ruta: idsFotos[i].ruta
+                idFoto: idsFotos[i].idFoto
             }
-
+            
             $.ajax(
                 {
                     url: "@Url.Action("EliminarFotos", "Home")",
@@ -384,23 +382,23 @@
             var idsFotos = [];
             var num = 0;
             for (var i = 1; i < 6; i++) {
-                let id = '#img' + i;
+                let id = '#img' + i;                
+                //console.log(id);
                 let estado = $(id).attr("data-img-delete");
                 let disp = $(id).attr("name");
-                let nombre = $(id).attr("data-img-name");
+                console.log(estado);
                 if (estado === "true") {
                     if (!(disp.includes("item"))) {
-                        //console.log(disp);
+                        console.log(disp);
                         idsFotos[num] = {
-                            idFoto: disp,
-                            ruta: nombre
+                            idFoto: disp
                         }
                         num++;
-                        //console.log(idsFotos);
+                        console.log(idsFotos);
                     }
                 }
                 else {
-                    //console.log("NO #: " + id);
+                    console.log("NO #: " + id);
                 }
 
             }
@@ -410,8 +408,9 @@
                     dbEliminarFoto(idsFotos, i);
                 }
             }
+
+
+
         }
-
-
     </script>
 }
