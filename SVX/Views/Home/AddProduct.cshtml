@@ -8,7 +8,7 @@
     }
     if (ViewBag.MessageError != null)
     {
-        <script>mostrarAlerta('error', ViewBag.MessageError);</script>
+        <script>mostrarAlerta('error', '@ViewBag.MessageError');</script>
     }
     SVX.Models.Usuario us = (SVX.Models.Usuario)Session["Usuario"];
 }
@@ -42,14 +42,14 @@
                 <div class="form-row mt-30">
                     <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.titulo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        <span class="form-control-feedback"><i class="fa fa-comments"></i></span>
                         @Html.TextBoxFor(x => x.titulo, htmlAttributes: new { @class = "form-control leras required", @placeholder = "Titulo" })
                         @Html.ValidationMessageFor(m => m.titulo, null, new { @class = "text-danger" })
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             @Html.LabelFor(x => x.nombre, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                            <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                            <span class="form-control-feedback"><i class="fa fa-comments"></i></span>
                             @Html.TextBoxFor(x => x.nombre, htmlAttributes: new { @class = "form-control required", @placeholder = "Nombre" })
                             @Html.ValidationMessageFor(m => m.nombre, null, new { @class = "text-danger" })
                         </div>
@@ -58,13 +58,13 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.modelo, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        <span class="form-control-feedback"><i class="fa fa-comments"></i></span>
                         @Html.TextBoxFor(x => x.modelo, htmlAttributes: new { @class = "form-control required", @placeholder = "Modelo" })
                         @Html.ValidationMessageFor(m => m.modelo, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group col-md-6">
                         @Html.LabelFor(x => x.marca, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                        <span class="form-control-feedback"><i class="fad fa-comments"></i></span>
+                        <span class="form-control-feedback"><i class="fa fa-comments"></i></span>
                         @Html.TextBoxFor(x => x.marca, htmlAttributes: new { @class = "form-control required", @placeholder = "Marca" })
                         @Html.ValidationMessageFor(m => m.marca, null, new { @class = "text-danger" })
                     </div>
@@ -84,9 +84,9 @@
                     </div>
                     <div class="col-md-6">
                         @Html.LabelFor(x => x.precio, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        <span class="form-control-feedback"><i class="fa fa-usd"></i></span>
                         @Html.TextBoxFor(x => x.precio, htmlAttributes: new { @class = "form-control money required", @placeholder = "Precio" })
-                        @Html.ValidationMessageFor(m => m.precio, null, new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(x => x.precio, null, new { @class = "text-danger" })
                     </div>
                 </div>
             </section>
@@ -114,7 +114,7 @@
                                 <input type="submit" value="Upload" />
                             </div>
                             <div id="previews" class="dz-default dz-message">
-                                <i class="fas fa-upload"></i><strong> Arrastra y suelta los archivos aquí o haz clic.</strong>
+                                <i class="fa fa-upload"></i><strong> Arrastra y suelta los archivos aquí o haz clic.</strong>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                 <div class="form-row mt-25">
                     <div class="form-group col-md-12">
                         @Html.LabelFor(x => x.descripcion, htmlAttributes: new { @class = "badge badge-info" })<span class="text-danger"> *</span>
-                        <span class="form-control-feedback"><i class="fad fa-money-bill"></i></span>
+                        <span class="form-control-feedback"><i class="fa fa-money-bill"></i></span>
                         @Html.TextAreaFor(x => x.descripcion, htmlAttributes: new { @class = "form-control required", @placeholder = "Descripcion" })
                         @Html.ValidationMessageFor(m => m.descripcion, null, new { @class = "text-danger" })
                     </div>
