@@ -13,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../images/favicon.ico">
 
-    <title>Cambiar contrasenia</title>
+    <title>Cambiar contraseña</title>
 
     @Styles.Render("~/assets/")
     @Scripts.Render("~/bundles/mensaje")
@@ -72,7 +72,7 @@
                 var re = new RegExp(regexp);
                 return this.optional(element) || !re.test(value);
             },
-            "La contrasenia no debe tener espacios en blanco."
+            "La contraseña no debe tener espacios en blanco."
         );
         $.validator.addMethod(
             "equelsCon",
@@ -80,7 +80,7 @@
                 var contra = $("#" + contra).val();
                 return this.optional(element) || value === contra;
             },
-            "Las contrasenias son diferentes."
+            "Las contraseñas son diferentes."
         );
         setTimeout(function () {
             $("#pass").rules("add", { regex: / / });
@@ -102,11 +102,11 @@
             messages: {
                 pass: {
                     required: "Este campo es requerido.",
-                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                    minlength: "La contraseña debe contener al menos 8 caracteres."
                 },
                 contrasenia1: {
                     required: "Este campo es requerido.",
-                    minlength: "La contrasenia debe contener al menos 8 caracteres."
+                    minlength: "La contraseña debe contener al menos 8 caracteres."
                 }
             },
             submitHandler: function (form) {

@@ -90,7 +90,7 @@
 
     }
 
-    <div class="hold-transition login-page my-5">
+    <div class="hold-transition login-page my-35">
         <div class="container h-p100">
             <div class="row align-items-center justify-content-md-center h-p100">
                 <div class="col-lg-3 col-md-8 col-12 d-none d-lg-block">
@@ -106,25 +106,13 @@
                                 <!-- Wrapper for slides -->
                                 <div class="carousel-inner" role="listbox">
                                     <div class="carousel-item active">
-                                        <img src="../../../images/slider/slide-1.jpg" class="img-fluid" alt="slide-1">
-                                        <div class="carousel-caption">
-                                            <h3>First here</h3>
-                                            <p>this is the subcontent you can use this</p>
-                                        </div>
+                                        <img src="../../../images/producto-slider-1.jpg" class="img-responsive" alt="slide-1">           
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="../../../images/slider/slide-2.jpg" class="img-fluid" alt="slide-2">
-                                        <div class="carousel-caption">
-                                            <h3>Second here</h3>
-                                            <p>this is the subcontent you can use this</p>
-                                        </div>
+                                        <img src="../../../images/producto-slider-2.jpg" class="img-responsive" alt="slide-2">                                        
                                     </div>
                                     <div class="carousel-item">
-                                        <img src="../../../images/slider/slide-3.jpg" class="img-fluid" alt="slide-3">
-                                        <div class="carousel-caption">
-                                            <h3>Third here</h3>
-                                            <p>this is the subcontent you can use this</p>
-                                        </div>
+                                        <img src="../../../images/producto-slider-3.jpg" class="img-responsive" alt="slide-3">                                       
                                     </div>
                                 </div>
                             </div>
@@ -132,10 +120,10 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-8 col-12">
-                    <div class="login-box">
+                    <div class="login-box bg-facebook">
                         <div class="login-box-body">
-                            <h3 class="text-center">Get started with Us</h3>
-                            <p class="login-box-msg">Sign in to start your session</p>
+                            <h3 class="text-center">Entra para comenzar a</h3>
+                            <p class="login-box-msg">publicar y conseguir articulos</p>
                             @using (Html.BeginForm("Login", "Home", FormMethod.Post, htmlAttributes: new { @id = "form-login" }))
                             {
                                 <div class="form-group has-feedback">
@@ -143,43 +131,31 @@
                                     <span class="ion ion-email form-control-feedback"></span>
                                 </div>
                                 <div class="form-group has-feedback">
-                                    @Html.PasswordFor(us => us.pass, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Password" })
+                                    @Html.PasswordFor(us => us.pass, htmlAttributes: new { @class = "form-control rounded", @required = "required", placeholder = "Contraseña" })
                                     <span class="ion ion-locked form-control-feedback"></span>
                                 </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="checkbox">
-                                            <input type="checkbox" id="basic_checkbox_1">
-                                            <label for="basic_checkbox_1">Remember Me</label>
+                                <div class="row">                                     
+                                    <!-- /.col -->
+                                    <div class="col-12">
+                                        <div class="fog-pwd text-center">
+                                            <span>¿Olvidaste tu contraseña?</span>
+                                            @Html.ActionLink("Recuperar contraseña", "RecuperarContrasenia", null, htmlAttributes: new { @class = "text-warning" })
                                         </div>
                                     </div>
-                                    <!-- /.col -->
-                                    <div class="col-6">
-                                        <div class="fog-pwd text-right">
-                                            @Html.ActionLink("Se me olvido la contrasenia.", "RecuperarContrasenia", null, htmlAttributes: new { @class = "text-warning" })
-                                        </div>
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-12 text-center">
-                                        <button type="submit" class="btn btn-info btn-block margin-top-10">SIGN IN</button>
-                                    </div>
-                                    <!-- /.col -->
                                 </div>
 
-                            }
+                                <div>
+                                    <div class="col-12 text-center my-25">
+                                        <button type="submit" class="btn btn-info btn-bold btn-block margin-top-10">Entrar</button>
+                                    </div>
+                                </div>
 
-
-                            <div class="social-auth-links text-center">
-                                <p>- OR -</p>
-                                <a href="#" class="btn btn-outline btn-light btn-social-icon"><i class="fa fa-facebook"></i></a>
-                                <a href="#" class="btn btn-outline btn-light btn-social-icon"><i class="fa fa-google-plus"></i></a>
-                                <a href="#" class="btn btn-outline btn-light btn-social-icon"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="btn btn-outline btn-light btn-social-icon"><i class="fa fa-instagram"></i></a>
-                            </div>
-                            <!-- /.social-auth-links -->
+                            }                            
 
                             <div class="margin-top-30 text-center">
-                                <p>Don't have an account? @Html.ActionLink("Registrarme", "Registrarme", null, htmlAttributes: new { @class = "text-warning" }) </p>
+                                <p>
+                                    ¿Aún no tienes cuenta? @Html.ActionLink("Registrarme", "Registrarme", null, htmlAttributes: new { @class = "text-warning" })
+                                </p>
                             </div>
 
                         </div>

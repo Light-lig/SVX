@@ -16,8 +16,8 @@
 <!-- Validation wizard -->
 <div class="box box-default">
     <div class="box-header with-border">
-        <h4 class="box-title">Step wizard to <span id="titulo">Create ad</span></h4>
-        <h6 class="box-subtitle">Please complete the form below</h6>
+        <h4 class="box-title">Pasos para <span id="titulo">crear anuncio</span></h4>
+        <h6 class="box-subtitle">Ingrese los datos del anuncio</h6>
 
         <ul class="box-controls pull-right">
             <li><a class="box-btn-close" href="#"></a></li>
@@ -36,8 +36,8 @@
         }))
         {
             @Html.AntiForgeryToken()
-            <!-- Step 1 -->
-            <h6>Step 1</h6>
+            <!-- Paso 1 -->
+            <h6>Paso 1</h6>
             <section>
                 <div class="form-row mt-30">
                     <div class="form-group col-md-6">
@@ -91,8 +91,8 @@
                 </div>
             </section>
 
-            <!-- Step 2 -->
-            <h6>Step 2</h6>
+            <!-- Paso 2 -->
+            <h6>Paso 2</h6>
             <section>
                 <!-- aqui deberia ir en el value el isUsuario de variable de sesion -->
                 <input type="hidden" name="idUsuario" id="idUsuario" value="@us.idUsuario">
@@ -128,8 +128,8 @@
                     </div>
                 </div>
             </section>
-            <!-- Step 3 -->
-            <h6>Step 3</h6>
+            <!-- Paso 3 -->
+            <h6>Paso 3</h6>
             <section>
                 <div class="form-row mt-25">
                     <h3>Estado del producto</h3>

@@ -10,14 +10,14 @@
         position: relative !important;
     }
 </style>
-<div class="hold-transition register-page my-5">
+<div class="hold-transition register-page my-35">
     <div class="container h-p100">
         <div class="row align-items-center justify-content-md-center h-p100">
             <div class="col-lg-4 col-md-8 col-12">
-                <div class="register-box">
+                <div class="register-box bg-facebook">
                     <div class="register-box-body">
-                        <h3 class="text-center">Get started with Us</h3>
-                        <p class="login-box-msg">Register a new membership</p>
+                        <h3 class="text-center">Registrate aqui</h3>
+                        <p class="login-box-msg">para poder publicar y vender articulos</p>
                         @using (Html.BeginForm("Registrarme", "Home", FormMethod.Post, htmlAttributes: new { id = "form-registrarme" }))
                         {
                             <div class="form-group has-feedback">
@@ -45,7 +45,7 @@
                             @Html.HiddenFor(u => u.estado, new { @Value = "0" })
                             <div class="form-group has-feedback">
                                 <select id="idDepartamento" name="idDepartamento" class="form-control" required>
-                                    <option value="" disabled>Selecciona una opcion</option>
+                                    <option value="" disabled selected>Selecciona una opcion</option>
 
                                     @foreach (var item in ViewBag.Departamentos)
                                     {
@@ -56,22 +56,16 @@
                                 </select>
                             </div>
                             <div class="col-12 text-center">
-                                <button type="submit" class="btn btn-info btn-block margin-top-10">SIGN UP</button>
+                                <button type="submit" class="btn btn-bold btn-info btn-block margin-top-10">REGISTRARME</button>
                             </div>
                         }
-
-
-                        <div class="social-auth-links text-center">
-                            <p>- OR -</p>
-                            <a href="#" class="btn btn-outline btn-social-icon btn-light"><i class="fa fa-facebook"></i></a>
-                            <a href="#" class="btn btn-outline btn-social-icon btn-light"><i class="fa fa-google-plus"></i></a>
-                            <a href="#" class="btn btn-outline btn-social-icon btn-light"><i class="fa fa-twitter"></i></a>
-                            <a href="#" class="btn btn-outline btn-social-icon btn-light"><i class="fa fa-instagram"></i></a>
-                        </div>
+                        
                         <!-- /.social-auth-links -->
 
                         <div class="margin-top-20 text-center">
-                            <p>Already have an account? @Html.ActionLink("Sign In", "Login", null, htmlAttributes: new { @class = "text-info m-l-5" })</p>
+                            <p>
+                                ¿Ya tienes una cuenta? @Html.ActionLink("Inicia sesión", "Login", null, htmlAttributes: new { @class = "text-warning m-l-5" })
+                            </p>
                         </div>
 
                     </div>
