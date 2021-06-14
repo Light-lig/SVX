@@ -1,4 +1,4 @@
-﻿<!-- Content Header (Page header) -->
+﻿
 <section class="content-header">
     <h1>
         Product Details
@@ -8,10 +8,11 @@
         <li class="breadcrumb-item active">Product Details</li>
     </ol>
 </section>
-
+@using System.Globalization;
 <!-- Main content -->
 <section class="content">
     @{
+
         SVX.Models.Usuario us = (SVX.Models.Usuario)Session["Usuario"];
 
     }
@@ -41,7 +42,7 @@
                         <div class="col-md-8 col-sm-6">
                             <h1 class="box-title mt-0">@ViewBag.producto.titulo</h1>
                             <h1 class="pro-price mb-0 mt-20">
-                                @ViewBag.producto.precio.ToString("C2")
+                                @ViewBag.producto.precio.ToString("C", new CultureInfo("en-US"))
 
                             </h1>
                             <hr>
@@ -66,7 +67,7 @@
                                     <p class="user-info mt-0 mb-10"><i class="fa fa-phone pr-15"></i>@ViewBag.producto.Usuario.telefono</p>
                                     <div class="gap-items user-social font-size-16">
                                         <p>Vendedor rate:</p>
-                                        <div class="rate" ></div>
+                                        <div class="rate"></div>
 
                                     </div>
                                 </div>
@@ -174,7 +175,7 @@
             $('.photos-item').removeClass('item-active');
             $(this).addClass('item-active');
         });
-    
+
 
         $(document).ready(function () {
             var options = {

@@ -14,119 +14,122 @@
     <link rel="icon" href="../../../images/favicon.ico">
 
     <title>Cambiar contrasenia</title>
-
     @Styles.Render("~/assets/")
     @Scripts.Render("~/bundles/mensaje")
     @Scripts.Render("~/bundles/jqueryVal")
 
+
 </head>
 <body>
-<section class="bg-img h-p100" style="background-image: url(../../../images/photo4.jpg);">
-    <div class="container h-p100">
-        <div class="row h-p100 align-items-center justify-content-center">
-            <div class="col-lg-8 col-11">
-                <div class="error-page bg-white rounded">
-                    <div class="error-content">
-                        <div class="row h-p100 align-items-center bg-brick-dark bg-dark">
+    <section class="bg-img h-p100" style="background-image: url(../../../images/photo4.jpg);">
+        <div class="container h-p100">
+            <div class="row h-p100 align-items-center justify-content-center">
+                <div class="col-lg-8 col-11">
+                    <div class="error-page bg-white rounded">
+                        <div class="error-content">
+                            <div class="row h-p100 align-items-center bg-brick-dark bg-dark">
 
-                            <div class="col-lg-12 col-md-12">
-                                <div class="error-content-inner text-center p-15">
-                                    <h1 class="margin-top-0 headline"><i class="fa fa-warning text-warning"></i></h1>
-                                    <h2>Olvidaste tu contrasenia?</h2>
-                                    <form class=" mb-15" id="enviarCorreo">
-                                        <div class="input-group">
-                                            <input type="text" name="email" id="email" class="form-control rounded" placeholder="Enviar" required>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="error-content-inner text-center p-15">
+                                        <h1 class="margin-top-0 headline"><i class="fa fa-warning text-warning"></i></h1>
+                                        <h2>Olvidaste tu contrasenia?</h2>
+                                        <form class=" mb-15" id="enviarCorreo">
+                                            <div class="input-group">
+                                                <input type="email" name="email" id="email" class="form-control rounded" placeholder="Enviar" required>
 
-                                            <div class="input-group-btn">
-                                                <button type="submit" name="submit" class="btn btn-warning">
-                                                    <i class="fa fa-send"></i>
-                                                </button>
+                                                <div class="input-group-btn">
+                                                    <button type="submit" name="submit" class="btn btn-warning">
+                                                        <i class="fa fa-send"></i>
+                                                    </button>
+                                                </div>
                                             </div>
+                                        </form>
+                                        <div class="mb-15">
+                                            <a href="/" class="btn btn-info btn-block margin-top-10">Volver</a>
                                         </div>
-                                    </form>
-                                    <div class="mb-15">
-                                        <a href="/" class="btn btn-info btn-block margin-top-10">Volver</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- /.error-content -->
                     </div>
-                    <!-- /.error-content -->
+                    <!-- /.error-page -->
+                    <footer class="main-footer bg-transparent text-white ml-0 text-center no-border">
+                        Copyright © 2018 <a href="https://www.multipurposethemes.com/" class="text-info hover-danger">Multi-Purpose Themes</a>. All Rights Reserved.
+                    </footer>
                 </div>
-                <!-- /.error-page -->
-                <footer class="main-footer bg-transparent text-white ml-0 text-center no-border">
-                    Copyright © 2018 <a href="https://www.multipurposethemes.com/" class="text-info hover-danger">Multi-Purpose Themes</a>. All Rights Reserved.
-                </footer>
             </div>
         </div>
-    </div>
-</section>
-
-@section scripts{
-    <script>
+    </section>
 
 
+        <script>
 
-        $("#enviarCorreo").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
+
+
+            $("#enviarCorreo").validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+
                 },
+                messages: {
+                    email: {
+                        required: "Este campo es requerido.",
+                        email: "El correo no es valido"
+                    },
 
-            },
-            messages: {
-                email: {
-                    required: "Este campo es requerido.",
-                    email: "El correo no es valido"
                 },
+                submitHandler: function (form) {
 
-            },
-            submitHandler: function (form) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: $(form).serialize(),
+                        url: '/Home/EnviarCorreoCambiarContra',
+                        success: function (respuesta) {
+                            if (respuesta.result === false) {
+                                $.toast({
+                                    heading: 'Bienvenido a SVX',
+                                    text: respuesta.mensaje,
+                                    position: 'top-right',
+                                    loaderBg: '#ff6849',
+                                    icon: 'warning',
+                                    hideAfter: 3000,
+                                    stack: 6
+                                });
+                            } else {
+                                $.toast({
+                                    heading: 'Bienvenido a SVX',
+                                    text: respuesta.mensaje,
+                                    position: 'top-right',
+                                    loaderBg: '#ff6849',
+                                    icon: 'info',
+                                    hideAfter: 3500
 
-                $.ajax({
-                    type: "POST",
-                    dataType: "json",
-                    data: $(form).serialize(),
-                    url: '/Home/EnviarCorreoCambiarContra',
-                    success: function (respuesta) {
-                        if (respuesta.result === false) {
+                                });
+                            }
+                        },
+                        error: function () {
                             $.toast({
                                 heading: 'Bienvenido a SVX',
                                 text: respuesta.mensaje,
                                 position: 'top-right',
                                 loaderBg: '#ff6849',
-                                icon: 'warning',
-                                hideAfter: 3000,
-                                stack: 6
-                            });
-                        } else {
-                            $.toast({
-                                heading: 'Bienvenido a SVX',
-                                text: respuesta.mensaje,
-                                position: 'top-right',
-                                loaderBg: '#ff6849',
-                                icon: 'info',
+                                icon: 'error',
                                 hideAfter: 3500
 
                             });
                         }
-                    },
-                    error: function () {
-                        $.toast({
-                            heading: 'Bienvenido a SVX',
-                            text: respuesta.mensaje,
-                            position: 'top-right',
-                            loaderBg: '#ff6849',
-                            icon: 'error',
-                            hideAfter: 3500
+                    });
+                }
+            });
+        </script>
 
-                        });
-                    }
-                });
-            }
-        });
-    </script>
-}
+
+
+  
 </body>
 </html>

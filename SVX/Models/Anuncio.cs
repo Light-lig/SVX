@@ -23,7 +23,6 @@ namespace SVX.Models
         }
         [DataType(DataType.Upload)]
         [Display(Name = "Subir Archivo")]
-        [Required(ErrorMessage = "Por favor seleccione un archivo.")]
         public HttpPostedFileBase[] files { get; set; }
         public string idAnuncio { get; set; }
         public string titulo { get; set; }

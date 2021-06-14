@@ -11,7 +11,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace SVX.Controllers
 {
@@ -32,7 +31,7 @@ namespace SVX.Controllers
             var resultados = (from a in contexto.Anuncio
                              join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
                              where  ((u.idDepartamento.Equals(idDepartamento)||(idDepartamento.Equals(0))) &&
-                                    a.estado == 1 &&
+                                    a.disponible == 1 &&
                                     ((a.idCategoria.Equals(id)) || (id == 0)) &&
                                     ((a.titulo.Contains(filtro)) || (filtro == "")))
                                     select a).ToList();
@@ -402,7 +401,7 @@ namespace SVX.Controllers
 
         #region apartado chat
 
-        public ActionResult Chat(int? idUser = 0, int? idConver = 0)
+        public ActionResult Chat(int? idUser, int? idConver)
         {
             if(idUser != null && idConver != null)
             {

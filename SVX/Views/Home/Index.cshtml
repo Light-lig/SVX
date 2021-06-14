@@ -1,35 +1,35 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+@using System.Globalization;
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
         Anuncios
     </h1>
-  
-<div class="row">
-    <div class="col-sm-6 col-md-6 col-xl-6">
-        <a href="/Home/AddProduct" class="btn btn-info"><i class="ion ion-android-add"></i> Agregar Anuncio </a>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-xl-6">
+            <a href="/Home/AddProduct" class="btn btn-info"><i class="ion ion-android-add"></i> Agregar Anuncio </a>
+
+        </div>
+        <div class="col-sm-6 col-md-6 col-xl-6">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
+            {
+                <select name="idDepartamento" id="idDepartamento" class="form-control">
+                    @foreach (var item in ViewBag.departamentos)
+                    {
+                        <option value="@item.idDepartamento">@item.nombre</option>
+                    }
+
+                </select>
+                <button type="submit" class="btn btn-primary mr-5 ">
+                    <i class="ion-search"></i>
+                </button>
+            }
+        </div>
 
     </div>
-    <div class="col-sm-6 col-md-6 col-xl-6">
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
-        {
-            <select name="idDepartamento" id="idDepartamento" class="form-control">
-                @foreach (var item in ViewBag.departamentos)
-                {
-                    <option value="@item.idDepartamento">@item.nombre</option>
-                }
-
-            </select>
-            <button type="submit" class="btn btn-primary mr-5 ">
-                <i class="ion-search"></i>
-            </button>
-        }
-    </div>
-
-</div>
 
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="fx-card-content ribbon-wrapper-reverse">
-                                <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio.ToString("C2")</div>
+                                <div class="ribbon ribbon-bookmark ribbon-right bg-info">@item.precio.ToString("C", new CultureInfo("en-US"))</div>
                                 <p class="box-text text-bold">@item.titulo</p>
 
                             </div>
@@ -78,29 +78,29 @@
 
                     @using (Html.BeginForm("Index", "Home", FormMethod.Post, htmlAttributes: new { @class = "form-inline" }))
                     {
-                    int limite = ViewBag.limite + 5;
+                        int limite = ViewBag.limite + 5;
 
-                    <input type="hidden" value="@limite" id="limit" name="limit">
-                    <button type="submit" class="btn btn-primary mr-5">
-                        Ver mas
-                    </button>
+                        <input type="hidden" value="@limite" id="limit" name="limit">
+                        <button type="submit" class="btn btn-primary mr-5">
+                            Ver mas
+                        </button>
                     }
                 </center>
-                }
-
-            }
-            else
-            {
-                <div class="alert alert-info alert-dismissible w-full text-center">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-info"></i> Informacion!</h4>
-                    No se encontraron resultados.
-                </div>
             }
 
-            <!-- /.box -->
+        }
+        else
+        {
+            <div class="alert alert-info alert-dismissible w-full text-center">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-info"></i> Informacion!</h4>
+                No se encontraron resultados.
+            </div>
+        }
 
-        </div>
+        <!-- /.box -->
+
+    </div>
 
 </section>
 <!-- /.content -->
