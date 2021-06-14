@@ -17,6 +17,7 @@ namespace SVX.Models
         public int idPuntuacion { get; set; }
         public Nullable<double> valor { get; set; }
         public int idUsuario { get; set; }
+        public Nullable<int> idUsuarioPuntua { get; set; }
     
         public virtual Usuario Usuario { get; set; }
     }

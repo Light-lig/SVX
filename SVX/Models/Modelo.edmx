@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ProyectoWeb2021Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ProyectoWeb2021Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Anuncio">
           <Key>
             <PropertyRef Name="idAnuncio" />
@@ -73,6 +73,7 @@
           <Property Name="idPuntuacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="valor" Type="float" />
           <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="idUsuarioPuntua" Type="int" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -85,6 +86,7 @@
           <Property Name="pass" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="telefono" Type="varchar" MaxLength="14" Nullable="false" />
           <Property Name="idDepartamento" Type="int" Nullable="false" />
+          <Property Name="estado" Type="int" />
         </EntityType>
         <Association Name="fk_AnunCat">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
@@ -240,8 +242,7 @@
             <End Role="Puntuacion" EntitySet="Puntuacion" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProyectoWeb2021Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -325,6 +326,7 @@
           <Property Name="idPuntuacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="valor" Type="Double" />
           <Property Name="idUsuario" Type="Int32" Nullable="false" />
+          <Property Name="idUsuarioPuntua" Type="Int32" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_PuntUs" FromRole="Puntuacion" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Usuario">
@@ -343,6 +345,7 @@
           <NavigationProperty Name="Mensaje" Relationship="Self.fk_MenUs1" FromRole="Usuario" ToRole="Mensaje" />
           <NavigationProperty Name="Mensaje1" Relationship="Self.fk_MenUs2" FromRole="Usuario" ToRole="Mensaje" />
           <NavigationProperty Name="Puntuacion" Relationship="Self.fk_PuntUs" FromRole="Usuario" ToRole="Puntuacion" />
+          <Property Name="estado" Type="Int32" />
         </EntityType>
         <Association Name="fk_AnunCat">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
@@ -498,6 +501,12 @@
             <End Role="Puntuacion" EntitySet="Puntuacion" />
           </AssociationSet>
         </EntityContainer>
+        <ComplexType Name="ComplexType1">
+          <Property Type="String" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="ComplexType2">
+          <Property Type="ProyectoWeb2021Model.ComplexType1" Name="ComplexProperty" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -577,12 +586,14 @@
                 <ScalarProperty Name="idPuntuacion" ColumnName="idPuntuacion" />
                 <ScalarProperty Name="valor" ColumnName="valor" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="idUsuarioPuntua" ColumnName="idUsuarioPuntua" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Usuario">
             <EntityTypeMapping TypeName="ProyectoWeb2021Model.Usuario">
               <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />

@@ -42,6 +42,7 @@
                             <div class="form-group has-feedback">
                                 @Html.TextBoxFor(u => u.telefono, htmlAttributes: new { @class = "form-control telefono", placeholder = "Telefono", @required = "required" })
                             </div>
+                            @Html.HiddenFor(u => u.estado, new { @Value = "0" })
                             <div class="form-group has-feedback">
                                 <select id="idDepartamento" name="idDepartamento" class="form-control" required>
                                     <option value="" disabled>Selecciona una opcion</option>
@@ -183,7 +184,7 @@
                                 respuesta.mensaje ,
                                 'success'
                             )
-                            window.location.href = respuesta.result;
+                           // window.location.href = respuesta.result;
                         }
                     },
                     error: function () {

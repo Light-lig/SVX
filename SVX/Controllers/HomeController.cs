@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
@@ -30,6 +32,7 @@ namespace SVX.Controllers
             var resultados = (from a in contexto.Anuncio
                              join u in contexto.Usuario on a.idUsuario equals u.idUsuario 
                              where  ((u.idDepartamento.Equals(idDepartamento)||(idDepartamento.Equals(0))) &&
+                                    a.estado == 1 &&
                                     ((a.idCategoria.Equals(id)) || (id == 0)) &&
                                     ((a.titulo.Contains(filtro)) || (filtro == "")))
                                     select a).ToList();
@@ -52,47 +55,167 @@ namespace SVX.Controllers
             return View();
         }
 
-        public ActionResult About()
+
+        public ActionResult ProductDetails(string id)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        public ActionResult ProductDetails(int id)
-        {
-            Usuario us = (Usuario)Session["Usuario"];
-            int idUser = 0;
-            if (us != null)
+            if(id != null)
             {
-                idUser = us.idUsuario;
+                Usuario us = (Usuario)Session["Usuario"];
+                int idUser = 0;
+                if (us != null)
+                {
+                    idUser = us.idUsuario;
+                }
+                var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
+
+                var conversacion = (from m in contexto.Mensaje
+                                    join u in contexto.Usuario on m.idTo equals u.idUsuario
+                                    join a in contexto.Anuncio on u.idUsuario equals a.idUsuario
+                                    where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser)) || (idUser.Equals(0)) &&
+                                           (a.idAnuncio.Equals(id))
+                                    select m).FirstOrDefault();
+                var puntuacion = contexto.Puntuacion.Where(p => p.idUsuario == producto.idUsuario).ToList();
+                double? rating = 0.0;
+                if (puntuacion.Count > 0)
+                {
+                    rating = puntuacion.Sum(p => p.valor) / puntuacion.Count;
+                }
+
+                var productosRelacionados = contexto.Anuncio.ToList().Take(4);
+                ViewBag.producto = producto;
+                ViewBag.rating = rating;
+                ViewBag.productosRelacionados = productosRelacionados;
+                ViewBag.conversacion = conversacion;
+                return View();
             }
-            var producto = contexto.Anuncio.Where(a => a.idAnuncio.Equals(id)).FirstOrDefault();
+            else
+            {
+                return RedirectToAction("Error404");
+            }
+        
+        }
+        [HttpPost]
+        public ActionResult rate(Puntuacion pun)
+        {
+            var estado = true;
+            var mensaje = "";
+            try
+            {
+                Usuario us = (Usuario)Session["Usuario"];
+                if (us != null)
+                {
+                    Puntuacion rating = new Puntuacion();
+                    var puntaciones = contexto.Puntuacion.Where(p => p.idUsuario == pun.idUsuario && p.idUsuarioPuntua == pun.idUsuarioPuntua).ToList().FirstOrDefault();
+                    if (puntaciones == null)
+                    {
+                        mensaje = "Se puntuo correctamente.";
+                        rating.idUsuario = pun.idUsuario;
+                        rating.idUsuarioPuntua = pun.idUsuarioPuntua;
+                        rating.valor = pun.valor;
+                        contexto.Puntuacion.Add(rating);
+                        contexto.SaveChanges();
+                    }
+                    else
+                    {
+                        mensaje = "Se puntuo correctamente.";
+                        puntaciones.valor = pun.valor;
+                        contexto.SaveChanges();
+                    }
+                }
+                else
+                {
+                    estado = false;
+                    mensaje = "Debe iniciar sesion para poder realizar esta accion.";
+                }
+               
+            }
+            catch (Exception e)
+            {
+                estado = false;
+                mensaje = "Ocurrio un error: " + e.Message.ToString();
+            }
 
-            var conversacion = (from m in contexto.Mensaje 
-                                join u in contexto.Usuario on  m.idTo equals u.idUsuario
-                                join a in contexto.Anuncio on  u.idUsuario equals a.idUsuario
-                                where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser))|| (idUser.Equals(0)) &&
-                                       (a.idAnuncio.Equals(id)) 
-                                select m).FirstOrDefault();
-
-            var productosRelacionados = contexto.Anuncio.ToList().Take(4);
-            ViewBag.producto = producto;
-            ViewBag.productosRelacionados = productosRelacionados;
-            ViewBag.conversacion = conversacion;
-            return View();
+           
+            return Json(new { result = estado, mensaje = mensaje});
         }
 
         public ActionResult Login()
         {
+            if(TempData["mensaje"] != null)
+            {
+                ViewBag.mensaje = TempData["mensaje"].ToString();
+            }
             return View();
+        }
+        public ActionResult RecuperarContrasenia()
+        {
+            return View();
+        }
+
+        public ActionResult CambiarContrasenia(string id)
+        {
+            if(id != null)
+            {
+                ViewBag.idUsuario = Base64Decode(id);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Error404");
+            }
+       
+        }
+        [HttpPost]
+        public ActionResult CambiarContrasenia(Usuario us)
+         {
+            var usuario = contexto.Usuario.Where(u => u.idUsuario == us.idUsuario).FirstOrDefault();
+            try
+            {
+                usuario.pass = Base64Encode(us.pass);
+                contexto.SaveChanges();
+                Session["Usuario"] = null;
+                return Json(new { result = "/Home/Login", mensaje = "Se cambio la contrasenia correctamente." });
+            }
+            catch (Exception e)
+            {
+                return Json(new { result = false, mensaje = "Ocurrio un problema interno" });
+
+            }
+        }
+
+        
+        [HttpPost]
+        public ActionResult EnviarCorreoCambiarContra(string email)
+        {
+            try
+            {
+
+                var usuario = contexto.Usuario.Where(u => u.email.Equals(email)).FirstOrDefault();
+                if(usuario != null)
+                {
+                    string mensaje = "<h1>SVX</h1><br/>" +
+                         "<center><p>Favor presione el siguiente link para cambiar su contra.</p></center><br/>" +
+                         "<a href='https://localhost:44369/Home/CambiarContrasenia/" + Base64Encode(usuario.idUsuario.ToString()) + "'>Cambiar contra</a>";
+                    if (sendEmail(email, "Recuperar contrasenia", mensaje))
+                    {
+                        return Json(new { result = true, mensaje = "Se envio un mensaje a su correo para poder restablecer la contrasenia." });
+                    }
+                    else
+                    {
+                        return Json(new { result = false, mensaje = "Ocurrio un problema al momento de enviar su correo." });
+                    }
+                }
+                else
+                {
+                    return Json(new { result = false, mensaje = "El email que ha ingresado no esta asociado a ninguna cuenta." });
+                }
+            }
+                
+            catch (Exception e)
+            {
+
+                return Json(new { result = false, mensaje ="Ocurrio un problema interno." });
+            }
         }
 
         public ActionResult Registrarme()
@@ -133,8 +256,8 @@ namespace SVX.Controllers
             //var aux = Request.QueryString.AllKeys;
             if (ModelState.IsValid)
             {
-                //contexto.Anuncio.Add(ano);
-                contexto.Entry(ano).State = System.Data.Entity.EntityState.Added;
+
+                contexto.Anuncio.Add(ano);
                 contexto.SaveChanges();
                 //funciona con input
                 //IList<HttpPostedFileBase> files = Request.Files.GetMultiple("files");
@@ -178,6 +301,7 @@ namespace SVX.Controllers
             else
                 return View(ano);
         }
+  
 
         private bool ValidateExtension(string extension)
         {
@@ -213,8 +337,55 @@ namespace SVX.Controllers
 
         public ActionResult MiPerfil()
         {
-            return View();
+            Usuario us = (Usuario)Session["Usuario"];
+            if (us != null)
+            {
+                var departamentos = contexto.Departamento.ToList();
+                ViewBag.Departamentos = departamentos;
+                return View(us);
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+          
         }
+        [HttpPost]
+        public ActionResult ActualizarPerfil(Usuario us)
+        {
+            try
+            {
+                var usuario = contexto.Usuario.Where(u => u.idUsuario == us.idUsuario).FirstOrDefault();
+                usuario.nombre = us.nombre;
+                usuario.apellido = us.apellido;
+                if(usuario.email != us.email)
+                {
+                    var email = contexto.Usuario.Where(u => u.email == us.email).FirstOrDefault();
+                    if(email != null)
+                    {
+                        return Json(new { result = false, mensaje ="El correo ya esta asociado a un cuenta." });
+                    }
+                    else
+                    {
+                        usuario.email = us.email;
+
+                    }
+                }
+                usuario.telefono = us.telefono;
+                usuario.idDepartamento = us.idDepartamento;
+                contexto.SaveChanges();
+                Session["Usuario"] = usuario;
+                return Json(new { result = true, mensaje = "Cambios aplicados correctamente." });
+
+            }
+            catch (Exception e)
+            {
+
+                return Json(new { result = false, mensaje = "Ocurrio un error al procesar los datos." });
+            }
+
+        }
+    
 
         public ActionResult EditProduct()
         {
@@ -231,17 +402,25 @@ namespace SVX.Controllers
 
         #region apartado chat
 
-        public ActionResult Chat(int idUser = 0, int idConver = 0)
+        public ActionResult Chat(int? idUser = 0, int? idConver = 0)
         {
-            Usuario us = (Usuario)Session["Usuario"];
-            if (us != null)
+            if(idUser != null && idConver != null)
             {
-                return View();
+                Usuario us = (Usuario)Session["Usuario"];
+                if (us != null)
+                {
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Error404");
             }
+
         }
 
         #endregion apartado chat
@@ -257,15 +436,23 @@ namespace SVX.Controllers
         [HttpPost]
         public ActionResult Login(Usuario us)
         {
-            Usuario user = contexto.Usuario.Where(u => u.email.Equals(us.email) && u.pass.Equals(us.pass)).FirstOrDefault();
+            Usuario user = contexto.Usuario.Where(u => u.email.Equals(us.email) && u.estado == 1).FirstOrDefault();
             if (user == null)
             {
                 return Json(new { result = false });
             }
             else
             {
-                Session["Usuario"] = user;
-                return Json(new { result = "/Home/Index" });
+                if (Base64Decode(user.pass).Equals(us.pass))
+                {
+                    Session["Usuario"] = user;
+                    return Json(new { result = "/Home/Index" });
+                }
+                else
+                {
+                    return Json(new { result = false });
+                }
+
             }
         }
 
@@ -279,12 +466,92 @@ namespace SVX.Controllers
             }
             else
             {
+              
+                us.pass = Base64Encode(us.pass);
                 contexto.Usuario.Add(us);
                 contexto.SaveChanges();
                 var usuario = contexto.Usuario.ToList().Last();
                 Session["Usuario"] = usuario;
-                return Json(new { result = "/Home/Index", mensaje = "Bien hecho, Bienvenido a nuestro sitio." });
+                string mensaje = "<h1> SVX </h1><br/>" +
+                                  "<center><p>Favor presione el siguiente link para activar su cuenta.</p></center><br/>" +
+                                  "<a href='https://localhost:44369/Home/ActivarCuenta/" + Base64Encode(usuario.idUsuario.ToString())+"'>Activar cuenta</a>";
+                sendEmail(us.email,"Activar", mensaje);
+                return Json(new { result = true, mensaje = "Bien hecho, si tu correo es real, deberia haber haberte caido un correo para activar tu cuenta." });
             }
+        }
+        public ActionResult ActivarCuenta(string id)
+        {
+            try
+            {
+                if(id != null)
+                {
+                    int idFinal = int.Parse(Base64Decode(id));
+                    var usuario = contexto.Usuario.Where(u => u.idUsuario == idFinal).FirstOrDefault();
+                    usuario.estado = 1;
+                    contexto.SaveChanges();
+                    TempData["mensaje"] = "Su cuenta ha sido activada exitosamente.";
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    return RedirectToAction("Error404");
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                return RedirectToAction("Error500");
+            }
+          
+        }
+        public bool sendEmail(string receiver, string subject, string message)
+        {
+            try
+            {
+               
+                    var senderEmail = new MailAddress("proyectospruebas390@gmail.com", "Proyectos Pruebas");
+                    var receiverEmail = new MailAddress(receiver, "Receiver");
+                    var password = "Manzana10";
+                    var sub = subject;
+                    var body = message;
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
+                    return true;
+            
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return false;
+        }
+        public static string Base64Encode(string word)
+        {
+            byte[] byt = System.Text.Encoding.UTF8.GetBytes(word);
+            return Convert.ToBase64String(byt);
+        }
+        public static string Base64Decode(string word)
+        {
+            byte[] b = Convert.FromBase64String(word);
+            return System.Text.Encoding.UTF8.GetString(b);
         }
 
         #region MisAnuncios
@@ -404,6 +671,7 @@ namespace SVX.Controllers
         {
             Anuncio model = new();
             var oAnuncio = contexto.Anuncio.Find(id);
+
             model.idAnuncio = oAnuncio.idAnuncio;
             model.titulo = oAnuncio.titulo;
             model.nombre = oAnuncio.nombre;
@@ -413,6 +681,7 @@ namespace SVX.Controllers
             model.idCategoria = oAnuncio.idCategoria;
             model.descripcion = oAnuncio.descripcion;
             model.estado = oAnuncio.estado;
+
             model.files = oAnuncio.files;
             model.disponible = oAnuncio.disponible;
             model.Foto = oAnuncio.Foto;
@@ -577,6 +846,7 @@ namespace SVX.Controllers
                 fotos.Add(tmp2);
             }
             return Json(new { img = fotos }, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpPost]
@@ -650,6 +920,15 @@ namespace SVX.Controllers
         {
             Session.Clear();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Error404()
+        {
+            return View();
+        }
+        public ActionResult Error500()
+        {
+            return View();
         }
     }
 }
