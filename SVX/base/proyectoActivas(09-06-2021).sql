@@ -1,5 +1,6 @@
 USE master
 IF EXISTS(select * from sys.databases where name='ProyectoWeb2021')
+ALTER DATABASE [ProyectoWeb2021] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 DROP DATABASE ProyectoWeb2021
 GO
 create database ProyectoWeb2021
