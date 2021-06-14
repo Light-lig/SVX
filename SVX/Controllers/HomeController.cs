@@ -53,8 +53,6 @@ namespace SVX.Controllers
             ViewBag.limite = limit;
             return View();
         }
-
-
         public ActionResult ProductDetails(string id)
         {
             if(id != null)
@@ -137,7 +135,6 @@ namespace SVX.Controllers
            
             return Json(new { result = estado, mensaje = mensaje});
         }
-
         public ActionResult Login()
         {
             if(TempData["mensaje"] != null)
@@ -150,7 +147,6 @@ namespace SVX.Controllers
         {
             return View();
         }
-
         public ActionResult CambiarContrasenia(string id)
         {
             if(id != null)
@@ -181,8 +177,6 @@ namespace SVX.Controllers
 
             }
         }
-
-        
         [HttpPost]
         public ActionResult EnviarCorreoCambiarContra(string email)
         {
@@ -216,14 +210,12 @@ namespace SVX.Controllers
                 return Json(new { result = false, mensaje ="Ocurrio un problema interno." });
             }
         }
-
         public ActionResult Registrarme()
         {
             var departamentos = contexto.Departamento.ToList();
             ViewBag.Departamentos = departamentos;
             return View();
         }
-
         public ActionResult AddProduct()
         {
             Usuario us = (Usuario)Session["Usuario"];
@@ -238,7 +230,6 @@ namespace SVX.Controllers
                 return RedirectToAction("Login");
             }
         }
-
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddProduct(Anuncio ano)
         {
@@ -255,7 +246,7 @@ namespace SVX.Controllers
             //var aux = Request.QueryString.AllKeys;
             if (ModelState.IsValid)
             {
-
+                
                 contexto.Anuncio.Add(ano);
                 contexto.SaveChanges();
                 //funciona con input
@@ -300,8 +291,6 @@ namespace SVX.Controllers
             else
                 return View(ano);
         }
-  
-
         private bool ValidateExtension(string extension)
         {
             extension = extension.ToLower();
@@ -320,7 +309,6 @@ namespace SVX.Controllers
                     return false;
             }
         }
-
         public ActionResult MisAnuncios()
         {
             Usuario us = (Usuario)Session["Usuario"];
@@ -333,7 +321,6 @@ namespace SVX.Controllers
                 return RedirectToAction("Login");
             }            
         }
-
         public ActionResult MiPerfil()
         {
             Usuario us = (Usuario)Session["Usuario"];
@@ -384,8 +371,6 @@ namespace SVX.Controllers
             }
 
         }
-    
-
         public ActionResult EditProduct()
         {
             Usuario us = (Usuario)Session["Usuario"];
@@ -398,7 +383,6 @@ namespace SVX.Controllers
                 return RedirectToAction("Login");
             }            
         }
-
         #region apartado chat
 
         public ActionResult Chat(int? idUser = 0, int? idConver = 0)
@@ -423,7 +407,6 @@ namespace SVX.Controllers
         }
 
         #endregion apartado chat
-
         [ChildActionOnly]
         public ActionResult RenderCategories()
         {
@@ -431,7 +414,6 @@ namespace SVX.Controllers
             ViewBag.categorias = datos;
             return PartialView("_Categories");
         }
-
         [HttpPost]
         public ActionResult Login(Usuario us)
         {
@@ -454,7 +436,6 @@ namespace SVX.Controllers
 
             }
         }
-
         [HttpPost]
         public ActionResult Registrarme(Usuario us)
         {
@@ -552,9 +533,7 @@ namespace SVX.Controllers
             byte[] b = Convert.FromBase64String(word);
             return System.Text.Encoding.UTF8.GetString(b);
         }
-
         #region MisAnuncios
-
         private struct anun_struct
         {
             public string id { get; set; }
@@ -570,14 +549,12 @@ namespace SVX.Controllers
             public string foto { get; set; }
             public string fecha { get; set; }
         }
-
         private struct Foto_struct
         {
             public string IdFoto { get; set; }
             public string Nombre { get; set; }
             public string IdAnuncio { get; set; }
         }
-
         [HttpGet]
         public JsonResult GetMisAnuncios()
         {
@@ -664,7 +641,6 @@ namespace SVX.Controllers
                 return Json(ex);
             }
         }
-
         [HttpGet]
         public ActionResult EditarAnuncio(string id)
         {
@@ -689,8 +665,6 @@ namespace SVX.Controllers
                  .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
             return View("~/Views/Home/Anuncios/EditarAnuncio.cshtml", model); 
         }
-
-
         [HttpPost]
         public ActionResult DbEditarAnuncio(EditAnuncioViewModel model)
         {
@@ -761,7 +735,6 @@ namespace SVX.Controllers
                 return Json("error al editar control");
             }
         }
-
         [HttpGet]
         public JsonResult EliminarAnuncio(string id)
         {
@@ -799,7 +772,6 @@ namespace SVX.Controllers
                 return Json("F");
             }
         }
-
         [HttpGet]
         public JsonResult CambiarDisponibilidad(string id)
         {
@@ -826,7 +798,6 @@ namespace SVX.Controllers
                 return Json("F");
             }
         }
-
         [HttpGet]
         public JsonResult CargarFotos(string id)
         {
@@ -847,7 +818,6 @@ namespace SVX.Controllers
             return Json(new { img = fotos }, JsonRequestBehavior.AllowGet);
 
         }
-
         [HttpPost]
         public JsonResult EliminarFotos(Foto f)
         {
@@ -874,7 +844,6 @@ namespace SVX.Controllers
                 return Json("F");
             }
         }
-
         public void borrarArchivo(string nombreArchivo)
         {
             string sourcePath = HttpContext.Server.MapPath(@"~/archivos");
@@ -914,13 +883,11 @@ namespace SVX.Controllers
             }
         }
         #endregion MisAnuncios
-
         public ActionResult CerrarSession()
         {
             Session.Clear();
             return RedirectToAction("Index");
         }
-
         public ActionResult Error404()
         {
             return View();
