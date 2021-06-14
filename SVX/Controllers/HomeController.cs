@@ -740,20 +740,27 @@ namespace SVX.Controllers
         {
             try
             {                
-                var del = from a in contexto.Anuncio
-                          join f in contexto.Foto on a.idAnuncio equals f.idAnuncio
+                var delA = from a in contexto.Anuncio                          
                           where a.idAnuncio.Equals(id)
-                          select new { idA = a, idF = f };
+                          select new { idA = a};
 
-                foreach(var item in del)
+                var delF = from f in contexto.Foto
+                          where f.idAnuncio.Equals(id)
+                          select new {idF = f };
+
+                foreach (var item in delA)
+                {
+                    contexto.Anuncio.Remove(item.idA);                   
+                    contexto.Entry(item.idA).State = System.Data.Entity.EntityState.Deleted;
+                }
+
+                foreach (var item in delF)
                 {
                     contexto.Foto.Remove(item.idF);
                     borrarArchivo(item.idF.ruta);
-                    contexto.Anuncio.Remove(item.idA);
                     contexto.Entry(item.idF).State = System.Data.Entity.EntityState.Deleted;
-                    contexto.Entry(item.idA).State = System.Data.Entity.EntityState.Deleted;
                 }
-                
+
                 contexto.SaveChanges();
                 return Json("ok", JsonRequestBehavior.AllowGet);
             }
