@@ -59,7 +59,7 @@
                 <div class="box-footer">
                     <form action="#" method="post">
                         <div class="input-group">
-                            <input type="text" id="message" name="message" placeholder="Escribe tu mensaje ..." class="form-control">
+                            <input type="text" id="message" name="message" placeholder="Escribe tu mensaje ..." class="form-control" required>
                             <div class="input-group-addon">
                                 <div class="align-self-end gap-items">
                                   
@@ -121,7 +121,7 @@
             };
 
             chat.client.getMensajes = function (mensajes) {
-             
+
                 var mensajesDiv = "";
                 var idUsuario = @usuario.idUsuario;
                 mensajes.map(item => {
@@ -224,7 +224,7 @@
             // Get the user name and store it to prepend to messages.
 
             // Set initial focus to message input box.
-            if (GetURLParameter(6) !== 0) {
+            if (GetURLParameter(6) != 0) {
                 $('#message').focus();
                 $("#message").prop("readonly", false);
                 $("#enviar-mensaje").prop("disabled", false);
@@ -246,15 +246,16 @@
                      getMensajes(chat, idconversacion);
                         $('#enviar-mensaje').click(function () {
                             var mensaje = $('#message').val();
+                            if (mensaje !== '') {
                             var idconver = GetURLParameter(6);
                             var idto = GetURLParameter(5);
-                            const conversacion = sessionStorage.getItem('nombreConver');
-                            if ( @usuario.idUsuario !== idto) {
-                                chat.server.send(idto, idconver, @usuario.idUsuario, '@usuario.nombre', mensaje, conversacion);
+                                    const conversacion = sessionStorage.getItem('nombreConver');
+                                    if ( @usuario.idUsuario !== idto) {
+                                        chat.server.send(idto, idconver, @usuario.idUsuario, '@usuario.nombre', mensaje, conversacion);
 
-                            } else {
-
+                                    }
                             }
+
                             $('#message').val('');
                         });
 

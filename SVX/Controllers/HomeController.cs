@@ -401,7 +401,7 @@ namespace SVX.Controllers
 
         #region apartado chat
 
-        public ActionResult Chat(int? idUser, int? idConver)
+        public ActionResult Chat(int? idUser = 0, int? idConver = 0)
         {
             if(idUser != null && idConver != null)
             {
