@@ -27,8 +27,7 @@
         });
 
         function obtenerFotos(id) {
-            $.getJSON("/Home/CargarFotos/?id=" + id).done(function (data) {
-                //console.log(data.img)
+            $.getJSON("/Home/CargarFotos/?id=" + id).done(function (data) {                
                 var template = ``;
                 var num = 0;
                 for (var i = 0; i < 5; i++) {
@@ -77,8 +76,7 @@
                             </div>
                         </div>
                         <!--IMG ${(i + 1)}-->\n`
-                }
-                //console.log(template);
+                }                
                 $("#containerPreviews").html(template);
                 $("#numeroFotos").text(num);
             })
@@ -103,7 +101,7 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body bg-brick-white">
-        @using (Html.BeginForm("MisAnuncios", "Home", FormMethod.Post, htmlAttributes: new
+        @using (Html.BeginForm("DbEditarAnuncio", "Home", FormMethod.Post, htmlAttributes: new
         {
             id = "formEditarAnuncio",
             enctype = "multipart/form-data"
@@ -214,7 +212,7 @@
                     <button type="button" class="btn btn-bold btn-pure btn-info text-white" id="btnConfirmar">
                         <i class="fa fa-edit"></i>&nbsp;&nbsp;Confirmar&nbsp;
                     </button>
-                    <button type="submit" class="btn btn-outline-danger" id="btnEditar">
+                    <button type="submit" class="btn btn-outline-danger d-none" id="btnEditar">
                         <i class="fa fa-edit"></i>&nbsp;&nbsp;Editar&nbsp;
                     </button>
                     <a class="btn btn-bold btn-pure btn-secondary" role="button" id="btnCancelar">
@@ -242,11 +240,6 @@
 
             }
             else {
-                //const filesOld = [...input.files];
-                //const filesNew = [...filesOld];
-
-                //filesNew.push('xd');
-
                 var index = 0;
                 for (var i = 1; i < 6; i++) {
                     let id = '#img' + i;
@@ -306,12 +299,7 @@
                         setTimeout(function () {                        
                             $("#btnEditar").trigger("click");
                         }, 1000);                        
-                        _opc = "<b>Actualizado</b>";
-                        
-                        setTimeout(function () {
-                        let url = "@Url.Action("MisAnuncios", "Home")"
-                    $(location).prop('href', url);
-                    }, 1500);
+                        _opc = "<b>Actualizado</b>";                                               
                     }
                     else {
                         _opc = "<b>Eliminado</b>";
@@ -377,19 +365,14 @@
                 let disp = $(id).attr("name");
                 let nombre = $(id).attr("data-img-name");
                 if (estado === "true") {
-                    if (!(disp.includes("item"))) {
-                        //console.log(disp);
+                    if (!(disp.includes("item"))) {                        
                         idsFotos[num] = {
                             idFoto: disp,
                             ruta: nombre
                         }
-                        num++;
-                        //console.log(idsFotos);
+                        num++;                        
                     }
-                }
-                else {
-                    //console.log("NO #: " + id);
-                }
+                }                
 
             }
 

@@ -3,12 +3,8 @@
 
     if (ViewBag.Message != null)
     {
-        <script>mostrarAlerta('success', ViewBag.Message);</script>
-    }
-    if (ViewBag.MessageError != null)
-    {
-        <script>mostrarAlerta('error', ViewBag.MessageError);</script>
-    }
+        <script>mostrarAlerta('success', '@ViewBag.Message');</script>
+    }    
 }
 
 <script>

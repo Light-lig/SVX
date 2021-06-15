@@ -333,6 +333,10 @@ namespace SVX.Controllers
             Usuario us = (Usuario)Session["Usuario"];
             if (us != null)
             {
+                if (TempData.ContainsKey("Message"))
+                {
+                    ViewBag.Message = TempData["Message"].ToString();
+                }
                 return View("~/Views/Home/Anuncios/MisAnuncios.cshtml");
             }
             else
@@ -697,6 +701,7 @@ namespace SVX.Controllers
                 oAnuncio.precio = model.Precio;
                 oAnuncio.descripcion = model.Descripcion;                
                 oAnuncio.files = model.files;
+                oAnuncio.idCategoria = model.IdCategoria;
               
                 if(oAnuncio.files != null)
                 {
@@ -737,8 +742,8 @@ namespace SVX.Controllers
 
                 TempData["Message"] = "Se actualizo con exito el anuncio.";
                 contexto.Entry(oAnuncio).State = System.Data.Entity.EntityState.Modified;
-                contexto.SaveChanges();                
-                return Json("ok");
+                contexto.SaveChanges();
+                return RedirectToAction("MisAnuncios");
             }
             catch (DbEntityValidationException dbEx)
             {
