@@ -84,13 +84,13 @@
                                 }
                                 else
                                 {
-                                    <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+                                    <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)/@ViewBag.producto.idAnuncio" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
 
                                 }
                             }
                             else
                             {
-                                <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
+                                <a href="/Home/Chat/@ViewBag.producto.idUsuario/@(ViewBag.conversacion == null?0:ViewBag.conversacion.idConversacion)/@ViewBag.producto.idAnuncio" class="btn btn-info mr-5"><i class="mdi mdi-message"></i> Enviar Mensaje</a>
 
                             }
 

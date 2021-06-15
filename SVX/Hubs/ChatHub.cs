@@ -57,7 +57,7 @@ namespace SVX.Hubs
             Clients.Group(idConversacion.ToString()).getMensajes(mensajes);
         }
 
-        public void send(int idTo, int idConversacion, int idFrom,string nombreFrom, string mensaje, string conversacion)
+        public void send(int idTo, int idConversacion, int idFrom,string nombreFrom, string mensaje, string conversacion, string idAnuncio)
         {
             Conversacion con = new Conversacion();
            
@@ -77,9 +77,10 @@ namespace SVX.Hubs
             men.idFrom = idFrom;
             men.mensaje1 = mensaje;
             men.fecha = System.DateTime.Now;
+            men.idAnuncio = idAnuncio;
             contexto.Mensaje.Add(men);
             contexto.SaveChanges();
-            Clients.Group(idConversacion.ToString()).addMensajes(idTo, idConversacion, idFrom, nombreFrom, mensaje, System.DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"));
+            Clients.Group(idConversacion.ToString()).addMensajes(idTo, idConversacion, idFrom, nombreFrom, mensaje, System.DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"), idAnuncio);
         }
     }
 }
