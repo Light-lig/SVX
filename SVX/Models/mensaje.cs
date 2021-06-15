@@ -21,6 +21,7 @@ namespace SVX.Models
         public int idConversacion { get; set; }
         public string mensaje1 { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
+        public string idAnuncio { get; set; }
         [JsonIgnore]
         public virtual Conversacion Conversacion { get; set; }
         public virtual Usuario Usuario { get; set; }

@@ -20,7 +20,7 @@ namespace SVX.Controllers
         ProyectoWeb2021Entities contexto = new ProyectoWeb2021Entities();
         Util objUtil = new Util();
 
-        public ActionResult Index(int id = 0, int idDepartamento = 0,  string filtro = "", int limit = 25)
+        public ActionResult Index(int id = 0, int idDepartamento = 0,  string filtro = "", int limit = 10)
         {
             Usuario us = (Usuario)Session["Usuario"];
             int idDepto = 0;
@@ -68,8 +68,7 @@ namespace SVX.Controllers
                 var conversacion = (from m in contexto.Mensaje
                                     join u in contexto.Usuario on m.idTo equals u.idUsuario
                                     join a in contexto.Anuncio on u.idUsuario equals a.idUsuario
-                                    where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser)) || (idUser.Equals(0)) &&
-                                           (a.idAnuncio.Equals(id))
+                                    where (m.idTo == producto.idUsuario) && (m.idFrom.Equals(idUser)) && (m.idAnuncio.Equals(id))
                                     select m).FirstOrDefault();
                 var puntuacion = contexto.Puntuacion.Where(p => p.idUsuario == producto.idUsuario).ToList();
                 double? rating = 0.0;
@@ -404,9 +403,9 @@ namespace SVX.Controllers
         }
         #region apartado chat
 
-        public ActionResult Chat(int? idUser = 0, int? idConver = 0)
+        public ActionResult Chat(int? idUser = 0, int? idConver = 0, string idAnuncio = "0")
         {
-            if(idUser != null && idConver != null)
+            if(idUser != null && idConver != null && idAnuncio != null)
             {
                 Usuario us = (Usuario)Session["Usuario"];
                 if (us != null)

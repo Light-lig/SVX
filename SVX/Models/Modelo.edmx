@@ -65,6 +65,7 @@
           <Property Name="idConversacion" Type="int" Nullable="false" />
           <Property Name="mensaje" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="fecha" Type="datetime" />
+          <Property Name="idAnuncio" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Puntuacion">
           <Key>
@@ -318,6 +319,7 @@
           <NavigationProperty Name="Conversacion" Relationship="Self.fk_ConMen" FromRole="Mensaje" ToRole="Conversacion" />
           <NavigationProperty Name="Usuario" Relationship="Self.fk_MenUs1" FromRole="Mensaje" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="Self.fk_MenUs2" FromRole="Mensaje" ToRole="Usuario" />
+          <Property Name="idAnuncio" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Puntuacion">
           <Key>
@@ -571,6 +573,7 @@
           <EntitySetMapping Name="Mensaje">
             <EntityTypeMapping TypeName="ProyectoWeb2021Model.Mensaje">
               <MappingFragment StoreEntitySet="Mensaje">
+                <ScalarProperty Name="idAnuncio" ColumnName="idAnuncio" />
                 <ScalarProperty Name="idMensaje" ColumnName="idMensaje" />
                 <ScalarProperty Name="idTo" ColumnName="idTo" />
                 <ScalarProperty Name="idFrom" ColumnName="idFrom" />
