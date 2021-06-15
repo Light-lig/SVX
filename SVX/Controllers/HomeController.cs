@@ -223,6 +223,8 @@ namespace SVX.Controllers
             {
                 ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
                  .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
+                ViewBag.Message = TempData["Message"];
+                ViewBag.MessageError = TempData["MessageError"];
                 return View();
             }
             else
@@ -233,63 +235,80 @@ namespace SVX.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult AddProduct(Anuncio ano)
         {
-            ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
-                .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
-
-            ano.idAnuncio = objUtil.GenerarCodigo("A");
-            ano.estado = 1;
-            ano.disponible = 1;
-            ano.fecha = DateTime.Now;
-            if (ano.idCategoria == 0)
-                ano.idCategoria = 19;
-            //sirve para ver el request osea toda la mierda que trae el form
-            //var aux = Request.QueryString.AllKeys;
-            if (ModelState.IsValid)
+            try
             {
-                
-                contexto.Anuncio.Add(ano);
-                contexto.SaveChanges();
-                //funciona con input
-                //IList<HttpPostedFileBase> files = Request.Files.GetMultiple("files");
-                const int maxFileLength = 5242880; // 5MB = 1024 * 5 * 1024
-                Random r = new Random();
-                foreach (HttpPostedFileBase file in ano.files)
+                ViewBag.Categoria = contexto.Categoria.Where(x => x.idSuper != null)
+              .OrderBy(x => x.nombre).Select(x => new SelectListItem { Text = x.nombre, Value = x.idCategoria.ToString() });
+
+                ano.idAnuncio = objUtil.GenerarCodigo("A");
+                ano.estado = 1;
+                ano.disponible = 1;
+                ano.fecha = DateTime.Now;
+                if (ano.idCategoria == 0)
+                    ano.idCategoria = 19;
+                //sirve para ver el request osea toda la mierda que trae el form
+                //var aux = Request.QueryString.AllKeys;
+                if (ModelState.IsValid)
                 {
-                    if (file != null && (file.ContentLength > 0 && file.ContentLength <= maxFileLength))
+                    if(ano.files != null)
                     {
-                        string path = HttpContext.Server.MapPath(@"~/archivos");
-                        bool exists = System.IO.Directory.Exists(path);
-                        string newName = DateTime.Now.ToString("yyyyMMddHHmmss");
-                        int rand = r.Next();
-                        if (!exists)
-                            System.IO.Directory.CreateDirectory(path);
-                        string extension = Path.GetExtension(file.FileName);
-                        bool stateExt = false;
-                        if (ValidateExtension(extension))
-                            stateExt = true;
-                        else
-                            TempData["MessageError"] = "Solo .jpg, .png y .jpeg";
-                        if (stateExt)
-                        {
-                            Foto ft = new Foto();
-                            string newFile = newName + "-" + rand + extension;
-                            ft.idFoto = objUtil.GenerarCodigo("F");
-                            ft.idAnuncio = ano.idAnuncio;
-                            ft.ruta = newFile;
-                            contexto.Foto.Add(ft);
+
+             
+                            contexto.Anuncio.Add(ano);
                             contexto.SaveChanges();
-                            var ServerSavePath = Path.Combine(path, newFile);
-                            file.SaveAs(ServerSavePath);
-                        }
+                            //funciona con input
+        
+                            //IList<HttpPostedFileBase> files = Request.Files.GetMultiple("files");
+                            const int maxFileLength = 5242880; // 5MB = 1024 * 5 * 1024
+                            Random r = new Random();
+                            foreach (HttpPostedFileBase file in ano.files)
+                            {
+                                if (file != null && (file.ContentLength > 0 && file.ContentLength <= maxFileLength))
+                                {
+                                    string path = HttpContext.Server.MapPath(@"~/archivos");
+                                    bool exists = System.IO.Directory.Exists(path);
+                                    string newName = DateTime.Now.ToString("yyyyMMddHHmmss");
+                                    int rand = r.Next();
+                                    if (!exists)
+                                        System.IO.Directory.CreateDirectory(path);
+                                    string extension = Path.GetExtension(file.FileName);
+                                    bool stateExt = false;
+                                    if (ValidateExtension(extension))
+                                        stateExt = true;
+                                    else
+                                        TempData["MessageError"] = "Solo .jpg, .png y .jpeg";
+                                    if (stateExt)
+                                    {
+                                        Foto ft = new Foto();
+                                        string newFile = newName + "-" + rand + extension;
+                                        ft.idFoto = objUtil.GenerarCodigo("F");
+                                        ft.idAnuncio = ano.idAnuncio;
+                                        ft.ruta = newFile;
+                                        contexto.Foto.Add(ft);
+                                        contexto.SaveChanges();
+                                        var ServerSavePath = Path.Combine(path, newFile);
+                                        file.SaveAs(ServerSavePath);
+                                    }
+                                }
+                                else
+                                    TempData["MessageError"] = "Archivo no debe ser mayor que 5mb.";
+                            }
+                  
+                  
                     }
-                    else
-                        TempData["MessageError"] = "Archivo no debe ser mayor que 5mb.";
+
+                    TempData["Message"] = "Registro Guardado";
+                    return RedirectToAction("AddProduct");
                 }
-                TempData["Message"] = "Registro Guardado con sus " + ano.files.Count().ToString() + " imagenes";
-                return RedirectToAction("AddProduct");
+                else
+                    return View(ano);
             }
-            else
-                return View(ano);
+            catch (Exception e)
+            {
+
+                return RedirectToAction("Error500");
+            }
+          
         }
         private bool ValidateExtension(string extension)
         {

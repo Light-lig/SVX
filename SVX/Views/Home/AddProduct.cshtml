@@ -28,11 +28,12 @@
     <!-- /.box-header -->
     <div class="box-body wizard-content">
         @using (Html.BeginForm("AddProduct", "Home", FormMethod.Post, htmlAttributes: new
-        {
-            @autocomplete = "off",
-            @class = "validation-wizard wizard-circle",
-            enctype = "multipart/form-data",
-            id = "dropzoneForm"
+            {
+                @autocomplete = "off",
+                @class = "validation-wizard wizard-circle",
+                enctype = "multipart/form-data",
+                id = "dropzoneForm",
+       
         }))
         {
             @Html.AntiForgeryToken()
@@ -137,7 +138,7 @@
                         <div class="form-check-inline">
                             Usado
                             <label class="switch ml-3 mr-3">
-                                <input type="checkbox" name="estadoProducto" id="estadoProducto" value="" required>
+                                <input type="checkbox" name="estadoProducto" id="estadoProducto" value="1" required>
                                 <span class="slider round"></span>
                             </label>
                             Nuevo

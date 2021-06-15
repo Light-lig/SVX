@@ -31,13 +31,34 @@ $(function () {
 			mostrarAlerta('error', response);
 		},
 	});
-	$('#btnSubmit').click(function () {
-		myDropzone.processQueue();
-		$(this).closest('form').submit();
-		myDropzone.on('complete', function (file) {
-			myDropzone.removeFile(file);
-		});
-		playAudio('../Audio/mario-coin.mp3');
+	$('#dropzoneForm').submit(function (e) {
+	
+
+
+	var form = $(this).closest('form');
+		if (form.valid() == true) {
+			if (myDropzone.getQueuedFiles().length > 0) {
+				myDropzone.processQueue();
+	
+			} else {
+				e.preventDefault();
+				$.toast({
+					heading: 'Bienvenido a SVX',
+					text:"Debe agregar al menos una foto",
+					position: 'top-right',
+					loaderBg: '#ff6849',
+					icon: 'warning',
+					hideAfter: 3000,
+					stack: 6
+				});
+			}
+			myDropzone.on('complete', function (file) {
+				myDropzone.removeFile(file);
+		
+			});
+			playAudio('../Audio/mario-coin.mp3');
+		}    
+
 	});
 	function playAudio(url) {
 		new Audio(url).play();
