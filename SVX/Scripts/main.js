@@ -37,14 +37,14 @@ $(function () {
 
 	var form = $(this).closest('form');
 		if (form.valid() == true) {
-			if (myDropzone.getQueuedFiles().length > 0) {
+			if (myDropzone.getQueuedFiles().length > 0 && myDropzone.getQueuedFiles().length <= 5) {
 				myDropzone.processQueue();
 	
 			} else {
 				e.preventDefault();
 				$.toast({
 					heading: 'Bienvenido a SVX',
-					text:"Debe agregar al menos una foto",
+					text:"Debe agregar al menos una foto. \n No puede agregar mas de 5 fotos.",
 					position: 'top-right',
 					loaderBg: '#ff6849',
 					icon: 'warning',

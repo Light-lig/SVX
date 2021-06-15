@@ -4,7 +4,7 @@
     @model SVX.Models.Anuncio
     if (ViewBag.Message != null)
     {
-        <script>mostrarAlerta('success', ViewBag.Message);</script>
+        <script>mostrarAlerta('success', '@ViewBag.Message');</script>
     }
     if (ViewBag.MessageError != null)
     {
